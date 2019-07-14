@@ -5,3 +5,7 @@
 main_app:
     path: /
     controller: App\Controller\MainController::index
+
+login_app:
+    path: /test
+    controller: App\Controller\MainController::index2

@@ -8,8 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends AbstractController
 {
-    /**
-     * @Route("/")
+    /***
      * @return Response
      * @throws \Exception
      */
@@ -19,6 +18,16 @@ class MainController extends AbstractController
 
         return $this->render('base.html.twig', [
             'number' => $number,
+        ]);
+    }
+
+    /***
+     * @return Response
+     * @throws \Exception
+     */
+    public function index2()
+    {
+        return $this->render('base.html.twig', [
         ]);
     }
 }
