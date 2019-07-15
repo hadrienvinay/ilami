@@ -1,11 +1,14 @@
-  {% block title %}Home{% endblock %}
-  {% block body %}
+{% extends "base.html.twig" %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
 
       <!-- Page Content -->
-      <div class="container">
-        <br>
+      <div class="container" style="padding-top:50px;">
           <!-- Jumbotron Header -->
           <header class="jumbotron my-4">
+              <img src="{{asset('build/images/background.jpg')}}" style="width: 300px; float: right;" title="logo" alt="Background Image">
               <h3 class="display-3">A Warm Welcome!</h3>
               <p class="lead">Site Imalipusram en construction</p>
               <a href="#" class="btn btn-primary">Call to action!</a>
@@ -21,7 +24,7 @@
                           <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
                       </div>
                       <div class="card-footer">
-                          <a href="#" class="btn btn-primary">Find Out More!</a>
+                          <a href="{{ path('login_app') }}" class="btn btn-primary">Find Out More!</a>
                       </div>
                   </div>
               </div>

@@ -16,7 +16,7 @@ class MainController extends AbstractController
     {
         $number = random_int(0, 100);
 
-        return $this->render('base.html.twig', [
+        return $this->render('main/body.html.twig', [
             'number' => $number,
         ]);
     }
