@@ -1,0 +1,25 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ parent() }} - Calendrier{% endblock %}
+
+
+{% block body %}
+    <div class="container" style="padding: 3%;margin-top: 3%;margin-bottom: 3%;border-radius: 0.5rem;background: #fff;">
+        <div id='calendar'></div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                plugins: ['dayGrid','timeGrid','listGrid','interaction' ]
+            });
+
+            calendar.render();
+        });
+
+    </script>
+{% endblock %}
+

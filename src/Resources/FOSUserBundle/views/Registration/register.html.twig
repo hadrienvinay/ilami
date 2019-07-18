@@ -5,10 +5,17 @@
 <div class="container" style="padding-top: 60px; padding-bottom: 60px;">
     <div class="row">
         <div class="col-md-5 mx-auto" style="background-color: white; border: 1px solid rgba(0,0,0,.2); border-radius: 1.1rem;padding-top: 15px;">
-
-            <form class="form-horizontal" method="post" action="#">
+            <div class="form-horizontal">
                 {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
-                {{ form_widget(form) }}
+                {{ form_widget(form, {'attr': {'class': 'form-group'}}) }}
+                <div class="form-group text-center">
+                    <input class=" btn btn-primary btn-md login-button" type="submit" value="S'inscrire" />
+                </div>
+                {{ form_rest(form) }}
+                {{ form_end(form) }}
+            </div>
+            {#
+            <form class="form-horizontal" method="post" action="#">
             <div class="form-group">
                 <label for="name" class="cols-sm-2 control-label">Your Name</label>
                 <div class="cols-sm-10">
@@ -66,6 +73,7 @@
                 <a href="index.php">Login</a>
             </div>
         </form>
+        #}
         </div>
     </div>
 </div>

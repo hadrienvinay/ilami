@@ -8,26 +8,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends AbstractController
 {
-    /***
+    /**
      * @return Response
      * @throws \Exception
      */
     public function index()
     {
-        $number = random_int(0, 100);
-
-        return $this->render('main/body.html.twig', [
-            'number' => $number,
-        ]);
-    }
-
-    /***
-     * @return Response
-     * @throws \Exception
-     */
-    public function index2()
-    {
-        return $this->render('base.html.twig', [
-        ]);
+        return $this->render('main/body.html.twig');
     }
 }
