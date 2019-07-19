@@ -17,21 +17,23 @@ class UserType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, array(
-                    'attr'=>array('placeholder'=> 'Nom'),
+                    'attr'=>array('placeholder'=> 'Nom', 'class'=> 'form-control'),
                     'label' => 'Nom')
             )
             ->add('prename', TextType::class, array(
-                    'attr'=>array('placeholder'=> 'Prénom'),
+                    'attr'=>array('placeholder'=> 'Prénom','class'=> 'form-control'),
                     'label' => 'Prénom')
             )
             ->add('birthDate', DateType::class, array(
+                'attr'=>array('class'=> 'form-group'),
                 'label' => 'Date de naissance',
                 'required' => false,
                 'placeholder' => array(
                     'year' => 'Année', 'month' => 'Mois', 'day' => 'Jour'),'widget' => 'choice',
-                'years' => range(date('Y'), date('Y')-100)))
+                'years' => range(date('Y'), date('Y')-100))
+            )
             ->add('team', TextType::class, array(
-                    'attr'=>array('placeholder'=> 'Equipe'),
+                    'attr'=>array('placeholder'=> 'Equipe','class'=> 'form-control'),
                     'label' => 'Team')
             )
         ;

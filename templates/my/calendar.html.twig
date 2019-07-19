@@ -4,17 +4,49 @@
 
 
 {% block body %}
+    <br>
     <div class="container" style="padding: 3%;margin-top: 3%;margin-bottom: 3%;border-radius: 0.5rem;background: #fff;">
+        <h1 class="mt-4 text-center">Le P'tit Calendrier</h1>
+        <br>
         <div id='calendar'></div>
-
-    </div>
+        </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
-                plugins: ['dayGrid','timeGrid','listGrid','interaction' ]
+                header: {
+                    center: 'dayGridMonth,timeGridWeek,timeGridDay' // buttons for switching between views
+                },
+                plugins: ['dayGrid','timeGrid','listGrid','interaction' ],
+                textColor: 'white',
+                events: [
+                    {% for event in events %}
+                    {
+                        title: '{{ event.name }}',
+                        start: '{{ event.startdate|date('Y-m-d') }}',
+                        end: '{{ event.enddate|date('Y-m-d') }}'
+                    },
+                    {% endfor %}
+                    {% for user in users %}
+                    {
+                        title: 'Anniversaire {{ user.prename }}',
+                        start: '2019-{{ user.birthdate|date('m-d') }}',
+                        allDay : true
+                    },
+                    {
+                        title: 'Anniversaire {{ user.prename }}',
+                        start: '2020-{{ user.birthdate|date('m-d') }}',
+                        allDay : true
+                    },
+                    {% endfor %}
+                    {
+                        title: 'test',
+                        start: '2019-07-20',
+                        end: '2019-07-20'
+                    }
+                ]
             });
 
             calendar.render();

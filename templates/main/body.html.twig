@@ -7,61 +7,63 @@
       <!-- Page Content -->
       <div class="container" style="padding-top:50px;">
           <!-- Jumbotron Header -->
-          <header class="jumbotron my-4">
-              <img src="{{asset('build/images/background.jpg')}}" style="width: 300px; float: right;" title="logo" alt="Background Image">
-              <h3 class="display-3">A Warm Welcome!</h3>
-              <p class="lead">Site Imalipusram en construction</p>
-              <a href="#" class="btn btn-primary">Call to action!</a>
+          <header class="jumbotron my-4" style="background-color: white;">
+              <img src="{{asset('build/images/background.jpg')}}" style="width: 250px; float: right;" title="logo" alt="Background Image">
+              <h3 class="display-4">Bonjour à tous les amiiiiis</h3>
+              <p class="lead">P'tit site en construcition</p>
+              <a href="#" class="btn btn-primary">Click click click</a>
           </header>
 
           <!-- Page Features -->
           <div class="row text-center">
-
               <div class="col-lg-3 col-md-6 mb-4">
                   <div class="card h-100">
+                      <img class="card-img-top" src="https://lepetitjournal.com/sites/default/files/styles/main_article/public/2018-09/calendrier2-2-600x378.jpg?itok=5objyWX0" alt="">
                       <div class="card-body">
                           <h4 class="card-title">Calendrier</h4>
-                          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
+                          <p class="card-text">P'tit calendrier avec toutes les infos utiles depuis 2016</p>
                       </div>
                       <div class="card-footer">
-                          <a href="" class="btn btn-primary">Find Out More!</a>
+                          <a href=" {{ path('calendar') }}" class="btn btn-primary">Laisse moi voir ca !</a>
                       </div>
                   </div>
               </div>
 
               <div class="col-lg-3 col-md-6 mb-4">
                   <div class="card h-100">
+                      <img class="card-img-top" src="https://www.anvsg94.fr/media/uploaded/sites/510/actualite/5b18f88957844_informationaboutus01.jpg" alt="">
                       <div class="card-body">
                           <h4 class="card-title">Dernières infos</h4>
-                          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo magni sapiente, tempore debitis beatae culpa natus architecto.</p>
+                          <p class="card-text">P'tites informations, publications ou blagues de Goat</p>
                       </div>
                       <div class="card-footer">
-                          <a href="#" class="btn btn-primary">Find Out More!</a>
+                          <a href="#" class="btn btn-primary">Je veux voir les blagues ?</a>
                       </div>
                   </div>
               </div>
 
               <div class="col-lg-3 col-md-6 mb-4">
                   <div class="card h-100">
+                      <img class="card-img-top" src="https://static.photoweb.fr/photoweb.web.catalog.frontoffice/ProductPage/livre-photo-elegance-paysage/sliders/1.jpg" alt="">
                       <div class="card-body">
                           <h4 class="card-title">Photos</h4>
-                          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
+                          <p class="card-text">Consultez les belles P'tites bouilles de l'équipe</p>
                       </div>
                       <div class="card-footer">
-                          <a href="#" class="btn btn-primary">Find Out More!</a>
+                          <a href="#" class="btn btn-primary">Photos Potos</a>
                       </div>
                   </div>
               </div>
 
               <div class="col-lg-3 col-md-6 mb-4">
                   <div class="card h-100">
-                      <img class="card-img-top" src="http://placehold.it/500x325" alt="">
+                      <img class="card-img-top" src="https://img.freepik.com/vecteurs-libre/modele-affiche-evenement-moderne_1361-1219.jpg?size=626&ext=jpg" alt="">
                       <div class="card-body">
-                          <h4 class="card-title">Card title</h4>
-                          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo magni sapiente, tempore debitis beatae culpa natus architecto.</p>
+                          <h4 class="card-title">Résumé de l'équipe</h4>
+                          <p class="card-text">Tous les P'tits potes et évènements</p>
                       </div>
                       <div class="card-footer">
-                          <a href="#" class="btn btn-primary">Find Out More!</a>
+                          <a href="{{ path('resume') }}" class="btn btn-primary">Trop chauuuud ^^</a>
                       </div>
                   </div>
               </div>

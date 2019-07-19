@@ -7,14 +7,32 @@ main_app:
     controller: App\Controller\MainController::index
 
 profile:
-    path: /profil
+    path: /profil/{id}
     controller: App\Controller\ProfileController::profil
 
 modify_profile:
-    path: /modify-profil
+    path: /modify/profil
     controller: App\Controller\ProfileController::modifyProfil
 
 calendar:
     path: /calendar
     controller: App\Controller\CalendarController::calendar
+
+resume:
+    path: /resume
+    controller: App\Controller\ResumeController::resume
+
+event:
+    path: /event/{id}
+    controller: App\Controller\EventController::event
+
+add_event:
+    path: /add/event
+    controller: App\Controller\EventController::addEvent
+
+modify_event:
+    path: /modify/event
+    controller: App\Controller\EventController::modifyEvent
+
+
 

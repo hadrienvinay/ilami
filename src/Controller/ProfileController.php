@@ -11,9 +11,10 @@ class ProfileController extends AbstractController
     /**
      * @return Response
      */
-    public function profil()
+    public function profil($id)
     {
-        $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('App:User')->find($id);
 
         return $this->render('my/profil.html.twig', array(
             'user' => $user,
@@ -29,7 +30,7 @@ class ProfileController extends AbstractController
 
         return $this->render('my/profil.html.twig', array(
             'user' => $user,
-            ));
+        ));
     }
 
 }
