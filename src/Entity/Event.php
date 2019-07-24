@@ -17,6 +17,12 @@ class Event
     private $id;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Picture", mappedBy="event")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $pictures;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $name;
@@ -44,6 +50,22 @@ class Event
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPictures()
+    {
+        return $this->pictures;
+    }
+
+    /**
+     * @param mixed $pictures
+     */
+    public function setPictures($pictures): void
+    {
+        $this->pictures = $pictures;
     }
 
     public function getName(): ?string

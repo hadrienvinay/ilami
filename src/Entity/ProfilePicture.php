@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PictureRepository")
  */
-class Picture
+class ProfilePicture
 {
     /**
      * @ORM\Id()
@@ -17,16 +17,10 @@ class Picture
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="picture")
+     * @ORM\OneToOne(targetEntity="App\Entity\User", mappedBy="profilePicture")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $users;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Event", inversedBy="pictures")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $event;
+    private $user;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -51,34 +45,19 @@ class Picture
     /**
      * @return mixed
      */
-    public function getUsers()
+    public function getUser()
     {
-        return $this->users;
+        return $this->user;
     }
 
     /**
-     * @param mixed $users
+     * @param mixed $user
      */
-    public function setUsers($users): void
+    public function setUser($user): void
     {
-        $this->users = $users;
+        $this->user = $user;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEvent()
-    {
-        return $this->event;
-    }
-
-    /**
-     * @param mixed $event
-     */
-    public function setEvent($event): void
-    {
-        $this->event = $event;
-    }
 
     /**
      * @return mixed

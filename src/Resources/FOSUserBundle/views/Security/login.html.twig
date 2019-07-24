@@ -11,6 +11,9 @@
                                 <h1>Login</h1>
                             </div>
                         </div>
+                        {% if error %}
+                            <div class="alert alert-danger">{{ error.messageKey|trans({}, 'FOSUserBundle') }}</div>
+                        {% endif %}
                         <form action="{{ path("fos_user_security_check") }}" method="post" name="login">
                             {% if csrf_token %}
                                 <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
@@ -33,6 +36,7 @@
                             <div class="form-group">
                                 <p class="text-center">Don't have account? <a href="#" id="signup">Sign up here</a></p>
                             </div>
+
                         </form>
                     </div>
                 </div>

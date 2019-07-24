@@ -10,7 +10,7 @@
           <header class="jumbotron my-4" style="background-color: white;">
               <img src="{{asset('build/images/background.jpg')}}" style="width: 250px; float: right;" title="logo" alt="Background Image">
               <h3 class="display-4">Bonjour à tous les amiiiiis</h3>
-              <p class="lead">P'tit site en construcition</p>
+              <p class="lead">P'tit site en construction</p>
               <a href="#" class="btn btn-primary">Click click click</a>
           </header>
 
@@ -22,9 +22,19 @@
                       <div class="card-body">
                           <h4 class="card-title">Calendrier</h4>
                           <p class="card-text">P'tit calendrier avec toutes les infos utiles depuis 2016</p>
+                          <ul class="list-group">
+                              {% for event in events | slice(0,3) %}
+                              <li class="list-group-item d-flex justify-content-between align-items-center">
+                                  <a href="{{ path('event',{'id': event.id}) }}">
+                                      <strong class="">{{ event.name }}</strong>
+                                      <span class="badge badge-primary badge-pill">{{ event.startDate|time_diff }}</span>
+                                  </a>
+                              </li>
+                              {% endfor %}
+                          </ul>
                       </div>
                       <div class="card-footer">
-                          <a href=" {{ path('calendar') }}" class="btn btn-primary">Laisse moi voir ca !</a>
+                          <a href="{{ path('calendar') }}" class="btn btn-primary">Laisse moi voir ca !</a>
                       </div>
                   </div>
               </div>

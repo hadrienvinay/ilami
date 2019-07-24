@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -10,10 +11,24 @@ class MainController extends AbstractController
 {
     /**
      * @return Response
-     * @throws \Exception
      */
     public function index()
     {
-        return $this->render('main/body.html.twig');
+        $user = $this->getUser();
+        $date = date('Y-m-d');
+        if($user!=null) {
+            $em = $this->getDoctrine()->getManager();
+            $events = $em->getRepository('App:Event')->findByDate($date);
+
+            return $this->render('main/body.html.twig', array(
+                'user' => $user,
+                'events' => $events,
+            ));
+        }
+        else{
+            return $this->redirectToRoute('fos_user_security_login');
+        }
     }
+
+
 }
