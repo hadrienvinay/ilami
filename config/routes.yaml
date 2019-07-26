@@ -38,5 +38,17 @@ modify_event:
     path: /modify/event/{id}
     controller: App\Controller\EventController::modifyEvent
 
+albums:
+    path: /albums
+    controller: App\Controller\PictureController:showAlbums
+
+album:
+  path: /albums/{id}
+  controller: App\Controller\PictureController:showAlbum
+
+pictures:
+  path: /pictures
+  controller: App\Controller\PictureController:showPictures
+
 
 

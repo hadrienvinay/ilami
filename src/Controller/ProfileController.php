@@ -24,7 +24,11 @@ class ProfileController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('App:User')->find($id);
-
+        if (!user) {
+            throw $this->createNotFoundException(
+                'Pas d\'utilisateur trouvé narvaloo pour cet identifiant: '.$id
+            );
+        }
         return $this->render('my/profil.html.twig', array(
             'user' => $user,
         ));

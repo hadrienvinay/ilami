@@ -23,6 +23,12 @@ class Event
     private $pictures;
 
     /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Album", mappedBy="event")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $album;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $name;
@@ -127,4 +133,21 @@ class Event
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getAlbum()
+    {
+        return $this->album;
+    }
+
+    /**
+     * @param mixed $album
+     */
+    public function setAlbum($album): void
+    {
+        $this->album = $album;
+    }
+
 }

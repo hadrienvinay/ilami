@@ -20,6 +20,11 @@ class EventController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $event = $em->getRepository('App:Event')->find($id);
+        if (!$event) {
+            throw $this->createNotFoundException(
+                'Pas d\'évent trouvé narvaloo pour cet identifiant: '.$id
+            );
+        }
         return $this->render('my/event.html.twig', array(
             'event' => $event,
         ));
@@ -57,6 +62,12 @@ class EventController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $event = $em->getRepository('App:Event')->find($id);
+
+        if (!$event) {
+            throw $this->createNotFoundException(
+                'Pas d\'évent trouvé narvaloo pour cet identifiant: '.$id
+            );
+        }
 
         $form = $this->get('form.factory')->create(EventType::class, $event);
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {

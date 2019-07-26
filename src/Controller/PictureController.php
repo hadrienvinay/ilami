@@ -13,6 +13,53 @@ class PictureController extends AbstractController
     /**
      * @return Response
      */
+    public function showPictures()
+    {
+        $em = $this->getDoctrine()->getManager();
+        //order by date
+        $pictures = $em->getRepository('App:Picture')->findBy(array(), array('date' => 'desc'));
+
+        return $this->render('my/pictures.html.twig', array(
+            'pictures' => $pictures,
+        ));
+    }
+
+    /**
+     * @return Response
+     */
+    public function showAlbums()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $albums = $em->getRepository('App:Album')->findAll();
+
+        return $this->render('my/albums.html.twig', array(
+            'albums' => $albums,
+        ));
+    }
+
+    /**
+     * @param $id
+     * @return Response
+     */
+    public function showAlbum($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $album = $em->getRepository('App:Album')->find($id);
+
+        if (!$album) {
+            throw $this->createNotFoundException(
+                'Pas d\'album trouvé narvaloo pour cet identifiant: '.$id
+            );
+        }
+
+        return $this->render('my/album.html.twig', array(
+            'album' => $album,
+        ));
+    }
+
+    /**
+     * @return Response
+     */
     public function addPicture(Request $request)
     {
         $picture = new Picture();

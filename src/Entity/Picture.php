@@ -17,10 +17,10 @@ class Picture
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="picture")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Album", inversedBy="pictures")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $users;
+    private $album;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Event", inversedBy="pictures")
@@ -48,21 +48,6 @@ class Picture
         return $this->id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getUsers()
-    {
-        return $this->users;
-    }
-
-    /**
-     * @param mixed $users
-     */
-    public function setUsers($users): void
-    {
-        $this->users = $users;
-    }
 
     /**
      * @return mixed
@@ -86,6 +71,22 @@ class Picture
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAlbum()
+    {
+        return $this->album;
+    }
+
+    /**
+     * @param mixed $album
+     */
+    public function setAlbum($album): void
+    {
+        $this->album = $album;
     }
 
     /**
