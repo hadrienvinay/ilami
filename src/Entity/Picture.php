@@ -44,7 +44,7 @@ class Picture
     private $name;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $date;
 
@@ -113,7 +113,6 @@ class Picture
 
         return $this;
     }
-<<<<<<< HEAD
     
     public function getDesc(): ?string
     {
@@ -126,7 +125,6 @@ class Picture
 
         return $this;
     }
-=======
 
     /**
      * @return mixed
@@ -144,5 +142,4 @@ class Picture
         $this->name = $name;
     }
 
->>>>>>> 2be92e5c5f7aebcd89a8204b99a21a31f7e00d4f
 }

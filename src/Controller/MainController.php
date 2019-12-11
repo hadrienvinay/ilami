@@ -14,10 +14,6 @@ class MainController extends AbstractController
      */
     public function index()
     {
-<<<<<<< HEAD
-        return $this->render('main/body.html.twig', array(
-        ));
-=======
         $user = $this->getUser();
         $date = date('Y-m-d');
         if($user!=null) {
@@ -32,8 +28,6 @@ class MainController extends AbstractController
         else{
             return $this->redirectToRoute('fos_user_security_login');
         }
->>>>>>> 2be92e5c5f7aebcd89a8204b99a21a31f7e00d4f
     }
-
 
 }
