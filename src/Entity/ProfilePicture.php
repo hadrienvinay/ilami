@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PictureRepository")
  */
-class Picture
+class ProfilePicture
 {
     /**
      * @ORM\Id()
@@ -17,26 +17,15 @@ class Picture
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Album", inversedBy="pictures")
+     * @ORM\OneToOne(targetEntity="App\Entity\User", mappedBy="profilePicture")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $album;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Event", inversedBy="pictures")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $event;
+    private $user;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $path;
-    
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $desc;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -53,22 +42,22 @@ class Picture
         return $this->id;
     }
 
-
     /**
      * @return mixed
      */
-    public function getEvent()
+    public function getUser()
     {
-        return $this->event;
+        return $this->user;
     }
 
     /**
-     * @param mixed $event
+     * @param mixed $user
      */
-    public function setEvent($event): void
+    public function setUser($user): void
     {
-        $this->event = $event;
+        $this->user = $user;
     }
+
 
     /**
      * @return mixed
@@ -76,22 +65,6 @@ class Picture
     public function getDate()
     {
         return $this->date;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAlbum()
-    {
-        return $this->album;
-    }
-
-    /**
-     * @param mixed $album
-     */
-    public function setAlbum($album): void
-    {
-        $this->album = $album;
     }
 
     /**
@@ -113,20 +86,6 @@ class Picture
 
         return $this;
     }
-<<<<<<< HEAD
-    
-    public function getDesc(): ?string
-    {
-        return $this->desc;
-    }
-
-    public function setDesc(string $desc): self
-    {
-        $this->desc = $desc;
-
-        return $this;
-    }
-=======
 
     /**
      * @return mixed
@@ -144,5 +103,4 @@ class Picture
         $this->name = $name;
     }
 
->>>>>>> 2be92e5c5f7aebcd89a8204b99a21a31f7e00d4f
 }

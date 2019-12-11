@@ -18,6 +18,18 @@ class User extends BaseUser
     protected $id;
 
     /**
+     * @ORM\OneToOne(targetEntity="App\Entity\ProfilePicture", inversedBy="user")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $profilePicture;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Picture", inversedBy="users")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $picture;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $name;
@@ -56,6 +68,39 @@ class User extends BaseUser
     {
         return $this->id;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getProfilePicture()
+    {
+        return $this->profilePicture;
+    }
+
+    /**
+     * @param mixed $profilePicture
+     */
+    public function setProfilePicture($profilePicture): void
+    {
+        $this->profilePicture = $profilePicture;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPicture()
+    {
+        return $this->picture;
+    }
+
+    /**
+     * @param mixed $picture
+     */
+    public function setPicture($picture): void
+    {
+        $this->picture = $picture;
+    }
+
 
     public function getName(): ?string
     {

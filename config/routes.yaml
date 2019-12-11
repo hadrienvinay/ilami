@@ -15,8 +15,12 @@ profile:
     controller: App\Controller\ProfileController::profil
 
 modify_profile:
-    path: /modify/profil
+    path: /modify/profil/{id}
     controller: App\Controller\ProfileController::modifyProfil
+
+modify_profile_pic:
+    path: /modify/profil/pic/{id}
+    controller: App\Controller\ProfileController::modifyProfilePicture
 
 calendar:
     path: /calendar
@@ -39,8 +43,20 @@ add_event:
     controller: App\Controller\EventController::addEvent
 
 modify_event:
-    path: /modify/event
+    path: /modify/event/{id}
     controller: App\Controller\EventController::modifyEvent
+
+albums:
+    path: /albums
+    controller: App\Controller\PictureController:showAlbums
+
+album:
+  path: /albums/{id}
+  controller: App\Controller\PictureController:showAlbum
+
+pictures:
+  path: /pictures
+  controller: App\Controller\PictureController:showPictures
 
 
 
