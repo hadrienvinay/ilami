@@ -20,6 +20,11 @@ class Picture
      * @ORM\Column(type="string", length=255)
      */
     private $path;
+    
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $desc;
 
     public function getId(): ?int
     {
@@ -34,6 +39,18 @@ class Picture
     public function setPath(string $path): self
     {
         $this->path = $path;
+
+        return $this;
+    }
+    
+    public function getDesc(): ?string
+    {
+        return $this->desc;
+    }
+
+    public function setDesc(string $desc): self
+    {
+        $this->desc = $desc;
 
         return $this;
     }

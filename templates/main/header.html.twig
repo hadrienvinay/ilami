@@ -8,7 +8,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-
+                <li id="home" class="nav-item active">
+                    <a class="nav-link" href="{{ path('timetable') }}">TimeTable
+                    </a>
+                </li>
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                     <li id="home" class="nav-item active">
                         <a class="nav-link" href="{{ path('main_app') }}">Home
                         </a>
@@ -23,12 +27,13 @@
                         <a class="nav-link" href="{{ path('resume') }}">Résumé</a>
                     </li>
                     <li class="nav-item">
-                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                         <a class="btn btn-primary" href="{{ path('fos_user_security_logout') }}">
                             {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
                         </a>
-                    {% else %}
-                        <a class="btn btn-primary" href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                    <a class="btn btn-primary" href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
                     </li>
                 {% endif %}
             </ul>

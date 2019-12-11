@@ -193,6 +193,9 @@
     "symfony/doctrine-bridge": {
         "version": "v4.3.2"
     },
+    "symfony/dom-crawler": {
+        "version": "v4.3.5"
+    },
     "symfony/dotenv": {
         "version": "v4.3.2"
     },
@@ -241,6 +244,12 @@
             "./src/Controller/.gitignore",
             "./src/Kernel.php"
         ]
+    },
+    "symfony/http-client": {
+        "version": "v4.3.5"
+    },
+    "symfony/http-client-contracts": {
+        "version": "v1.1.7"
     },
     "symfony/http-foundation": {
         "version": "v4.3.2"

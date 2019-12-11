@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "@fullcalendar/daygrid": "^4.2.0",
+        "bootstrap-icons": "^1.0.0-alpha",
         "popper.js": "^1.15.0"
     }
 }

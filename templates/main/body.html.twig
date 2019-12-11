@@ -11,7 +11,7 @@
               <img src="{{asset('build/images/background.jpg')}}" style="width: 250px; float: right;" title="logo" alt="Background Image">
               <h3 class="display-4">Bonjour à tous les amiiiiis</h3>
               <p class="lead">P'tit site en construcition</p>
-              <a href="#" class="btn btn-primary">Click click click</a>
+              <a id="click" href="" class="btn btn-primary">Click click click</a>
           </header>
 
           <!-- Page Features -->
@@ -50,7 +50,7 @@
                           <p class="card-text">Consultez les belles P'tites bouilles de l'équipe</p>
                       </div>
                       <div class="card-footer">
-                          <a href="#" class="btn btn-primary">Photos Potos</a>
+                          <a href="{{ path('gallery') }}" class="btn btn-primary">Photos Potos</a>
                       </div>
                   </div>
               </div>
@@ -73,4 +73,14 @@
 
       </div>
       <!-- /.container -->
+      
+       <script>
+           $(document).ready(function(){
+                $('#click').click(function(e){
+                  //Some code
+                  e.preventDefault();
+                  alert('Click Click !');
+                 });
+        });
+       </script>
   {% endblock %}

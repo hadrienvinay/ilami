@@ -6,6 +6,10 @@ main_app:
     path: /
     controller: App\Controller\MainController::index
 
+timetable:
+    path: /timetable
+    controller: App\Controller\TimeTableController::timetable
+
 profile:
     path: /profil/{id}
     controller: App\Controller\ProfileController::profil
@@ -17,6 +21,10 @@ modify_profile:
 calendar:
     path: /calendar
     controller: App\Controller\CalendarController::calendar
+    
+gallery:
+    path: /gallery
+    controller: App\Controller\GalleryController::gallery
 
 resume:
     path: /resume

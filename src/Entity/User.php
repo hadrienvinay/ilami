@@ -36,11 +36,21 @@ class User extends BaseUser
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $nickname;
+    
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $phone;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $team;
+    
+     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $status;
 
     public function getId(): ?int
     {
@@ -67,6 +77,18 @@ class User extends BaseUser
     public function setPrename(string $prename): self
     {
         $this->prename = $prename;
+
+        return $this;
+    }
+    
+        public function getPhone(): ?int
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(int $phone): self
+    {
+        $this->phone = $phone;
 
         return $this;
     }
@@ -103,6 +125,18 @@ class User extends BaseUser
     public function setTeam(string $team): self
     {
         $this->team = $team;
+
+        return $this;
+    }
+    
+        public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
