@@ -24,17 +24,13 @@ class UserType extends AbstractType
                     'attr'=>array('placeholder'=> 'Prénom','class'=> 'form-control'),
                     'label' => 'Prénom')
             )
-            ->add('birthDate', DateType::class, array(
-                'attr'=>array('class'=> 'form-group'),
-                'label' => 'Date de naissance',
-                'required' => false,
-                'placeholder' => array(
-                    'year' => 'Année', 'month' => 'Mois', 'day' => 'Jour'),'widget' => 'choice',
-                'years' => range(date('Y'), date('Y')-100))
+            ->add('status', TextType::class, array(
+                    'attr'=>array('placeholder'=> 'I\'m felling good baby','class'=> 'form-control'),
+                    'label' => 'Status')
             )
-            ->add('team', TextType::class, array(
-                    'attr'=>array('placeholder'=> 'Equipe','class'=> 'form-control'),
-                    'label' => 'Team')
+            ->add('phone', TextType::class, array(
+                    'attr'=>array('placeholder'=> '0607080910','class'=> 'form-control'),
+                    'label' => 'Téléphone')
             )
         ;
     }/**

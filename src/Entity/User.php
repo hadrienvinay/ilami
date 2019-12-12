@@ -22,12 +22,12 @@ class User extends BaseUser
      * @ORM\JoinColumn(nullable=true)
      */
     private $profilePicture;
-
+    
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Picture", inversedBy="users")
+     * @ORM\OneToOne(targetEntity="App\Entity\Job", inversedBy="user")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $picture;
+    private $job;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -50,7 +50,7 @@ class User extends BaseUser
     private $nickname;
     
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=10, nullable=true)
      */
     private $phone;
 
@@ -63,6 +63,11 @@ class User extends BaseUser
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $status;
+    
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $address;
 
     public function getId(): ?int
     {
@@ -85,6 +90,22 @@ class User extends BaseUser
         $this->profilePicture = $profilePicture;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getJob()
+    {
+        return $this->job;
+    }
+
+    /**
+     * @param mixed $job
+     */
+    public function setJob($job): void
+    {
+        $this->job = $job;
+    }
+    
     /**
      * @return mixed
      */
@@ -126,12 +147,12 @@ class User extends BaseUser
         return $this;
     }
     
-        public function getPhone(): ?int
+        public function getPhone(): ?string
     {
         return $this->phone;
     }
 
-    public function setPhone(int $phone): self
+    public function setPhone(string $phone): self
     {
         $this->phone = $phone;
 
@@ -182,6 +203,18 @@ class User extends BaseUser
     public function setStatus(string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+    
+        public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(string $address): self
+    {
+        $this->address = $address;
 
         return $this;
     }

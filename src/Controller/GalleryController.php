@@ -40,7 +40,7 @@ class GalleryController extends AbstractController
 
             $request->getSession()->getFlashBag()->add('notice', 'Photo ajoutée avec succès !');
 
-            return $this->redirectToRoute('resume');
+            return $this->redirectToRoute('gallery');
 
         }
             return $this->render('add/picture.html.twig', array(

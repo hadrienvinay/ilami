@@ -21,7 +21,7 @@ class Picture
      * @ORM\JoinColumn(nullable=true)
      */
     private $album;
-
+    
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Event", inversedBy="pictures")
      * @ORM\JoinColumn(nullable=true)

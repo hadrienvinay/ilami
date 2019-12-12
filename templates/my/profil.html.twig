@@ -8,8 +8,8 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="profile-img" style="text-align: center;">
-                        <img src="{{asset('build/images/profile/' ~ user.username ~ '.jpg')}}" alt="{{ user.username }}" style="width: 70%;height: 100%;">
-                            <div class="file btn btn-lg btn-primary" style="position: relative;cursor: pointer;overflow: hidden;margin-top: -20%;width: 70%;border: none;border-radius: 0;font-size: 15px;background: #212529b8;">
+                        <img src="{{asset('build/images/profile/' ~ user.username ~ '.jpg')}}" alt="{{ user.username }}" style="width: 60%;height: 100%;">
+                            <div class="file btn btn-lg btn-primary" style="position: relative;cursor: pointer;overflow: hidden;margin-top: -20%;width: 60%;border: none;border-radius: 0;font-size: 15px;background: #212529b8;">
                             {% if app.user.id == user.id %}
                                 Changer Ma Photo
                                     <input type="file" name="file" style="position: absolute;opacity: 0;right: 0;top: 0;">                                    
@@ -30,20 +30,17 @@
                         </h6>
                         <p class="profile-rating">
                             <i class="fa fa-birthday-cake" aria-hidden="true"></i>
-                            Anniversaire le : <span>{{ user.birthDate|date('d/m/Y') }}</span></p>
+                            Anniversaire le <span>{{ user.birthDate|date('d/m/Y') }}</span></p>
                         <ul class="nav nav-tabs" id="myTab" role="tablist" >
                             <li class="nav-item">
-                                <a style="font-weight: 600;border: none; border-bottom: 2px solid #0062cc;" class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
-                            </li>
-                            <li class="nav-item">
-                                <a style="font-weight: 600;border: none;" class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Timeline</a>
+                                <a style="font-weight: 600;border: none; border-bottom: 2px solid #0062cc;" class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Mes P'tites Infos</a>
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-md-2">
                 {% if app.user.id == user.id %}
-                    <a href="{{path('modify_profile',{'id' : user.id}) }}" class="btn btn-primary" style="border: none;border-radius: 1.5rem;width: 85%;padding: 2%;font-weight: 600;color: white;cursor: pointer;">
+                    <a href="{{path('modify_profile',{'id' : user.id}) }}" class="btn btn-primary mybtn">
                         Modifier mon profil
                     </a>
                 {% endif %}
@@ -51,16 +48,10 @@
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    <div class="profile-work" style="padding: 14%;margin-top: -15%;">
-                        <p>WORK LINK</p>
-                        <a href="">Website Link</a><br>
-                        <a href="">Bootsnipp Profile</a><br>
-                        <a href="">Bootply Profile</a>
-                        <p>SKILLS</p>
-                        <a href="">Web Designer</a><br>
-                        <a href="">Web Developer</a><br>
-                        <a href="">WordPress</a><br>
-                        <a href="">WooCommerce</a><br>
+                    <div class="profile-work" style="padding: 20%;margin-top: -15%;">
+                        <p>Skills</p>
+                        <a href="">Beau</a><br>
+                        <a href="">Con</a><br>
                         <a href="">PHP, .Net</a><br>
                     </div>
                 </div>
@@ -68,78 +59,61 @@
                     <div class="tab-content profile-tab" id="myTabContent">
                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
+                                <i class="fa fa-free-code-camp" aria-hidden="true"></i>
                                     <label>User Id</label>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-8">
                                     <p>{{ user.id }}</p>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
+                                    <i class="fa fa-envelope-open-o" aria-hidden="true"></i>
                                     <label>Mail</label>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-8">
                                     <p>{{ user.email }}</p>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
+                                    <i class="fa fa-phone-square" aria-hidden="true"></i>
                                     <label>Téléphone</label>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-8">
                                     <p>0{{ user.phone }}</p>
                                 </div>
                             </div>
+                                <hr>
+                             <div class="row">
+                                <div class="col-md-4">
+                                    <i class="fa fa-industry" aria-hidden="true"></i>
+                                    <label>Travaille chez</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>{{ user.job.companyName }}</p>
+                                </div>
+                            </div>
+                                <div class="row">
+                                <div class="col-md-4">
+                                    <i class="fa fa-group" aria-hidden="true"></i>
+                                    <label>C'est quoi?</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>{{ user.job.desc }}</p>
+                                </div>
+                            </div>
+                                <div class="row">
+                                <div class="col-md-4">
+                                    <i class="fa fa-map-pin" aria-hidden="true"></i>
+                                    <label>C'est où?</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>{{ user.job.address }}</p>
+                                </div>
+                            </div>
                    
-                        </div>
-                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Experience</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>Expert</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Hourly Rate</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>10$/hr</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Total Projects</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>230</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>English Level</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>Expert</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Availability</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>6 months</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label>Your Bio</label><br>
-                                    <p>Your detail description</p>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

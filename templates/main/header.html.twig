@@ -1,23 +1,23 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="margin-bottom: 20px;">
     <div class="container">
-            <a class="navbar-brand" href="{{ path('main_app') }}">Imalipusram Website</a>
-            <img src="{{asset('build/images/imali.png')}}" style="width: 50px;" title="logo" alt="Logo Imali">
+            <a class="navbar-brand" href="{{ path('main_app') }}">
+                Imalipusram Website
+                <img src="{{asset('build/images/imali.png')}}" style="width: 50px;" title="logo" alt="Logo Imali">
+            </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                {% if app.user.id == 4 %}
-                    <li id="home" class="nav-item active">
-                        <a class="nav-link" href="{{ path('timetable') }}">TimeTable
-                        </a>
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") and app.user.id == 4 %}
+                    <li id="timetable" class="nav-item">
+                        <a class="nav-link" href="{{ path('timetable') }}">TimeTable</a>
                     </li>
                 {% endif %}
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                     <li id="home" class="nav-item active">
-                        <a class="nav-link" href="{{ path('main_app') }}">Home
-                        </a>
+                        <a class="nav-link" href="{{ path('main_app') }}">Home</a>
                     </li>
                     <li id="profil" class="nav-item">
                         <a class="nav-link" href="{{ path('profile',{'id': app.user.id}) }}">Profil</a>
@@ -26,7 +26,7 @@
                         <a class="nav-link" href="{{ path('calendar') }}">Calendrier</a>
                     </li>
                     <li id="resume" class="nav-item">
-                        <a class="nav-link" href="{{ path('resume') }}">Résumé</a>
+                        <a class="nav-link" href="{{ path('map') }}">Map</a>
                     </li>
                     <li class="nav-item">
                         <a class="btn btn-primary" href="{{ path('fos_user_security_logout') }}">

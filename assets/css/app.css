@@ -48,3 +48,15 @@ div.desc {
   display: table;
   clear: both;
 }
+
+.mybtn{
+    border: none;
+    border-radius: 1.5rem;
+    width: 85%;
+    padding: 2%;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+}
+
+

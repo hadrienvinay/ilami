@@ -37,6 +37,14 @@ resume:
 event:
     path: /event/{id}
     controller: App\Controller\EventController::event
+    
+map:
+    path: /map
+    controller: App\Controller\MapController::map
+       
+map_job:
+    path: /map_job
+    controller: App\Controller\MapController::mapJob
 
 add_event:
     path: /add/event
