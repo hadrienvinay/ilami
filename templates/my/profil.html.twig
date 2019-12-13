@@ -92,7 +92,7 @@
                                     <label>Travaille chez</label>
                                 </div>
                                 <div class="col-md-8">
-                                    <p>{{ user.job.companyName }}</p>
+                                    <p>{% if user.job != null%}{{ user.job.companyName }}{% else %}Chômage{% endif %}</p>
                                 </div>
                             </div>
                                 <div class="row">
@@ -101,7 +101,7 @@
                                     <label>C'est quoi?</label>
                                 </div>
                                 <div class="col-md-8">
-                                    <p>{{ user.job.desc }}</p>
+                                    <p>{% if user.job != null%}{{ user.job.desc }}{% else %}Ca chill en masseee{% endif %}</p>
                                 </div>
                             </div>
                                 <div class="row">
@@ -110,7 +110,7 @@
                                     <label>C'est où?</label>
                                 </div>
                                 <div class="col-md-8">
-                                    <p>{{ user.job.address }}</p>
+                                    <p>{% if user.job != null%}{{ user.job.address }}{% else %}{{user.address}}{% endif %}</p>
                                 </div>
                             </div>
                    

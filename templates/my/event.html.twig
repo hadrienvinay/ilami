@@ -6,151 +6,102 @@
 {% block body %}
 <br>
     <div class="container" style="padding: 3%;margin-top: 3%;margin-bottom: 3%;border-radius: 0.5rem;background: #fff;">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="profile-img" style="text-align: center;">
-                        <img src="http://www.aal-europe.eu/wp-content/uploads/2013/04/events_medium.jpg" alt="" style="width: 70%;height: 100%;">
-                        <div class="file btn btn-lg btn-primary" style="position: relative;cursor: pointer;overflow: hidden;margin-top: -20%;width: 70%;border: none;border-radius: 0;font-size: 15px;background: #212529b8;">
-                            Change Photo
-                            <input type="file" name="file" style="position: absolute;opacity: 0;right: 0;top: 0;">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="profile-head">
-                        <h5>
-                            {{ event.name }}
-                        </h5>
-                        <h6>
-                            {{ event.description }}
-                        </h6>
-                        <p class="proile-rating">RANKINGS : <span>8/10</span></p>
-                        <ul class="nav nav-tabs" id="myTab" role="tablist" >
-                            <li class="nav-item">
-                                <a style="font-weight: 600;border: none; border-bottom: 2px solid #0062cc;" class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
-                            </li>
-                            <li class="nav-item">
-                                <a style="font-weight: 600;border: none;" class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Timeline</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <a href="{{path('modify_event',{'id' : event.id }) }}" class="btn btn-primary" style="border: none;border-radius: 1.5rem;width: 70%;padding: 2%;font-weight: 600;color: white;cursor: pointer;">
-                        Modifier event
-                    </a>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-img" style="text-align: center;">
+                    <img src="http://www.aal-europe.eu/wp-content/uploads/2013/04/events_medium.jpg" alt="" style="width: 70%;height: 100%;">
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="profile-work" style="padding: 14%;margin-top: -15%;">
-                        <p>WORK LINK</p>
-                        <a href="">Website Link</a><br>
-                        <a href="">Bootsnipp Profile</a><br>
-                        <a href="">Bootply Profile</a>
-                        <p>SKILLS</p>
-                        <a href="">Web Designer</a><br>
-                        <a href="">Web Developer</a><br>
-                        <a href="">WordPress</a><br>
-                        <a href="">WooCommerce</a><br>
-                        <a href="">PHP, .Net</a><br>
-                    </div>
+            <div class="col-md-6">
+                <div class="profile-head">
+                    <h5>
+                        {{ event.name }}
+                    </h5>
+                    <h6>
+                        {{ event.description }}
+                    </h6>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist" >
+                        <li class="nav-item">
+                            <a style="font-weight: 600;border: none; border-bottom: 2px solid #0062cc;" class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">A propos</a>
+                        </li>
+                    </ul>
                 </div>
-                <div class="col-md-8">
-                    <div class="tab-content profile-tab" id="myTabContent">
-                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label> Lieu :  {{ event.address }}</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>du {{ event.startdate|date('d/m/Y') }} à {{ event.startdate|date('H:i') }} au  {{ event.enddate|date('d/m/Y') }} à  {{ event.enddate|date('H:i') }}</p>
-                                </div>
+            </div>
+            <div class="col-md-2">
+                <a href="{{path('modify_event',{'id' : event.id }) }}" class="btn btn-primary" style="border: none;border-radius: 1.5rem;width: 70%;padding: 2%;font-weight: 600;color: white;cursor: pointer;">
+                    Modifier event
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-8">
+                <div class="tab-content profile-tab" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <i class="fa fa-map-pin" aria-hidden="true"></i>
+                                <label> Lieu :  </label>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Name</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>Kshiti Ghelani</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Email</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>kshitighelani@gmail.com</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Phone</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>123 456 7890</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Profession</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>Web Developer and Designer</p>
-                                </div>
+                            <div class="col-md-8">
+                                <p> {{ event.address }} </p>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Experience</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>Expert</p>
-                                </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                <label>Date</label>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Hourly Rate</label>
+                            <div class="col-md-8">
+                                {% if event.startdate|date('d/m/Y') == event.enddate|date('d/m/Y') %}
+                                    <p> le {{ event.startdate|date('d/m/Y') }} à partir de {{ event.startdate|date('H:i') }} </p>
+                                {% else %}
+                                    <p> du {{ event.startdate|date('d/m/Y') }} à {{ event.startdate|date('H:i') }} au  {{ event.enddate|date('d/m/Y') }} à  {{ event.enddate|date('H:i') }}</p>
+                                {% endif %}
                                 </div>
-                                <div class="col-md-6">
-                                    <p>10$/hr</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Total Projects</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>230</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>English Level</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>Expert</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Availability</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>6 months</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label>Your Bio</label><br>
-                                    <p>Your detail description</p>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <hr>
+        <div id="map" style="height:300px; width:100%"></div>
     </div>
+                                    
+    <script>
+      var map;
+      function initMap() {
+        
+        var lat= {{ lat }};
+        var long = {{ long }};
+        map = new google.maps.Map(document.getElementById('map'), {
+           center: {lat: lat, lng: long},
+           zoom: 15
+         });
+        var name = "{{ event.name }}";
+        var infoWindow = new google.maps.InfoWindow(); //display the place name on the map
+       
+        var newPos = {lat: lat, lng: long };
+        //var imagePerso ='../../build/images/profile/mini/'+allName[i]+'.jpg';
+        //console.log(imagePerso);
+        var markerDepart = new google.maps.Marker({
+            position: newPos,
+            map: map,
+            //icon: imagePerso,
+            infoWindowContent: name
+        });
+
+        //listener that display the pharmacy name when there is a 'click' on it
+        google.maps.event.addListener(markerDepart, 'click', function() {
+            infoWindow.setContent(this.infoWindowContent);
+            infoWindow.open(map,this);
+            });
+        }
+      
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0wuGfkqLD67jR6NfcC8mm4EuUROGis_I&callback=initMap"
+    async defer></script>
+    
 {% endblock %}
 

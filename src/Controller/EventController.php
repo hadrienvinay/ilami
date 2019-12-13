@@ -25,8 +25,32 @@ class EventController extends AbstractController
                 'Pas d\'évent trouvé narvaloo pour cet identifiant: '.$id
             );
         }
+        $arrContextOptions = array(
+                   "ssl" => array(
+                       "verify_peer" => false,
+                       "verify_peer_name" => false,
+                   ),
+               );
+        $geocoder = "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyA0wuGfkqLD67jR6NfcC8mm4EuUROGis_I&address=%s&sensor=false";
+        // Get latitude and longitude of the event address
+        if(!empty($event->getAddress())){
+            $query = sprintf($geocoder, urlencode(utf8_encode($event->getAddress())));
+            $result = json_decode(file_get_contents($query, false, stream_context_create($arrContextOptions)));
+
+            if (empty($result->results)) {
+                $latitude = 0;
+                $longitude = 0;
+            } else {
+                $json = $result->results[0];
+                $latitude = (float)$json->geometry->location->lat;
+                $longitude = (float)$json->geometry->location->lng;
+            }
+        }
+            
         return $this->render('my/event.html.twig', array(
             'event' => $event,
+            'lat' => $latitude,
+            'long' => $longitude
         ));
     }
 
