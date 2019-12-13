@@ -19,7 +19,7 @@ class PictureController extends AbstractController
         //order by date
         $pictures = $em->getRepository('App:Picture')->findBy(array(), array('date' => 'desc'));
 
-        return $this->render('my/pictures.html.twig', array(
+        return $this->render('my/pic/pictures.html.twig', array(
             'pictures' => $pictures,
         ));
     }
@@ -32,7 +32,7 @@ class PictureController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $albums = $em->getRepository('App:Album')->findAll();
 
-        return $this->render('my/albums.html.twig', array(
+        return $this->render('my/pic/albums.html.twig', array(
             'albums' => $albums,
         ));
     }
@@ -52,7 +52,7 @@ class PictureController extends AbstractController
             );
         }
 
-        return $this->render('my/album.html.twig', array(
+        return $this->render('my/pic/album.html.twig', array(
             'album' => $album,
         ));
     }

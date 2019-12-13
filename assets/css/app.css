@@ -2,6 +2,17 @@ body {
     background-color: lightgray;
 }
 
+.center{
+    display:block;
+    margin-right:auto;
+    margin-left:auto;
+    width: 100%;
+}
+
+.rounded{
+    border-radius: 0.5em;
+}
+
 div.gallery {
   border: 1px solid #ccc;
 }

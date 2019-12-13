@@ -1,12 +1,16 @@
 {% extends "base.html.twig" %}
 
-{% block title %}{{ parent() }} - Calendrier{% endblock %}
+{% block title %}Map Jobs{% endblock %}
 
 {% block body %}
     <br>
     <div class="container" style="padding: 3%;margin-top: 3%;margin-bottom: 3%;border-radius: 0.5rem;background: #fff;">
         <div class="row"> 
             <div class="col-md-2">
+                <a href="{{path('map_event')}}" class="btn btn-primary mybtn">
+                    <i class="fa fa-map-signs" aria-hidden="true"></i>
+                     Map des events
+                 </a>
              </div>
              <div class="col-md-8">
                  <h1 class="text-center">Les P'tits Jobs</h1>
@@ -33,19 +37,20 @@
         });
        var i=0;
        var allPos= {{  allPos|json_encode|raw }};
-       var allName = {{  userName|json_encode|raw }};
+       var allName = {{  allName|json_encode|raw }};
+       var allNameJob = {{  userName|json_encode|raw }};
        var infoWindow = new google.maps.InfoWindow(); //display the place name on the map
        
        for(i=0;i<allPos[0].length;i++ ){
 
               var newPos = {lat: allPos[0][i], lng: allPos[1][i] };
-              var imagePerso ='../../build/images/profile/mini/'+allName[i]+'.jpg';
+              var imagePerso ='../../build/images/profile/mini/'+allName[i]+'.png';
               console.log(imagePerso);
               var markerDepart = new google.maps.Marker({
                   position: newPos,
                   map: map,
-                  //icon: imagePerso,
-                  infoWindowContent: allName[i]
+                  icon: imagePerso,
+                  infoWindowContent: allNameJob[i]
               });
 
               //listener that display the pharmacy name when there is a 'click' on it

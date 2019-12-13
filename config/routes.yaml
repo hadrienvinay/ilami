@@ -45,6 +45,10 @@ map:
 map_job:
     path: /map_job
     controller: App\Controller\MapController::mapJob
+    
+map_event:
+    path: /map_event
+    controller: App\Controller\MapController::mapEvent
 
 add_event:
     path: /add/event
