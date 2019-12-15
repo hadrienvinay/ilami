@@ -26,10 +26,6 @@ calendar:
     path: /calendar
     controller: App\Controller\CalendarController::calendar
     
-gallery:
-    path: /gallery
-    controller: App\Controller\GalleryController::gallery
-
 resume:
     path: /resume
     controller: App\Controller\ResumeController::resume
@@ -62,17 +58,21 @@ delete_event:
     path: /delete/event/{id}
     controller: App\Controller\EventController:deleteEvent
 
+gallery:
+    path: /gallery
+    controller: App\Controller\GalleryController::gallery
+
 albums:
     path: /albums
-    controller: App\Controller\PictureController:showAlbums
+    controller: App\Controller\GalleryController:showAlbums
 
 album:
   path: /albums/{id}
-  controller: App\Controller\PictureController:showAlbum
-
-pictures:
-  path: /pictures
-  controller: App\Controller\PictureController:showPictures
+  controller: App\Controller\GalleryController:showAlbum
+  
+add_picture:
+  path: /add/picture
+  controller: App\Controller\GalleryController:addPicture
 
 
 

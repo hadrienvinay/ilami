@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Job;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * @method Picture|null find($id, $lockMode = null, $lockVersion = null)
@@ -16,7 +15,7 @@ class JobRepository extends ServiceEntityRepository
 {
     public function __construct(\Doctrine\Common\Persistence\ManagerRegistry $registry)
     {
-        parent::__construct($registry, Picture::class);
+        parent::__construct($registry, Job::class);
     }
 
     // /**

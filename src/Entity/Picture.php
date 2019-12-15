@@ -22,6 +22,12 @@ class Picture
      */
     private $album;
     
+        /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="pictures")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $publisher;
+    
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Event", inversedBy="pictures")
      * @ORM\JoinColumn(nullable=true)
@@ -93,6 +99,23 @@ class Picture
     {
         $this->album = $album;
     }
+    
+        /**
+     * @return mixed
+     */
+    public function getPublisher()
+    {
+        return $this->publisher;
+    }
+
+    /**
+     * @param mixed $publisher
+     */
+    public function setPublisher($publisher): void
+    {
+        $this->publisher = $publisher;
+    }
+    
 
     /**
      * @param mixed $date

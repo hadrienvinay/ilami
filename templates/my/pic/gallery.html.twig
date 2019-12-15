@@ -2,11 +2,33 @@
 
 {% block title %}Galleries {% endblock %}
 
-
 {% block body %}
-<br>
+    <br>
     <div class="container" style="padding: 3%;margin-top: 3%;margin-bottom: 3%;border-radius: 0.5rem;background: #fff;">
         <h1 class="text-center">La P'tite Gallerie</h1>
+        <div style="margin:1%;">
+            <div class="row">
+                <div class="col-md-4">
+                    <a id="pic" class="list-group-item active" href="{{ path('gallery') }}">
+                        Photos
+                    </a>
+                </div>
+                <div class="col-md-4" >
+                    <a id="album" class="list-group-item" href="{{ path('albums') }}">
+                        Albums                    
+                    </a>                   
+                </div>
+                <div class="col-md-4">
+                     <a id="album2" class="list-group-item" href="{{ path('albums') }}">
+                        Autres                    
+                    </a>  
+                </div>
+            </div>
+        </div>
+        <small class="d-block text-right mt-3">
+            <i class="fa fa-download" aria-hidden="true"></i>
+            <a href="{{ path('add_picture') }}">Ajouter une photo</a>
+        </small>
         <br>
         {% for picture in pictures %}
             <div class="responsive">

@@ -23,6 +23,12 @@ class User extends BaseUser
      */
     private $profilePicture;
     
+     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Picture", mappedBy="publisher")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $pictures;
+    
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Job", inversedBy="user")
      * @ORM\JoinColumn(nullable=true)

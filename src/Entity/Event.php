@@ -15,7 +15,7 @@ class Event
      * @ORM\Column(type="integer")
      */
     private $id;
-
+    
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Picture", mappedBy="event")
      * @ORM\JoinColumn(nullable=true)

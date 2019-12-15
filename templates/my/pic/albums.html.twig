@@ -1,16 +1,43 @@
 {% extends "base.html.twig" %}
 
-{% block title %}{{ parent() }} - Calendrier{% endblock %}
-
+{% block title %}Albums Photos{% endblock %}
 
 {% block body %}
     <br>
     <div class="container" style="padding: 3%;margin-top: 3%;margin-bottom: 3%;border-radius: 0.5rem;background: #fff;">
-        <h1 class="text-center">Les P'tites Photos</h1>
-        <br>
+        <h1 class="text-center">Les P'tits Albums</h1>
+        <div style="margin:1%;">
+            <div class="row">
+                <div class="col-md-4">
+                    <a id="pic" class="list-group-item" href="{{ path('gallery') }}">
+                        Photos
+                    </a>
+                </div>
+                <div class="col-md-4" >
+                    <a id="album" class="list-group-item active" href="{{ path('albums') }}">
+                        Albums                    
+                    </a>                   
+                </div>
+                <div class="col-md-4">
+                     <a id="album2" class="list-group-item" href="{{ path('albums') }}">
+                        Autres                    
+                    </a>  
+                </div>
+            </div>
+        </div>
         {% for album in albums %}
-            {{ album.name }}
+            <div class="responsive">
+                <div class="gallery">
+                  <a target="_blank" href="{{ path('album',{id: album.id })}}">
+                    <img src="{{asset('build/images/imali.png')}}" alt="{{ album.name }}" width="600" height="400">
+                  </a>
+                  <div class="desc">{{ album.name }}</div>
+                </div>
+            </div>              
         {% endfor %}
+        
+        <div class="clearfix"></div>
+
 
     </div>
 

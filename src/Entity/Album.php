@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\NewsRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\AlbumRepository")
  */
 class Album
 {
@@ -21,9 +21,9 @@ class Album
      * @ORM\JoinColumn(nullable=true)
      */
     private $pictures;
-
+    
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Event", mappedBy="album")
+     * @ORM\OneToOne(targetEntity="App\Entity\Event", inversedBy="album")
      * @ORM\JoinColumn(nullable=true)
      */
     private $event;

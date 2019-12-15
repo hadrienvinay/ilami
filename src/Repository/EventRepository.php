@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Event;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * @method Event|null find($id, $lockMode = null, $lockVersion = null)

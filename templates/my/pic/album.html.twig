@@ -1,7 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block title %}{{ parent() }} - Calendrier{% endblock %}
-
+{% block title %} Album {{album.name }} {% endblock %}
 
 {% block body %}
     <br>
@@ -9,8 +8,18 @@
         <h1 class="text-center">P'tit Album : {{ album.name }}</h1>
         <br>
         {% for picture in album.pictures %}
-            {{ picture.name }}
+            <div class="responsive">
+                <div class="gallery">
+                  <a target="_blank" href="{{ asset('build/images/gallery/' ~ picture.path ~ '.jpg')}}">
+                    <img src="{{asset('build/images/gallery/' ~ picture.path ~ '.jpg')}}" alt="{{ picture.path }}" width="600" height="400">
+                  </a>
+                  <div class="desc">{{ picture.desc }}</div>
+                </div>
+            </div>          
         {% endfor %}
+        
+        <div class="clearfix"></div>
+
 
     </div>
 

@@ -3,13 +3,14 @@
 namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Album;
 
-class EventType extends AbstractType
+class PictureType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -17,39 +18,43 @@ class EventType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class, array(
-                    'attr'=>array('placeholder'=> 'Nom', 'class'=> 'form-control'),
-                    'label' => 'Nom')
+            ->add('name', FileType::class, array(
+                    'attr'=>array('label'=> 'Upload Picture', 'class'=> 'form-control'),
+                    'required' => true,
+                    'constraints' => [
+                        new \Symfony\Component\Validator\Constraints\File([
+                            'maxSize' => '5000k',
+                            'mimeTypes' => [
+                                'image/*',
+                            ],
+                            'mimeTypesMessage' => 'Please upload a valid image',
+                        ])
+                    ],
+                )
             )
-            ->add('address', TextType::class, array(
-                    'attr'=>array('placeholder'=> 'Adresse', 'class'=> 'form-control'),
-                    'label' => 'ou c?')
+            ->add('album', EntityType::class, array(
+                    'class' => Album::class,
+                    'choice_label' => 'name'
+                )
             )
-            ->add('startdate', DateTimeType::class, array(
-                    'attr'=>array('class'=> 'form-group'),
-                    'label' => 'Début de l évènement')
+            ->add('desc', TextType::class, array(
+                    'attr'=>array('placeholder'=> 'Arthur pécho Jazzy', 'class'=> 'form-control'),
+                    'label' => 'Description',
+                    'required' => false,
+                )
             )
-            ->add('enddate', DateTimeType::class, array(
-                    'attr'=>array('class'=> 'form-group'),
-                    'label' => 'Fin de l évènement')
-            )
-            ->add('description', TextType::class, array(
-                    'attr'=>array('placeholder'=> 'Description','class'=> 'form-control'),
-                    'label' => 'Bla bla blou')
-            )
+            
         ;
-    }/**
- * {@inheritdoc}
- */
+    }
+    
+    /**
+    * {@inheritdoc}
+    */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'App\Entity\Event'
+            'data_class' => 'App\Entity\Picture'
         ));
     }
-
-
-
-
 
 }
