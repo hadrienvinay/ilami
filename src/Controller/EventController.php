@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+
 
 class EventController extends AbstractController
 {
@@ -110,6 +112,32 @@ class EventController extends AbstractController
             'event' => $event,
             'form' => $form->createView()
         ));
+    }
+    
+    /**
+     * @return Response
+     */
+    public function deleteEvent($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $event = $em->getRepository('App:Event')->find($id);
+      
+        // Security check
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            // else error page
+            throw new AccessDeniedException('Accès limité aux admins narvaloo.');
+        }
+
+        if (!$event) {
+            throw $this->createNotFoundException('Aucun event trouvé pour id: ' . $event);
+        }
+
+        $em->remove($event);
+        $em->flush();
+        
+        $request->getSession()->getFlashBag()->add('notice', 'Evènement supprimé avec succès !');
+
+        return $this->redirectToRoute('resume');
     }
 
 

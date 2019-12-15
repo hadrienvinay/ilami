@@ -57,6 +57,10 @@ add_event:
 modify_event:
     path: /modify/event/{id}
     controller: App\Controller\EventController::modifyEvent
+    
+delete_event:
+    path: /delete/event/{id}
+    controller: App\Controller\EventController:deleteEvent
 
 albums:
     path: /albums
