@@ -7,10 +7,8 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use App\Entity\Album;
 
-class PictureType extends AbstractType
+class AlbumType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -18,9 +16,14 @@ class PictureType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', FileType::class, array(
-                    'attr' => array('label'=> 'Upload Picture', 'class'=> 'form-control'),
+            ->add('name', TextType::class, array(
+                    'attr'=>array('placeholder'=> 'Nom', 'class'=> 'form-control'),
+                    'label' => 'Nom')
+            )
+            ->add('presentationPicture', FileType::class, array(
+                    'attr'=>array('label'=> 'Upload Picture', 'class'=> 'form-control'),
                     'label' => 'Photo (img file)',
+
                     // unmapped means that this field is not associated to any entity property
                     'mapped' => false,
 
@@ -39,29 +42,14 @@ class PictureType extends AbstractType
                     ],
                 )
             )
-            ->add('album', EntityType::class, array(
-                    'class' => Album::class,
-                    'choice_label' => 'name',
-                    'required' => false
-                )
-            )
-            ->add('description', TextType::class, array(
-                    'attr'=>array('placeholder'=> 'Arthur pécho Jazzyyyy', 'class'=> 'form-control'),
-                    'label' => 'Description',
-                    'required' => false,
-                )
-            )
-            
         ;
-    }
-    
-    /**
-    * {@inheritdoc}
-    */
+    }/**
+ * {@inheritdoc}
+ */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'App\Entity\Picture'
+            'data_class' => 'App\Entity\Album'
         ));
     }
 

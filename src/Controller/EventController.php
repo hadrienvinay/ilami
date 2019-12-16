@@ -20,40 +20,48 @@ class EventController extends AbstractController
      */
     public function event($id)
     {
-        $em = $this->getDoctrine()->getManager();
-        $event = $em->getRepository('App:Event')->find($id);
-        if (!$event) {
-            throw $this->createNotFoundException(
-                'Pas d\'évent trouvé narvaloo pour cet identifiant: '.$id
-            );
+        //check if user is connected
+        $tokenInterface = $this->get('security.token_storage')->getToken();
+        $isAuthenticated = $tokenInterface->isAuthenticated();
+        if($isAuthenticated) {
+            return $this->redirectToRoute('fos_user_security_login');
         }
-        $arrContextOptions = array(
-                   "ssl" => array(
-                       "verify_peer" => false,
-                       "verify_peer_name" => false,
-                   ),
-               );
-        $geocoder = "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyA0wuGfkqLD67jR6NfcC8mm4EuUROGis_I&address=%s&sensor=false";
-        // Get latitude and longitude of the event address
-        if(!empty($event->getAddress())){
-            $query = sprintf($geocoder, urlencode(utf8_encode($event->getAddress())));
-            $result = json_decode(file_get_contents($query, false, stream_context_create($arrContextOptions)));
-
-            if (empty($result->results)) {
-                $latitude = 0;
-                $longitude = 0;
-            } else {
-                $json = $result->results[0];
-                $latitude = (float)$json->geometry->location->lat;
-                $longitude = (float)$json->geometry->location->lng;
+        else{
+            $em = $this->getDoctrine()->getManager();
+            $event = $em->getRepository('App:Event')->find($id);
+            if (!$event) {
+                throw $this->createNotFoundException(
+                    'Pas d\'évent trouvé narvaloo pour cet identifiant: '.$id
+                );
             }
+            $arrContextOptions = array(
+                       "ssl" => array(
+                           "verify_peer" => false,
+                           "verify_peer_name" => false,
+                       ),
+                   );
+            $geocoder = "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyA0wuGfkqLD67jR6NfcC8mm4EuUROGis_I&address=%s&sensor=false";
+            // Get latitude and longitude of the event address
+            if(!empty($event->getAddress())){
+                $query = sprintf($geocoder, urlencode(utf8_encode($event->getAddress())));
+                $result = json_decode(file_get_contents($query, false, stream_context_create($arrContextOptions)));
+
+                if (empty($result->results)) {
+                    $latitude = 0;
+                    $longitude = 0;
+                } else {
+                    $json = $result->results[0];
+                    $latitude = (float)$json->geometry->location->lat;
+                    $longitude = (float)$json->geometry->location->lng;
+                }
+            }
+
+            return $this->render('my/event.html.twig', array(
+                'event' => $event,
+                'lat' => $latitude,
+                'long' => $longitude
+            ));
         }
-            
-        return $this->render('my/event.html.twig', array(
-            'event' => $event,
-            'lat' => $latitude,
-            'long' => $longitude
-        ));
     }
 
     /**
@@ -117,7 +125,7 @@ class EventController extends AbstractController
     /**
      * @return Response
      */
-    public function deleteEvent($id)
+    public function deleteEvent(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
         $event = $em->getRepository('App:Event')->find($id);

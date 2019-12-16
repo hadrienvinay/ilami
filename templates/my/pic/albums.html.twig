@@ -25,11 +25,16 @@
                 </div>
             </div>
         </div>
+        <small class="d-block text-right mt-3">
+            <i class="fa fa-download" aria-hidden="true"></i>
+            <a href="{{ path('add_album') }}">Créer un album</a>
+        </small>
+        <br>
         {% for album in albums %}
             <div class="responsive">
                 <div class="gallery">
                   <a target="_blank" href="{{ path('album',{id: album.id })}}">
-                    <img src="{{asset('build/images/imali.png')}}" alt="{{ album.name }}" width="600" height="400">
+                    <img src="{{ asset('build/images/gallery/album/' ~ album.presentationPicture) }}" alt="{{ album.name }}" width="600" height="400">
                   </a>
                   <div class="desc">{{ album.name }}</div>
                 </div>

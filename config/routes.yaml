@@ -73,6 +73,10 @@ album:
 add_picture:
   path: /add/picture
   controller: App\Controller\GalleryController:addPicture
+  
+add_album:
+  path: /add/album
+  controller: App\Controller\GalleryController:addAlbum
 
 
 

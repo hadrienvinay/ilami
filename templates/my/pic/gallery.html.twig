@@ -33,10 +33,10 @@
         {% for picture in pictures %}
             <div class="responsive">
                 <div class="gallery">
-                  <a target="_blank" href="{{ asset('build/images/gallery/' ~ picture.path ~ '.jpg')}}">
-                    <img src="{{asset('build/images/gallery/' ~ picture.path ~ '.jpg')}}" alt="{{ picture.path }}" width="600" height="400">
+                  <a target="_blank" href="{{ asset('build/images/gallery/' ~ picture.name )}}">
+                    <img src="{{asset('build/images/gallery/' ~ picture.name )}}" alt="{{ picture.description }}" width="600" height="400">
                   </a>
-                  <div class="desc">{{ picture.desc }}</div>
+                  <div class="desc">{% if picture.description is not null%}{{ picture.description }}{% else %}Photo n°: {{ picture.id }}{% endif %}</div>
                 </div>
             </div>
         {% endfor %}

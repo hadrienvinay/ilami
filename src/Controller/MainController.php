@@ -14,9 +14,13 @@ class MainController extends AbstractController
      */
     public function index()
     {
-        $user = $this->getUser();
+        $user=$this->getUser();
         $date = date('Y-m-d');
-        if($user!=null) {
+        //check if user is connected
+        if(!$user) {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
+        else{
             $em = $this->getDoctrine()->getManager();
             $events = $em->getRepository('App:Event')->findByDate($date);
 
@@ -24,9 +28,6 @@ class MainController extends AbstractController
                 'user' => $user,
                 'events' => $events,
             ));
-        }
-        else{
-            return $this->redirectToRoute('fos_user_security_login');
         }
     }
 
