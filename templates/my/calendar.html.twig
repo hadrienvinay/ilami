@@ -25,7 +25,8 @@
                     {
                         title: '{{ event.name }}',
                         start: '{{ event.startdate|date('Y-m-d') }}',
-                        end: '{{ event.enddate|date('Y-m-d') }}'
+                        end: '{{ event.enddate|date('Y-m-d') }}',
+                        url: '{{ path('event', { id: event.id})  }}'
                     },
                     {% endfor %}
                     {% for user in users %}

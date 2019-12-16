@@ -23,10 +23,12 @@ class MainController extends AbstractController
         else{
             $em = $this->getDoctrine()->getManager();
             $events = $em->getRepository('App:Event')->findByDate($date);
+            $users = $em->getRepository('App:User')->findAll();
 
             return $this->render('main/body.html.twig', array(
                 'user' => $user,
                 'events' => $events,
+                'users' => $users
             ));
         }
     }

@@ -18,16 +18,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <p class="lead text-center">P'tits évènements qui arrivent :</p>
-                      <ul class="list-group">
-                      {% for event in events | slice(0,4) %}
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <a href="{{ path('event',{'id': event.id}) }}">
-                                <strong class="">{{ event.name }}</strong>
-                                <span class="badge badge-primary badge-pill">{{ event.startDate|time_diff }}</span>
-                            </a>
-                        </li>
-                      {% endfor %}
-                    </ul>
+                    <div id='calendar'></div>
                 </div>
                 <div class="col-md-6">
                   <img src="{{asset('build/images/background.jpg')}}" class="center rounded" title="logo" alt="Background Image">
@@ -96,6 +87,16 @@
                             Résumé de l'équipe
                           </h4>
                           <p class="card-text">Tous les P'tits potes et évènements</p>
+                          <ul class="list-group">
+                              {% for event in events | slice(0,4) %}
+                                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                                      <a href="{{ path('event',{'id': event.id}) }}">
+                                          <strong class="">{{ event.name }}</strong>
+                                          <span class="badge badge-primary badge-pill">{{ event.startDate|time_diff }}</span>
+                                      </a>
+                                  </li>
+                              {% endfor %}
+                          </ul>
                       </div>
                       <div class="card-footer">
                           <a href="{{ path('resume') }}" class="btn btn-primary">Trop chauuuud ^^</a>
@@ -116,6 +117,39 @@
                   e.preventDefault();
                   alert('Click Click !');
                  });
-        });
+                $('.fc-scroller').addClass("home_fc-scroller");
+           });
+           document.addEventListener('DOMContentLoaded', function() {
+               var calendarEl = document.getElementById('calendar');
+
+               var calendar = new FullCalendar.Calendar(calendarEl, {
+                   plugins: ['list'],
+                   defaultView: 'listWeek',
+                   events: [
+                       {% for event in events %}
+                       {
+                           title: '{{ event.name }}',
+                           start: '{{ event.startdate|date('Y-m-d') }}',
+                           end: '{{ event.enddate|date('Y-m-d') }}',
+                           url: '{{ path('event', { id: event.id})  }}'
+                       },
+                       {% endfor %}
+                       {% for user in users %}
+                       {
+                           title: 'Anniversaire {{ user.prename }}',
+                           start: '2019-{{ user.birthdate|date('m-d') }}',
+                           allDay : true
+                       },
+                       {
+                           title: 'Anniversaire {{ user.prename }}',
+                           start: '2020-{{ user.birthdate|date('m-d') }}',
+                           allDay : true
+                       },
+                       {% endfor %}
+                   ]
+               });
+
+               calendar.render();
+           });
        </script>
   {% endblock %}

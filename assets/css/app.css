@@ -138,3 +138,8 @@ div.desc {
   background-color: #5cb85c;
   color: white;
 }
+
+.home_fc-scroller{
+  height: auto!important;
+  max-height: 200px;
+}
