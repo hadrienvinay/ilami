@@ -22,9 +22,8 @@ class EventController extends AbstractController
     public function event($id)
     {
         //check if user is connected
-        $tokenInterface = $this->get('security.token_storage')->getToken();
-        $isAuthenticated = $tokenInterface->isAuthenticated();
-        if($isAuthenticated) {
+        $user=$this->getUser();
+        if(!$user) {
             return $this->redirectToRoute('fos_user_security_login');
         }
         else{
@@ -70,92 +69,110 @@ class EventController extends AbstractController
      */
     public function addevent(Request $request, $start, $end)
     {
-        date_default_timezone_set("Europe/Paris");
-        $event = new Event();
-        $em = $this->getDoctrine()->getManager();
-
-        dump(strtotime(date('Y-m-d H:i:s', $start/1000)));
-
-        if (!is_null($start) and !is_null($end))
-        {
-            $event->setStartDate(new \DateTime(date('Y-m-d H:i:s', $start/1000)));
-            $event->setEndDate(new \DateTime(date('Y-m-d H:i:s', $end/1000)));
+        //check if user is connected
+        $user=$this->getUser();
+        if(!$user) {
+            return $this->redirectToRoute('fos_user_security_login');
         }
+        else{
+            date_default_timezone_set("Europe/Paris");
+            $event = new Event();
+            $em = $this->getDoctrine()->getManager();
 
-        $form = $this->get('form.factory')->create(EventType::class, $event);
+            if (!is_null($start) and !is_null($end))
+            {
+                $event->setStartDate(new \DateTime(date('Y-m-d H:i:s', $start/1000)));
+                $event->setEndDate(new \DateTime(date('Y-m-d H:i:s', $end/1000)));
+            }
 
-        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            $form = $this->get('form.factory')->create(EventType::class, $event);
 
-            $em->persist($event);
-            $em->flush();
+            if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 
-            $request->getSession()->getFlashBag()->add('notice', 'Evènement créé avec succès !');
+                $em->persist($event);
+                $em->flush();
 
-            return $this->redirectToRoute('resume');
+                $request->getSession()->getFlashBag()->add('notice', 'Evènement créé avec succès !');
 
-        }
-            return $this->render('add/event.html.twig', array(
-            'form' => $form->createView(),
-        ));
-    }
+                return $this->redirectToRoute('resume');
 
-    /**
-     * @return Response
-     */
-    public function modifyEvent(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $event = $em->getRepository('App:Event')->find($id);
-
-        if (!$event) {
-            throw $this->createNotFoundException(
-                'Pas d\'évent trouvé narvaloo pour cet identifiant: '.$id
-            );
-        }
-
-        $form = $this->get('form.factory')->create(EventType::class, $event);
-        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-
-            $em->persist($event);
-            $em->flush();
-
-            $request->getSession()->getFlashBag()->add('notice', 'Evènement modifié avec succès !');
-
-            return $this->render('my/event.html.twig',array(
-                'event' => $event
+            }
+                return $this->render('add/event.html.twig', array(
+                'form' => $form->createView(),
             ));
         }
-
-        return $this->render('modify/event.html.twig', array(
-            'event' => $event,
-            'form' => $form->createView()
-        ));
     }
-    
+
+        /**
+         * @return Response
+         */
+        public function modifyEvent(Request $request, $id)
+        {
+            //check if user is connected
+        $user=$this->getUser();
+        if(!$user) {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
+        else{
+            $em = $this->getDoctrine()->getManager();
+            $event = $em->getRepository('App:Event')->find($id);
+
+            if (!$event) {
+                throw $this->createNotFoundException(
+                    'Pas d\'évent trouvé narvaloo pour cet identifiant: '.$id
+                );
+            }
+
+            $form = $this->get('form.factory')->create(EventType::class, $event);
+            if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+
+                $em->persist($event);
+                $em->flush();
+
+                $request->getSession()->getFlashBag()->add('notice', 'Evènement modifié avec succès !');
+
+                return $this->render('my/event.html.twig',array(
+                    'event' => $event
+                ));
+            }
+
+            return $this->render('modify/event.html.twig', array(
+                'event' => $event,
+                'form' => $form->createView()
+            ));
+        }
+    }
     /**
      * @return Response
      */
     public function deleteEvent(Request $request, $id)
     {
-        $em = $this->getDoctrine()->getManager();
-        $event = $em->getRepository('App:Event')->find($id);
-      
-        // Security check
-        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            // else error page
-            throw new AccessDeniedException('Accès limité aux admins narvaloo.');
+        //check if user is connected
+        $user=$this->getUser();
+        if(!$user) {
+            return $this->redirectToRoute('fos_user_security_login');
         }
+        else{
+            $em = $this->getDoctrine()->getManager();
+            $event = $em->getRepository('App:Event')->find($id);
 
-        if (!$event) {
-            throw $this->createNotFoundException('Aucun event trouvé pour id: ' . $event);
+            // Security check
+            if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+                // else error page
+                throw new AccessDeniedException('Accès limité aux admins narvaloo.');
+            }
+
+            if (!$event) {
+                throw $this->createNotFoundException('Aucun event trouvé pour id: ' . $event);
+            }
+
+            $em->remove($event);
+            $em->flush();
+
+            $request->getSession()->getFlashBag()->add('notice', 'Evènement supprimé avec succès !');
+
+            return $this->redirectToRoute('resume');
         }
-
-        $em->remove($event);
-        $em->flush();
-        
-        $request->getSession()->getFlashBag()->add('notice', 'Evènement supprimé avec succès !');
-
-        return $this->redirectToRoute('resume');
     }
 
 
