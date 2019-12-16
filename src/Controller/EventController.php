@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Event;
 use App\Form\EventType;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
@@ -59,10 +60,19 @@ class EventController extends AbstractController
     /**
      * @return Response
      */
-    public function addevent(Request $request)
+    public function addevent(Request $request, $start, $end)
     {
+        date_default_timezone_set("Europe/Paris");
         $event = new Event();
         $em = $this->getDoctrine()->getManager();
+
+        dump(strtotime(date('Y-m-d H:i:s', $start/1000)));
+
+        if (!is_null($start) and !is_null($end))
+        {
+            $event->setStartDate(new \DateTime(date('Y-m-d H:i:s', $start/1000)));
+            $event->setEndDate(new \DateTime(date('Y-m-d H:i:s', $end/1000)));
+        }
 
         $form = $this->get('form.factory')->create(EventType::class, $event);
 
