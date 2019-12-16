@@ -16,14 +16,6 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class, array(
-                    'attr'=>array('placeholder'=> 'Nom', 'class'=> 'form-control'),
-                    'label' => 'Nom')
-            )
-            ->add('prename', TextType::class, array(
-                    'attr'=>array('placeholder'=> 'Prénom','class'=> 'form-control'),
-                    'label' => 'Prénom')
-            )
             ->add('status', TextType::class, array(
                     'attr'=>array('placeholder'=> 'I\'m felling good baby','class'=> 'form-control'),
                     'label' => 'Status')
@@ -32,6 +24,11 @@ class UserType extends AbstractType
                     'attr'=>array('placeholder'=> '0607080910','class'=> 'form-control'),
                     'label' => 'Téléphone')
             )
+            ->add('address', TextType::class, array(
+                    'attr'=>array('placeholder'=> '12 rue de ma maison','class'=> 'form-control'),
+                    'label' => 'Adresse')
+            )
+            ->remove('username')
         ;
     }/**
  * {@inheritdoc}
