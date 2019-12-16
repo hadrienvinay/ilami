@@ -23,6 +23,4 @@ class CalendarController extends AbstractController
             'events' => $events,
         ]);
     }
-
-
 }
