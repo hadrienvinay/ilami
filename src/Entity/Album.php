@@ -32,6 +32,11 @@ class Album
      * @ORM\Column(type="string", length=255)
      */
     private $name;
+    
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $presentationPicture;
 
     public function getId(): ?int
     {
@@ -78,6 +83,18 @@ class Album
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+    
+        public function getPresentationPicture(): ?string
+    {
+        return $this->presentationPicture;
+    }
+
+    public function setPresentationPicture(string $presentationPicture): self
+    {
+        $this->presentationPicture = $presentationPicture;
 
         return $this;
     }

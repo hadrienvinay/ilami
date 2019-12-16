@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Picture;
+use App\Entity\Album;
+use App\Form\AlbumType;
 use App\Form\PictureType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,12 +19,19 @@ class GalleryController extends AbstractController
      */
     public function gallery()
     {
-        $em = $this->getDoctrine()->getManager();
-        $pictures = $em->getRepository('App:Picture')->findAll();
+        //check if user is connected
+        $user = $this->getUser();
+        if(!$user) {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
+        else{
+            $em = $this->getDoctrine()->getManager();
+            $pictures = $em->getRepository('App:Picture')->findAll();
 
-        return $this->render('my/pic/gallery.html.twig', array(
-            'pictures' => $pictures,
-        ));
+            return $this->render('my/pic/gallery.html.twig', array(
+                'pictures' => $pictures,
+            ));
+        }
     }
 
      /**
@@ -30,12 +39,19 @@ class GalleryController extends AbstractController
      */
     public function showAlbums()
     {
-        $em = $this->getDoctrine()->getManager();
-        $albums = $em->getRepository('App:Album')->findAll();
-        dump($albums);
-        return $this->render('my/pic/albums.html.twig', array(
-            'albums' => $albums,
-        ));
+        //check if user is connected
+        $user = $this->getUser();
+        if(!$user) {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
+        else{
+            $em = $this->getDoctrine()->getManager();
+            $albums = $em->getRepository('App:Album')->findAll();
+            dump($albums);
+            return $this->render('my/pic/albums.html.twig', array(
+                'albums' => $albums,
+            ));
+        }
     }
     
      /**
@@ -44,18 +60,25 @@ class GalleryController extends AbstractController
      */
     public function showAlbum($id)
     {
-        $em = $this->getDoctrine()->getManager();
-        $album = $em->getRepository('App:Album')->find($id);
-
-        if (!$album) {
-            throw $this->createNotFoundException(
-                'Pas d\'album trouvé narvaloo pour cet identifiant: '.$id
-            );
+        //check if user is connected
+        $user = $this->getUser();
+        if(!$user) {
+            return $this->redirectToRoute('fos_user_security_login');
         }
+        else{
+            $em = $this->getDoctrine()->getManager();
+            $album = $em->getRepository('App:Album')->find($id);
 
-        return $this->render('my/pic/album.html.twig', array(
-            'album' => $album,
-        ));
+            if (!$album) {
+                throw $this->createNotFoundException(
+                    'Pas d\'album trouvé narvaloo pour cet identifiant: '.$id
+                );
+            }
+
+            return $this->render('my/pic/album.html.twig', array(
+                'album' => $album,
+            ));
+        }
     }
 
     /**
@@ -63,29 +86,115 @@ class GalleryController extends AbstractController
      */
     public function addPicture(Request $request)
     {
-        $picture = new Picture();
+        //check if user is connected
         $user = $this->getUser();
-        $em = $this->getDoctrine()->getManager();
-        
-        $form = $this->get('form.factory')->create(PictureType::class, $picture);
-
-        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-            
-            $file = $form['name']->getData();
-
-            $picture->setDate(new \DateTime);
-            $picture->setPublisher($user);
-            $em->persist($picture);
-            $em->flush();
-
-            $request->getSession()->getFlashBag()->add('notice', 'Photo ajoutée avec succès !');
-
-            return $this->redirectToRoute('gallery');
-
+        if(!$user) {
+            return $this->redirectToRoute('fos_user_security_login');
         }
-        return $this->render('add/picture.html.twig', array(
-            'form' => $form->createView(),
-        ));
+        else{
+            $picture = new Picture();
+            $em = $this->getDoctrine()->getManager();
+
+            $form = $this->get('form.factory')->create(PictureType::class, $picture);
+
+            if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+
+                $fileName = $form['name']->getData();
+
+                if($fileName){
+                    $originalFilename = pathinfo($fileName->getClientOriginalName(), PATHINFO_FILENAME);
+                    // this is needed to safely include the file name as part of the URL
+                    $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                    $newFilename = $safeFilename.'-'.uniqid().'.'.$fileName->guessExtension();
+
+                    // Move the file to the directory where brochures are stored
+                    try {
+                        $fileName->move(
+                            $this->getParameter('pictures_directory'),
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                        throw $this->createNotFoundException(
+                            'Erreur lors de l\'import narvaloooo'
+                        );
+                    }
+
+                }
+
+                $picture->setName($newFilename);
+                $picture->setDate(new \DateTime);
+                $picture->setPublisher($user);
+                $em->persist($picture);
+                $em->flush();
+
+                $request->getSession()->getFlashBag()->add('notice', 'Photo ajoutée avec succès !');
+
+                return $this->redirectToRoute('gallery');
+
+            }
+            return $this->render('add/picture.html.twig', array(
+                'form' => $form->createView(),
+            ));
+        }
     }
     
+    /**
+     * @return Response
+     */
+    public function addAlbum(Request $request)
+    {
+        //check if user is connected
+        $user = $this->getUser();
+        if(!$user) {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
+        else{
+            $album = new Album();
+            $em = $this->getDoctrine()->getManager();
+
+            $form = $this->get('form.factory')->create(AlbumType::class, $album);
+
+            if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+                $fileName = $form['presentationPicture']->getData();
+
+                if($fileName){
+                    $originalFilename = pathinfo($fileName->getClientOriginalName(), PATHINFO_FILENAME);
+                    // this is needed to safely include the file name as part of the URL
+                    $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                    $newFilename = $safeFilename.'-'.uniqid().'.'.$fileName->guessExtension();
+
+                    // Move the file to the directory where brochures are stored
+                    try {
+                        $fileName->move(
+                            $this->getParameter('album_directory'),
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                        throw $this->createNotFoundException(
+                            'Erreur lors de l\'ajout de l\'album narvaloooo'
+                        );
+                    }
+
+                    $album->setPresentationPicture($newFilename);   
+                }
+                else{
+                    $album->setPresentationPicture('default.png');
+                }
+
+                $em->persist($album);
+                $em->flush();
+
+                $request->getSession()->getFlashBag()->add('notice', 'Album créé avec succès !');
+
+                return $this->redirectToRoute('albums');
+
+            }
+                return $this->render('add/album.html.twig', array(
+                'form' => $form->createView(),
+            ));
+        }
+    }
+
 }

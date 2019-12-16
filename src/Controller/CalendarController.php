@@ -14,13 +14,20 @@ class CalendarController extends AbstractController
      */
     public function calendar()
     {
-        $em = $this->getDoctrine()->getManager();
-        $users = $em->getRepository('App:User')->findAll();
-        $events = $em->getRepository('App:Event')->findAll();
+        //check if user is connected
+        $user = $this->getUser();
+        if(!$user) {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
+        else{
+            $em = $this->getDoctrine()->getManager();
+            $users = $em->getRepository('App:User')->findAll();
+            $events = $em->getRepository('App:Event')->findAll();
 
-        return $this->render('my/calendar.html.twig', [
-            'users' => $users,
-            'events' => $events,
-        ]);
+            return $this->render('my/calendar.html.twig', [
+                'users' => $users,
+                'events' => $events,
+            ]);
+        }
     }
 }

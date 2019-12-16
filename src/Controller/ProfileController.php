@@ -22,50 +22,64 @@ class ProfileController extends AbstractController
      */
     public function profil($id)
     {
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('App:User')->find($id);
-        if (!$user) {
-            throw $this->createNotFoundException(
-                'Pas d\'utilisateur trouvé narvaloo pour cet identifiant: '.$id
-            );
+        //check if user is connected
+        $user=$this->getUser();
+        if(!$user) {
+            return $this->redirectToRoute('fos_user_security_login');
         }
-        return $this->render('my/profil.html.twig', array(
-            'user' => $user,
-        ));
+        else{
+            $em = $this->getDoctrine()->getManager();
+            $user = $em->getRepository('App:User')->find($id);
+            if (!$user) {
+                throw $this->createNotFoundException(
+                    'Pas d\'utilisateur trouvé narvaloo pour cet identifiant: '.$id
+                );
+            }
+            return $this->render('my/profil.html.twig', array(
+                'user' => $user,
+            ));
+        }
     }
     /**
      * @return Response
      */
     public function modifyProfil(Request $request, $id)
     {
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('App:User')->find($id);
-
-        if($user != $this->getUser()){
-            throw new AccessDeniedException('Tu peux pas modifier un autre profil que le tien narvaloo !');
+        //check if user is connected
+        $user=$this->getUser();
+        if(!$user) {
+            return $this->redirectToRoute('fos_user_security_login');
         }
+        else{
+            $em = $this->getDoctrine()->getManager();
+            $user = $em->getRepository('App:User')->find($id);
 
-        $form = $this->get('form.factory')->create(UserType::class, $user);
-        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            if($user != $this->getUser()){
+                throw new AccessDeniedException('Tu peux pas modifier un autre profil que le tien narvaloo !');
+            }
 
-            $em->persist($user);
-            $em->flush();
+            $form = $this->get('form.factory')->create(UserType::class, $user);
+            if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 
-            $request->getSession()->getFlashBag()->add('notice', 'Profil modifié avec succès !');
+                $em->persist($user);
+                $em->flush();
 
-            return $this->render('my/profil.html.twig',array(
-                'user' => $user
+                $request->getSession()->getFlashBag()->add('notice', 'Profil modifié avec succès !');
+
+                return $this->render('my/profil.html.twig',array(
+                    'user' => $user
+                ));
+            }
+
+            return $this->render('modify/profil.html.twig', array(
+                'user' => $user,
+                'form' => $form->createView()
             ));
         }
-
-        return $this->render('modify/profil.html.twig', array(
-            'user' => $user,
-            'form' => $form->createView()
-        ));
     }
 
 
-    /**
+    /** NOT WORKING  TO SET UP
      * @param Request $request
      * @param $id
      * @return Response
@@ -73,7 +87,7 @@ class ProfileController extends AbstractController
      */
     public function modifyProfilePicture(Request $request, $id)
     {
-
+  
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('App:User')->find($id);
 
