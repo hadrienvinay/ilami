@@ -5,11 +5,14 @@ namespace App\Entity;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Mgilet\NotificationBundle\Annotation\Notifiable;
+use Mgilet\NotificationBundle\NotifiableInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @Notifiable(name="user")
  */
-class User extends BaseUser
+class User extends BaseUser implements NotifiableInterface
 {
     /**
      * @ORM\Id()

@@ -6,13 +6,13 @@ use App\Entity\Picture;
 use App\Entity\Album;
 use App\Form\AlbumType;
 use App\Form\PictureType;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 
-class GalleryController extends AbstractController
+class GalleryController extends Controller
 {
     /**
      * @return Response
@@ -25,11 +25,17 @@ class GalleryController extends AbstractController
             return $this->redirectToRoute('fos_user_security_login');
         }
         else{
+            $notifiableRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableNotification');
+            $notifiableEntityRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableEntity');
+            $notifiable = $notifiableEntityRepo->findOneby(array("identifier" => $user));
+            $notificationList = $notifiableRepo->findAllForNotifiableId($notifiable);
+            
             $em = $this->getDoctrine()->getManager();
             $pictures = $em->getRepository('App:Picture')->findAll();
 
             return $this->render('my/pic/gallery.html.twig', array(
                 'pictures' => $pictures,
+                'notificationList' => $notificationList
             ));
         }
     }
@@ -45,11 +51,17 @@ class GalleryController extends AbstractController
             return $this->redirectToRoute('fos_user_security_login');
         }
         else{
+            $notifiableRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableNotification');
+            $notifiableEntityRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableEntity');
+            $notifiable = $notifiableEntityRepo->findOneby(array("identifier" => $user));
+            $notificationList = $notifiableRepo->findAllForNotifiableId($notifiable);
+            
             $em = $this->getDoctrine()->getManager();
             $albums = $em->getRepository('App:Album')->findAll();
             dump($albums);
             return $this->render('my/pic/albums.html.twig', array(
                 'albums' => $albums,
+                'notificationList' => $notificationList
             ));
         }
     }
@@ -66,6 +78,11 @@ class GalleryController extends AbstractController
             return $this->redirectToRoute('fos_user_security_login');
         }
         else{
+            $notifiableRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableNotification');
+            $notifiableEntityRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableEntity');
+            $notifiable = $notifiableEntityRepo->findOneby(array("identifier" => $user));
+            $notificationList = $notifiableRepo->findAllForNotifiableId($notifiable);
+            
             $em = $this->getDoctrine()->getManager();
             $album = $em->getRepository('App:Album')->find($id);
 
@@ -77,6 +94,7 @@ class GalleryController extends AbstractController
 
             return $this->render('my/pic/album.html.twig', array(
                 'album' => $album,
+                'notificationList' => $notificationList
             ));
         }
     }
@@ -92,6 +110,11 @@ class GalleryController extends AbstractController
             return $this->redirectToRoute('fos_user_security_login');
         }
         else{
+            $notifiableRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableNotification');
+            $notifiableEntityRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableEntity');
+            $notifiable = $notifiableEntityRepo->findOneby(array("identifier" => $user));
+            $notificationList = $notifiableRepo->findAllForNotifiableId($notifiable);
+            
             $picture = new Picture();
             $em = $this->getDoctrine()->getManager();
 
@@ -135,6 +158,7 @@ class GalleryController extends AbstractController
             }
             return $this->render('add/picture.html.twig', array(
                 'form' => $form->createView(),
+                'notificationList' => $notificationList
             ));
         }
     }
@@ -150,6 +174,11 @@ class GalleryController extends AbstractController
             return $this->redirectToRoute('fos_user_security_login');
         }
         else{
+            $notifiableRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableNotification');
+            $notifiableEntityRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableEntity');
+            $notifiable = $notifiableEntityRepo->findOneby(array("identifier" => $user));
+            $notificationList = $notifiableRepo->findAllForNotifiableId($notifiable);
+            
             $album = new Album();
             $em = $this->getDoctrine()->getManager();
 
@@ -192,7 +221,8 @@ class GalleryController extends AbstractController
 
             }
                 return $this->render('add/album.html.twig', array(
-                'form' => $form->createView(),
+                    'form' => $form->createView(),
+                    'notificationList' => $notificationList
             ));
         }
     }

@@ -110,6 +110,10 @@ add_album:
 timetable:
     path: /timetable
     controller: App\Controller\TimeTableController::timetable
+    
+mgilet_notification:
+    resource: "@MgiletNotificationBundle/Controller/"
+    prefix: /notifications
 
 
 

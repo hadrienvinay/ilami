@@ -2,11 +2,11 @@
 // src/Controller/CalendarController.php
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CalendarController extends AbstractController
+class CalendarController extends Controller
 {
     /**
      * @return Response
@@ -20,6 +20,11 @@ class CalendarController extends AbstractController
             return $this->redirectToRoute('fos_user_security_login');
         }
         else{
+            $notifiableRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableNotification');
+            $notifiableEntityRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableEntity');
+            $notifiable = $notifiableEntityRepo->findOneby(array("identifier" => $user));
+            $notificationList = $notifiableRepo->findAllForNotifiableId($notifiable);
+            
             $em = $this->getDoctrine()->getManager();
             $users = $em->getRepository('App:User')->findAll();
             $events = $em->getRepository('App:Event')->findAll();
@@ -27,6 +32,7 @@ class CalendarController extends AbstractController
             return $this->render('my/calendar.html.twig', [
                 'users' => $users,
                 'events' => $events,
+                'notificationList' => $notificationList
             ]);
         }
     }

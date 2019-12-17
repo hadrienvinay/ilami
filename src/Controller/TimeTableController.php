@@ -2,12 +2,12 @@
 // src/Controller/TimeTableController.php
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class TimeTableController extends AbstractController
+class TimeTableController extends Controller
 {
     /**
      * @return Response
@@ -22,6 +22,11 @@ class TimeTableController extends AbstractController
      */
     public function timetable()
     {
+        $notifiableRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableNotification');
+        $notifiableEntityRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableEntity');
+        $notifiable = $notifiableEntityRepo->findOneby(array("identifier" => $user));
+        $notificationList = $notifiableRepo->findAllForNotifiableId($notifiable);
+            
         //Metro 10 A-R
         $url = "https://api-ratp.pierre-grimaud.fr/v4/schedules/metros/10/boulogne-jean-jaures/A+R";
         $client = HttpClient::create();
@@ -70,6 +75,7 @@ class TimeTableController extends AbstractController
             'metro1' => $content['result']['schedules'],
             'bus1' => $content2['result']['schedules'],
             'bus2' => $content3['result']['schedules'],
+            'notificationList' => $notificationList
         ));
     }
 

@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Form\EventType;
 use DateTime;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 
-class EventController extends AbstractController
+class EventController extends Controller
 {
     /**
      * @return Response
@@ -27,6 +27,10 @@ class EventController extends AbstractController
             return $this->redirectToRoute('fos_user_security_login');
         }
         else{
+            $notifiableRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableNotification');
+            $notifiableEntityRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableEntity');
+            $notifiable = $notifiableEntityRepo->findOneby(array("identifier" => $user));
+            $notificationList = $notifiableRepo->findAllForNotifiableId($notifiable);
             $em = $this->getDoctrine()->getManager();
             $event = $em->getRepository('App:Event')->find($id);
             if (!$event) {
@@ -59,7 +63,8 @@ class EventController extends AbstractController
             return $this->render('my/event.html.twig', array(
                 'event' => $event,
                 'lat' => $latitude,
-                'long' => $longitude
+                'long' => $longitude,
+                'notificationList' => $notificationList
             ));
         }
     }
@@ -75,6 +80,11 @@ class EventController extends AbstractController
             return $this->redirectToRoute('fos_user_security_login');
         }
         else{
+            $notifiableRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableNotification');
+            $notifiableEntityRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableEntity');
+            $notifiable = $notifiableEntityRepo->findOneby(array("identifier" => $user));
+            $notificationList = $notifiableRepo->findAllForNotifiableId($notifiable);
+            
             date_default_timezone_set("Europe/Paris");
             $event = new Event();
             $em = $this->getDoctrine()->getManager();
@@ -99,7 +109,8 @@ class EventController extends AbstractController
 
             }
                 return $this->render('add/event.html.twig', array(
-                'form' => $form->createView(),
+                    'form' => $form->createView(),
+                    'notificationList' => $notificationList                 
             ));
         }
     }
@@ -115,6 +126,11 @@ class EventController extends AbstractController
             return $this->redirectToRoute('fos_user_security_login');
         }
         else{
+            $notifiableRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableNotification');
+            $notifiableEntityRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableEntity');
+            $notifiable = $notifiableEntityRepo->findOneby(array("identifier" => $user));
+            $notificationList = $notifiableRepo->findAllForNotifiableId($notifiable);
+            
             $em = $this->getDoctrine()->getManager();
             $event = $em->getRepository('App:Event')->find($id);
 
@@ -133,13 +149,15 @@ class EventController extends AbstractController
                 $request->getSession()->getFlashBag()->add('notice', 'Evènement modifié avec succès !');
 
                 return $this->render('my/event.html.twig',array(
-                    'event' => $event
+                    'event' => $event,
+                    'notificationList', $notificationList
                 ));
             }
 
             return $this->render('modify/event.html.twig', array(
                 'event' => $event,
-                'form' => $form->createView()
+                'form' => $form->createView(),
+                'notificationList' => $notificationList
             ));
         }
     }

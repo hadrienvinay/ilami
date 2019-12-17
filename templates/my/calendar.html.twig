@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block title %}{{ parent() }} - Calendrier{% endblock %}
+{% block title %}Calendrier{% endblock %}
 
 {% block body %}
     <br>
@@ -8,11 +8,29 @@
         <h1 class="text-center">Le P'tit Calendrier</h1>
         <br>
         <div id='calendar'></div>
-        </div>
-
+        
+    </div>
+            <!-- Modal confirm cancel an order-->
+    <div id="myModal" class="modal">
+         <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="margin-auto">Création d'un évènement</h2>
+            </div>
+            <div class="modal-body">
+                <p>Vous allez créer un evènement </p>
+                <p>Etes-vous sur?</p>
+            </div>
+            <div class="modal-footer">
+                <a href="" id="btnYes" class="btn btn-primary" data="">Oui</a>
+                <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-secondary">Non</a>
+            </div>
+         </div>
+    </div>
     <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
     <script>
+        var modal = document.getElementById("myModal");
+
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
 
@@ -53,14 +71,25 @@
                     if ((info.end - info.start) > 86400000)
                     {
                         var my_route = Routing.generate('add_event', {start : info.start.getTime(), end : info.end.getTime()})
-                        window.location.replace(my_route);
+                        //window.location.replace(my_route);
+                        $('#btnYes').attr("href",my_route);
+                        $('#myModal').modal('show');
                     }
                 },
                 dateClick: function(info) {
                     var my_route = Routing.generate('add_event', {start : info.date.getTime(), end : info.date.getTime() + 86400000})
-                    window.location.replace(my_route);
+                    //window.location.replace(my_route);
+                    $('#btnYes').attr("href",my_route);
+                    $('#myModal').modal('show');
                 }
             });
+            
+             // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function(event) {
+                  if (event.target == modal) {
+                    modal.style.display = "none";
+                  }
+                };
 
             calendar.render();
         });

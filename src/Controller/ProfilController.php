@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Form\UserType;
 use App\Form\RecommandationType;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\File;
 
 
-class ProfilController extends AbstractController
+class ProfilController extends Controller
 {
     /**
      * @return Response
@@ -30,6 +30,11 @@ class ProfilController extends AbstractController
             return $this->redirectToRoute('fos_user_security_login');
         }
         else{
+            $notifiableRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableNotification');
+            $notifiableEntityRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableEntity');
+            $notifiable = $notifiableEntityRepo->findOneby(array("identifier" => $user));
+            $notificationList = $notifiableRepo->findAllForNotifiableId($notifiable);
+            
             $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository('App:User')->find($id);
             if (!$user) {
@@ -39,6 +44,7 @@ class ProfilController extends AbstractController
             }
             return $this->render('my/profil.html.twig', array(
                 'user' => $user,
+                'notificationList' => $notificationList
             ));
         }
     }
@@ -54,6 +60,11 @@ class ProfilController extends AbstractController
             return $this->redirectToRoute('fos_user_security_login');
         }
         else{
+            $notifiableRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableNotification');
+            $notifiableEntityRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableEntity');
+            $notifiable = $notifiableEntityRepo->findOneby(array("identifier" => $user));
+            $notificationList = $notifiableRepo->findAllForNotifiableId($notifiable);
+            
             $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository('App:User')->find($id);
 
@@ -75,7 +86,8 @@ class ProfilController extends AbstractController
 
             return $this->render('modify/profil.html.twig', array(
                 'user' => $user,
-                'form' => $form->createView()
+                'form' => $form->createView(),
+                'notificationList' => $notificationList
             ));
         }
     }
@@ -91,6 +103,11 @@ class ProfilController extends AbstractController
             return $this->redirectToRoute('fos_user_security_login');
         }
         else{
+            $notifiableRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableNotification');
+            $notifiableEntityRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableEntity');
+            $notifiable = $notifiableEntityRepo->findOneby(array("identifier" => $user));
+            $notificationList = $notifiableRepo->findAllForNotifiableId($notifiable);
+            
             $recommandation = new Recommandation();
             $em = $this->getDoctrine()->getManager();
 
@@ -105,13 +122,15 @@ class ProfilController extends AbstractController
                 $request->getSession()->getFlashBag()->add('notice', 'Recommandation ajoutée avec succès !');
 
                 return $this->render('my/profil.html.twig',array(
-                    'user' => $user
+                    'user' => $user,
+                    'notificationList' => $notificationList
                 ));
             }
 
             return $this->render('add/recommandation.html.twig', array(
                 'user' => $user,
-                'form' => $form->createView()
+                'form' => $form->createView(),
+                'notificationList' => $notificationList
             ));
         }
     }

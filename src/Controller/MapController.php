@@ -2,12 +2,12 @@
 // src/Controller/MapController.php
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class MapController extends AbstractController
+class MapController extends Controller
 {
     /**
      * @return Response
@@ -20,7 +20,11 @@ class MapController extends AbstractController
             return $this->redirectToRoute('fos_user_security_login');
         }
         else{
-            $user = $this->getUser();
+            $notifiableRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableNotification');
+            $notifiableEntityRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableEntity');
+            $notifiable = $notifiableEntityRepo->findOneby(array("identifier" => $user));
+            $notificationList = $notifiableRepo->findAllForNotifiableId($notifiable);
+            
             $em = $this->getDoctrine()->getManager();
             $users = $em->getRepository('App:User')->findAll();
             //select all lat and long of users address
@@ -57,7 +61,8 @@ class MapController extends AbstractController
             return $this->render('my/map/map.html.twig', array(
                 'users' => $users,
                 'userName' => $userName,
-                'allPos' => $allPos
+                'allPos' => $allPos,
+                'notificationList' => $notificationList
             ));
         }
     }
@@ -73,6 +78,11 @@ class MapController extends AbstractController
             return $this->redirectToRoute('fos_user_security_login');
         }
         else{
+            $notifiableRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableNotification');
+            $notifiableEntityRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableEntity');
+            $notifiable = $notifiableEntityRepo->findOneby(array("identifier" => $user));
+            $notificationList = $notifiableRepo->findAllForNotifiableId($notifiable);
+            
             $em = $this->getDoctrine()->getManager();
             $users = $em->getRepository('App:User')->findAll();
             //select all lat and long of users address
@@ -112,7 +122,8 @@ class MapController extends AbstractController
                 'users' => $users,
                 'allName' => $allName,
                 'userName' => $userName,
-                'allPos' => $allPos
+                'allPos' => $allPos,
+                'notificationList' => $notificationList
             ));
         }
     }
@@ -127,6 +138,11 @@ class MapController extends AbstractController
             return $this->redirectToRoute('fos_user_security_login');
         }
         else{
+            $notifiableRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableNotification');
+            $notifiableEntityRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableEntity');
+            $notifiable = $notifiableEntityRepo->findOneby(array("identifier" => $user));
+            $notificationList = $notifiableRepo->findAllForNotifiableId($notifiable);
+            
             $em = $this->getDoctrine()->getManager();
             $events = $em->getRepository('App:Event')->findAll();
             //select all lat and long of users address
@@ -162,7 +178,8 @@ class MapController extends AbstractController
             }
             return $this->render('my/map/map_event.html.twig', array(
                 'allName' => $allName,
-                'allPos' => $allPos
+                'allPos' => $allPos,
+                'notificationList' => $notificationList
             ));
         }
     }
