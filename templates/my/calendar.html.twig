@@ -49,15 +49,16 @@
                         end: '2019-07-20'
                     }
                 ],
-                dateClick: function(info) {
-                    alert('clicked ' + info.dateStr);
-                },
                 select: function(info) {
                     if ((info.end - info.start) > 86400000)
                     {
                         var my_route = Routing.generate('add_event', {start : info.start.getTime(), end : info.end.getTime()})
                         window.location.replace(my_route);
                     }
+                },
+                dateClick: function(info) {
+                    var my_route = Routing.generate('add_event', {start : info.date.getTime(), end : info.date.getTime() + 86400000})
+                    window.location.replace(my_route);
                 }
             });
 
