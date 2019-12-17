@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -34,6 +35,24 @@ class User extends BaseUser
      * @ORM\JoinColumn(nullable=true)
      */
     private $job;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Event", mappedBy="creator")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $eventCreated;
+    
+    /**
+     * @var ArrayCollection
+     * @ORM\ManyToMany(targetEntity="App\Entity\Event", inversedBy="participants")
+     */
+    private $events;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Recommandation", mappedBy="user")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $recommandations;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -75,6 +94,12 @@ class User extends BaseUser
      */
     private $address;
 
+     public function __construct()
+    {
+        $this->events = new ArrayCollection();
+    }
+    
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -94,6 +119,83 @@ class User extends BaseUser
     public function setProfilePicture($profilePicture): void
     {
         $this->profilePicture = $profilePicture;
+    }
+    
+    /**
+     * @return mixed
+     */
+    public function getPictures()
+    {
+        return $this->pictures;
+    }
+    
+     /**
+     * @return mixed
+     */
+    public function getEventCreated()
+    {
+        return $this->eventCreated;
+    }
+
+    /**
+     * @param mixed $eventCreated
+     */
+    public function setEventCreated($eventCreated): void
+    {
+        $this->eventCreated = $eventCreated;
+    }
+    
+    /**
+     * @return mixed
+     */
+    public function getRecommandations()
+    {
+        return $this->recommandations;
+    }
+
+    /**
+     * @param mixed $recommandation
+     */
+    public function setRecommandation($recommandation): void
+    {
+        $this->recommandations = $recommandation;
+    }
+    
+    /**
+     * @return ArrayCollection
+     */
+    public function getEvents(){
+        
+        return $this->events;
+    }
+    
+        
+    /**
+     * Add a event participation
+     * @param ArrayCollection $event
+     */
+    public function addEvent($event){
+        
+        if (!$this->events->contains($event)) {
+            $this->events[] = $event;
+            $event->addParticipant($this);
+        }
+ 
+        return $this;    
+        
+    }
+    
+    /**
+     * remove participation to an event
+     * @param ArrayCollection $event
+     */
+    public function removeParticipation($event){
+        
+        if ($this->events->contains($event)) {
+            $this->events->removeElement($event);
+            $event->removeParticipant($this);
+        }    
+        
     }
 
     /**

@@ -1,21 +1,23 @@
 <?php
-// src/Controller/ProfileController.php
+// src/Controller/ProfilController.php
 namespace App\Controller;
 
 use App\Form\UserType;
+use App\Form\RecommandationType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use App\Entity\ProfilePicture;
+use App\Entity\Recommandation;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\File;
 
 
-class ProfileController extends AbstractController
+class ProfilController extends AbstractController
 {
     /**
      * @return Response
@@ -40,6 +42,7 @@ class ProfileController extends AbstractController
             ));
         }
     }
+    
     /**
      * @return Response
      */
@@ -71,6 +74,42 @@ class ProfileController extends AbstractController
             }
 
             return $this->render('modify/profil.html.twig', array(
+                'user' => $user,
+                'form' => $form->createView()
+            ));
+        }
+    }
+    
+    /**
+     * @return Response
+     */
+    public function addRecommandation(Request $request)
+    {
+        //check if user is connected
+        $user=$this->getUser();
+        if(!$user) {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
+        else{
+            $recommandation = new Recommandation();
+            $em = $this->getDoctrine()->getManager();
+
+            $form = $this->get('form.factory')->create(RecommandationType::class, $recommandation);
+            
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {                
+                $recommandation->setUser($user);
+                $em->persist($recommandation);
+                $em->flush();
+
+                $request->getSession()->getFlashBag()->add('notice', 'Recommandation ajoutée avec succès !');
+
+                return $this->render('my/profil.html.twig',array(
+                    'user' => $user
+                ));
+            }
+
+            return $this->render('add/recommandation.html.twig', array(
                 'user' => $user,
                 'form' => $form->createView()
             ));

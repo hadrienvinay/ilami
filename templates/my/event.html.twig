@@ -20,6 +20,10 @@
                     <h6>
                         {{ event.description }}
                     </h6>
+                    <div class="">
+                        <a {% if app.user in event.participants %} href="#"  class="btn btn-primary" {% else %}href="{{ path('add_participant',{id: event.id}) }}" class="btn btn-outline-primary" {% endif %}>Participe</a>
+                        <a {% if app.user in event.participants %} href="{{ path('cancel_participant',{id: event.id}) }}" class="btn btn-outline-secondary" {% else %}href="#" class="btn btn-secondary" {% endif %}>Ne Participe Pas</a>
+                    </div>
                     <ul class="nav nav-tabs" id="myTab" role="tablist" >
                         <li class="nav-item">
                             <a style="font-weight: 600;border: none; border-bottom: 2px solid #0062cc;" class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">A propos</a>
@@ -28,9 +32,11 @@
                 </div>
             </div>
             <div class="col-md-2">
-                <a href="{{path('modify_event',{'id' : event.id }) }}" class="btn btn-primary" style="border: none;border-radius: 1.5rem;width: 70%;padding: 2%;font-weight: 600;color: white;cursor: pointer;">
-                    Modifier event
-                </a>
+                {% if event.creator.id == app.user.id %}
+                    <a href="{{path('modify_event',{'id' : event.id }) }}" class="btn btn-primary" style="border: none;border-radius: 1.5rem;width: 70%;padding: 2%;font-weight: 600;color: white;cursor: pointer;">
+                        Modifier event
+                    </a>
+                {% endif %}
             </div>
         </div>
         <div class="row">
@@ -40,26 +46,37 @@
                 <div class="tab-content profile-tab" id="myTabContent">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <i class="fa fa-map-pin" aria-hidden="true"></i>
                                 <label> Lieu :  </label>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-9">
                                 <p> {{ event.address }} </p>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <i class="fa fa-clock-o" aria-hidden="true"></i>
-                                <label>Date</label>
+                                <label>Date : </label>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-9">
                                 {% if event.startdate|date('d/m/Y') == event.enddate|date('d/m/Y') %}
                                     <p> le {{ event.startdate|date('d/m/Y') }} à partir de {{ event.startdate|date('H:i') }} </p>
                                 {% else %}
                                     <p> du {{ event.startdate|date('d/m/Y') }} à {{ event.startdate|date('H:i') }} au  {{ event.enddate|date('d/m/Y') }} à  {{ event.enddate|date('H:i') }}</p>
                                 {% endif %}
                                 </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3" style="margin:auto;">
+                                <i class="fa fa-user-circle" aria-hidden="true"></i>
+                                <label>Participants :</label>
+                            </div>
+                            <div class="col-md-9">
+                                {% for user in event.participants  %}
+                                    <img src="{{asset('build/images/profile/mini/' ~ user.username ~ '.png')}}" alt="{{ user.username }}">
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
                 </div>

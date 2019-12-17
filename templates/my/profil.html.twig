@@ -49,10 +49,24 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="profile-work" style="padding: 20%;margin-top: -15%;">
-                        <p>Skills</p>
-                        <a href="">Beau</a><br>
-                        <a href="">Con</a><br>
-                        <a href="">PHP, .Net</a><br>
+                        <p>                                       
+                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                            Bonnes adresses :                                 
+                        </p>                            
+                        {% if user.recommandations is empty %}
+                            <p>Aucune recommandations :/ </p>
+                        {% else %}
+                            {% for recommandation in user.recommandations| slice(0,5)%}
+                                <a> {{ recommandation.name }}</a>
+                            {% endfor %}
+                        {% endif %}
+                        {% if app.user.id == user.id %}
+                             <small class="d-block text-right mt-3">
+                                <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>
+                                <a href="{{ path('add_recommandation') }}">Ajouter une bonne adresse</a>
+                            </small>
+                        {% endif %}
+
                     </div>
                 </div>
                 <div class="col-md-8">

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -21,12 +22,24 @@ class Event
      * @ORM\JoinColumn(nullable=true)
      */
     private $pictures;
-
+    
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Album", mappedBy="event")
      * @ORM\JoinColumn(nullable=true)
      */
     private $album;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="eventCreated")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $creator;
+    
+    /**
+     * @var ArrayCollection
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="events")
+     */
+    private $participants;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -53,6 +66,11 @@ class Event
      */
     private $description;
 
+    public function __construct()
+    {
+        $this->participants = new ArrayCollection();
+    }
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -73,7 +91,59 @@ class Event
     {
         $this->pictures = $pictures;
     }
+    
+     /**
+     * @return mixed
+     */
+    public function getCreator()
+    {
+        return $this->creator;
+    }
 
+    /**
+     * @param mixed $creator
+     */
+    public function setCreator($creator): void
+    {
+        $this->creator = $creator;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getParticipants(){
+        
+        return $this->participants;
+    }
+    
+    /**
+     * add a participant
+     * @param ArrayCollection $participant
+     */
+    public function addParticipant($participant){
+        
+         if (!$this->participants->contains($participant)) {
+            $this->participants[] = $participant;
+            $participant->addEvent($this);
+        }
+ 
+        return $this;
+    }
+    
+    /**
+     * remove a participant in an event
+     * @param ArrayCollection $participant
+     */
+    public function removeParticipant($participant){
+        
+        if ($this->participants->contains($participant)) {
+            $this->participants->removeElement($participant);
+            $participant->removeParticipation($this);
+        }    
+        
+    }
+    
+    
     public function getName(): ?string
     {
         return $this->name;

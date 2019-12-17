@@ -88,7 +88,8 @@ class EventController extends AbstractController
             $form = $this->get('form.factory')->create(EventType::class, $event);
 
             if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-
+                $event->setCreator($user);
+                $event->addParticipant($user);
                 $em->persist($event);
                 $em->flush();
 
@@ -103,12 +104,12 @@ class EventController extends AbstractController
         }
     }
 
-        /**
-         * @return Response
-         */
-        public function modifyEvent(Request $request, $id)
-        {
-            //check if user is connected
+    /**
+     * @return Response
+     */
+    public function modifyEvent(Request $request, $id)
+    {
+        //check if user is connected
         $user=$this->getUser();
         if(!$user) {
             return $this->redirectToRoute('fos_user_security_login');
@@ -142,6 +143,67 @@ class EventController extends AbstractController
             ));
         }
     }
+    
+    /**
+     * @return Response
+     */
+    public function addParticipant(Request $request, $id)
+    {
+        //check if user is connected
+        $user=$this->getUser();
+        if(!$user) {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
+        else{
+            $em = $this->getDoctrine()->getManager();
+            $event = $em->getRepository('App:Event')->find($id);
+
+            if (!$event) {
+                throw $this->createNotFoundException('Aucun event trouvé pour id: ' . $event);
+            }
+            
+            $event->addParticipant($user);
+            //$user->setEvents($event);
+            $em->persist($event);
+            $em->persist($user);
+            $em->flush();
+
+            $request->getSession()->getFlashBag()->add('notice', 'Participation confirmée avec succès !');
+
+            return $this->redirectToRoute('event',array('id' => $id));
+        }
+    }
+    
+    /**
+     * @return Response
+     */
+    public function cancelParticipant(Request $request, $id)
+    {
+        //check if user is connected
+        $user=$this->getUser();
+        if(!$user) {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
+        else{
+            $em = $this->getDoctrine()->getManager();
+            $event = $em->getRepository('App:Event')->find($id);
+
+            if (!$event) {
+                throw $this->createNotFoundException('Aucun event trouvé pour id: ' . $event);
+            }
+
+            $event->removeParticipant($user);
+            $em->persist($event);
+            $em->persist($user);
+            $em->flush();
+
+            $request->getSession()->getFlashBag()->add('notice', 'Participation annulée avec succès !');
+
+            return $this->redirectToRoute('event',array('id' => $id));
+            
+        }
+    }
+    
     /**
      * @return Response
      */
