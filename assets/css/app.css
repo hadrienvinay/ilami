@@ -166,3 +166,8 @@ div.desc {
     vertical-align: middle;
     display: block;
 }
+
+.notif-content{
+    white-space: initial;
+    font-size: 80%;
+}

@@ -47,6 +47,13 @@
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                         <div class="row">
                             <div class="col-md-3">
+                                <i class="fa fa-user-o" aria-hidden="true"></i>
+                                <label> Organisé par  :  </label>
+                            </div>
+                            <div class="col-md-9">
+                                <a href="{{ path('profile',{id: event.creator.id }) }}"> {{ event.creator.username }} </a>
+                            </div>
+                            <div class="col-md-3">
                                 <i class="fa fa-map-pin" aria-hidden="true"></i>
                                 <label> Lieu :  </label>
                             </div>

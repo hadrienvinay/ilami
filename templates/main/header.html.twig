@@ -21,16 +21,22 @@
                             {% if mgilet_notification_unseen_count(app.user) > 0 %}<span class="notification">{{ mgilet_notification_unseen_count(app.user) }}</span> {% endif %}
                             <i class="fa fa-bell" area-hidden="true"></i>
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="dropdown01">
+                        <div class="dropdown-menu" aria-labelledby="dropdown01" style="min-width: 333px;">
                             {% if notificationList|length > 0 %}
-                            <form action="{{ mgilet_notification_generate_path('notification_mark_all_as_seen', notificationList|first.notifiableEntity) }}" method="post">
-                                <button type="submit">Mark all as seen</button>
-                            </form>
+                                <small style="margin-left:1.5rem;">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                    <a id="all-seen" data="{{ mgilet_notification_generate_path('notification_mark_all_as_seen', notificationList|first.notifiableEntity) }}" href="">
+                                        Tout marquer comme vu
+                                    </a>
+                                </small>
+                                <div class="dropdown-divider"></div>
                             {% endif %}
-                                {% for item in notificationList | slice(0,10) %}
-                                    <a class="dropdown-item" {% if not item.seen %}style="background-color:blue;"{% endif %} href="{{ path('main_app') }}{{ item.notification.link }}">
-                                        <b>{{ item.notification }}</b>
-                                        <br>
+                                {% for item in notificationList | slice(0,8) %}
+                                    <a class="dropdown-item notif-content" {% if not item.seen %}style="background-color:blue;" data="{{ mgilet_notification_generate_path('notification_mark_as_seen', item.notifiableEntity, item.notification) }}" {% else %} data="" {% endif %} href="{{ path('main_app') }}{{ item.notification.link }}">
+                                           <b>{{ item.notification.subject }}</b>
+                                           <i>{{ item.notification.message }}</i>
+                                           <br>
+                                           <i>{{ item.notification.date|time_diff }}</i>
                                         <!--
                                         form action="{{ mgilet_notification_generate_path('notification_mark_as_seen', item.notifiableEntity, item.notification) }}"
                                               method="post">
@@ -73,3 +79,22 @@
         </div>
     </div>
 </nav>
+<script>
+    $('.notif-content').click(function(){
+        var url = $(this).attr("data");
+        if(url !== ""){
+            $.ajax({
+               url: url
+               });
+            }
+    });
+    $('#all-seen').click(function(){
+        var url = $(this).attr("data");
+            $.ajax({
+               url: url
+               });
+        //reload page
+        location.reload(true);
+
+    });
+</script>

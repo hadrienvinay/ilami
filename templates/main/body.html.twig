@@ -5,110 +5,181 @@
 {% block body %}
 
       <!-- Page Content -->
-      <div class="container" style="padding-top:50px;">
-        <!-- Jumbotron Header -->
-        <header class="" style="padding: 3%;margin-top: 3%;margin-bottom: 3%;border-radius: 0.5rem;background: #fff;">
-            <div class="">
-                <img src="{{asset('build/images/imali.png')}}" style="width: 80px; float: left; margin-left:15%;" title="logo" alt="Marsupilami">
-                <img src="{{asset('build/images/imali2.png')}}" style="width: 80px; float: right; margin-right: 15%;" title="logo" alt="Marsupilami">
-                <h1 class="text-center">Bienvenue {{ user.username }} sur le site d'Imaliii</h1>
-
-            </div>
-            <br>
-            <div class="row">
-                <div class="col-md-6">
-                    <p class="lead text-center">P'tits évènements qui arrivent :</p>
-                    <div id='calendar'></div>
-                </div>
-                <div class="col-md-6">
-                  <img src="{{asset('build/images/background.jpg')}}" class="center rounded" title="logo" alt="Background Image">
-                </div>
-            </div>
-            <br>
-            <a id="click" href="" class="btn btn-primary">Click click click</a>
-        </header>
-
-          <!-- Page Features -->
-          <div class="row text-center">
-              <div class="col-lg-3 col-md-6 mb-4">
-                  <div class="card h-100">
-                      <img class="card-img-top" src="{{ asset("build/images/dashboard/4.jpg") }}" alt="">
-                      <div class="card-body">
-                          <h4 class="card-title">
-                              <i class="fa fa-calendar" aria-hidden="true"></i>
-                              Calendrier
-                          </h4>
-                          <p class="card-text">P'tit calendrier avec toutes les infos utiles depuis 2016</p>
-                      </div>
-                      <div class="card-footer">
-                          <a href="{{ path('calendar') }}" class="btn btn-primary">Laisse moi voir ca !</a>
-                      </div>
-                  </div>
-              </div>
-
-              <div class="col-lg-3 col-md-6 mb-4">
-                  <div class="card h-100">
-                      <img class="card-img-top" src="{{ asset("build/images/dashboard/3.jpg") }}" alt="">
-                      <div class="card-body">
-                          <h4 class="card-title">
-                              <i class="fa fa-newspaper-o" aria-hidden="true"></i>
-                              Localisation
-                          </h4>
-                          <p class="card-text">P'tites maps des potos, qui est où ?</p>
-                      </div>
-                      <div class="card-footer">
-                          <a href="{{ path('map') }}" class="btn btn-primary">Je veux les localiser !</a>
-                      </div>
-                  </div>
-              </div>
-
-              <div class="col-lg-3 col-md-6 mb-4">
-                  <div class="card h-100">
-                      <img class="card-img-top" src="{{ asset("build/images/dashboard/1.jpg") }}" alt="lunettes du sheit">
-                      <div class="card-body">
-                          <h4 class="card-title">
-                              <i class="fa fa-camera-retro" aria-hidden="true"></i>
-                              Photos
-                          </h4>
-                          <p class="card-text">Consultez les belles P'tites bouilles de l'équipe</p>
-                      </div>
-                      <div class="card-footer">
-                          <a href="{{ path('gallery') }}" class="btn btn-primary">Photos Potos</a>
-                      </div>
-                  </div>
-              </div>
-
-              <div class="col-lg-3 col-md-6 mb-4">
-                  <div class="card h-100">
-                      <img class="card-img-top" src="{{ asset("build/images/dashboard/2.jpg") }}" alt="cristal">
-                      <div class="card-body">
-                          <h4 class="card-title">
-                            <i class="fa fa-commenting" aria-hidden="true"></i>
-                            Résumé de l'équipe
-                          </h4>
-                          <p class="card-text">Tous les P'tits potes et évènements</p>
-                          <ul class="list-group">
-                              {% for event in events | slice(0,4) %}
-                                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                                      <a href="{{ path('event',{'id': event.id}) }}">
-                                          <strong class="">{{ event.name }}</strong>
-                                          <span class="badge badge-primary badge-pill">{{ event.startDate|time_diff }}</span>
-                                      </a>
-                                  </li>
-                              {% endfor %}
-                          </ul>
-                      </div>
-                      <div class="card-footer">
-                          <a href="{{ path('resume') }}" class="btn btn-primary">Trop chauuuud ^^</a>
-                      </div>
-                  </div>
-              </div>
-
+      <div class="row" style="padding-top:50px;margin-right:0;">
+          
+          <div class="" style="flex: 0 0 11.5%;max-width: 11.5%;">
           </div>
-          <!-- /.row -->
+          <div class="" style="flex: 0 0 75%;max-width: 75%;">
+            <!-- Jumbotron Header -->
+            <header class="" style="padding: 3%;margin-top: 3%;margin-bottom: 3%;border-radius: 0.5rem;background: #fff;">
+                <div class="">
+                    <img src="{{asset('build/images/imali.png')}}" style="width: 80px; float: left; margin-left:15%;" title="logo" alt="Marsupilami">
+                    <img src="{{asset('build/images/imali2.png')}}" style="width: 80px; float: right; margin-right: 15%;" title="logo" alt="Marsupilami">
+                    <h1 class="text-center">Bienvenue {{ user.username }} sur le site d'Imaliii</h1>
+
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="lead text-center">P'tits évènements qui arrivent :</p>
+                        <div id='calendar'></div>
+                    </div>
+                    <div class="col-md-6">
+                      <img src="{{asset('build/images/background.jpg')}}" class="center rounded" title="logo" alt="Background Image">
+                    </div>
+                </div>
+                <br>
+                <a id="click" href="" class="btn btn-primary">Click click click</a>
+            </header>
+
+              <!-- Page Features -->
+              <div class="row text-center">
+                  <div class="col-lg-3 col-md-6 mb-4">
+                      <div class="card h-100">
+                          <img class="card-img-top" src="{{ asset("build/images/dashboard/4.jpg") }}" alt="">
+                          <div class="card-body">
+                              <h4 class="card-title">
+                                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                                  Calendrier
+                              </h4>
+                              <p class="card-text">P'tit calendrier avec toutes les infos utiles depuis 2016</p>
+                          </div>
+                          <div class="card-footer">
+                              <a href="{{ path('calendar') }}" class="btn btn-primary">Laisse moi voir ca !</a>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="col-lg-3 col-md-6 mb-4">
+                      <div class="card h-100">
+                          <img class="card-img-top" src="{{ asset("build/images/dashboard/3.jpg") }}" alt="">
+                          <div class="card-body">
+                              <h4 class="card-title">
+                                  <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                                  Localisation
+                              </h4>
+                              <p class="card-text">P'tites maps des potos, qui est où ?</p>
+                          </div>
+                          <div class="card-footer">
+                              <a href="{{ path('map') }}" class="btn btn-primary">Je veux les localiser !</a>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="col-lg-3 col-md-6 mb-4">
+                      <div class="card h-100">
+                          <img class="card-img-top" src="{{ asset("build/images/dashboard/1.jpg") }}" alt="lunettes du sheit">
+                          <div class="card-body">
+                              <h4 class="card-title">
+                                  <i class="fa fa-camera-retro" aria-hidden="true"></i>
+                                  Photos
+                              </h4>
+                              <p class="card-text">Consultez les belles P'tites bouilles de l'équipe</p>
+                          </div>
+                          <div class="card-footer">
+                              <a href="{{ path('gallery') }}" class="btn btn-primary">Photos Potos</a>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="col-lg-3 col-md-6 mb-4">
+                      <div class="card h-100">
+                          <img class="card-img-top" src="{{ asset("build/images/dashboard/2.jpg") }}" alt="cristal">
+                          <div class="card-body">
+                              <h4 class="card-title">
+                                <i class="fa fa-commenting" aria-hidden="true"></i>
+                                Résumé de l'équipe
+                              </h4>
+                              <p class="card-text">Tous les P'tits potes et évènements</p>
+                              <!--
+                              <ul class="list-group">
+                                  {% for event in events | slice(0,4) %}
+                                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                                          <a href="{{ path('event',{'id': event.id}) }}">
+                                              <strong class="">{{ event.name }}</strong>
+                                              <span class="badge badge-primary badge-pill">{{ event.startDate|time_diff }}</span>
+                                          </a>
+                                      </li>
+                                  {% endfor %}
+                              </ul>
+                               -->
+                          </div>
+                          <div class="card-footer">
+                              <a href="{{ path('resume') }}" class="btn btn-primary">Trop chauuuud ^^</a>
+                          </div>
+                      </div>
+                  </div>
+
+              </div>
+          </div>
+          <div class="" style="flex: 0 0 13.5%;max-width: 13.5%;padding:1%;">
+              <div class="card my-3">
+                <h5 class="card-header text-center">Routes</h5>
+                <div class="card-body" style='padding:0.5rem;'>               
+                    <ul class="list-unstyled mb-0">
+                      <li>
+                            <div class="d-block">
+                                <i class="fa fa-address-card-o" aria-hidden="true"></i>
+                                <a href="{{ path('resume') }}">P'tit récap</a>
+                            </div>                      
+                      </li>
+                      <li>
+                            <div class="d-block">
+                                <i class="fa fa-picture-o" aria-hidden="true"></i>
+                                <a href="{{ path('gallery') }}">P'tite gallerie</a>
+                            </div>                       
+                      </li>
+                      <li>
+                            <div class="d-block">
+                                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                <a href="{{ path('map') }}">P'tite map</a>
+                            </div>                       
+                      </li>
+                      <li>
+                            <div class="d-block">
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                <a href="{{ path('calendar') }}">P'tit calendrier</a>
+                            </div>                       
+                      </li>
+                      <li>
+                            <div class="d-block">
+                                <i class="fa fa-user-o" aria-hidden="true"></i>
+                                <a href="{{ path('profile',{id: user.id}) }}">P'tit profil</a>
+                            </div>                       
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="card my-3">
+                <h5 class="card-header text-center">Ajout</h5>
+                <div class="card-body" style='padding:0.5rem;'>               
+                    <ul class="list-unstyled mb-0">
+                      <li>
+                            <div class="d-block">
+                                <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>
+                                <a href="{{ path('add_event') }}">Add event</a>
+                            </div>                      
+                      </li>
+                      <li>
+                            <div class="d-block">
+                                <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                <a href="{{ path('add_album') }}">Add album</a>
+                            </div>                       
+                      </li>
+                      <li>
+                            <div class="d-block">
+                                <i class="fa fa-file-picture-o" aria-hidden="true"></i>
+                                <a href="{{ path('add_picture') }}">Add photo</a>
+                            </div>                       
+                      </li>
+
+                    </ul>
+                  </div>
+                </div>
+              </div>
+          </div>
 
       </div>
-      <!-- /.container -->
       
        <script>
            $(document).ready(function(){

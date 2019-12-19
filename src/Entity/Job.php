@@ -51,7 +51,7 @@ class Job
      */
     private $description;
 
-        /**
+     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedDate; 
@@ -141,12 +141,18 @@ class Job
     {
         $this->latitude = $latitude;
     }
-
+    
+    /**
+     * @return string
+     */
     public function getDescription(): ?string
     {
-        return $this->desc;
+        return $this->description;
     }
 
+     /**
+     * @param string $description
+     */
     public function setDescription(string $description): self
     {
         $this->description = $description;
