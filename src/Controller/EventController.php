@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Entity\User;
 use App\Form\EventType;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -102,6 +103,13 @@ class EventController extends Controller
                 $event->addParticipant($user);
                 $em->persist($event);
                 $em->flush();
+
+                $manager = $this->get('mgilet.notification');
+                $notif=$manager->createNotification($this->generateSubject($event),$event->getName(),'event/'.$event->getId());
+                // you can add a notification to a list of entities
+                // the third parameter ``$flush`` allows you to directly flush the entities
+                $users = $em->getRepository('App:User')->findAll();
+                $manager->addNotification(array($this->getUser()), $notif, true);
 
                 $request->getSession()->getFlashBag()->add('notice', 'Evènement créé avec succès !');
 
@@ -255,6 +263,41 @@ class EventController extends Controller
         }
     }
 
+    public static function dateToFrench($date, $format)
+    {
+        $english_days = array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday');
+        $french_days = array('Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche');
+        $english_months = array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
+        $french_months = array('Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre');
+        return str_replace($english_months, $french_months, str_replace($english_days, $french_days, date($format, strtotime($date) ) ) );
+    }
 
+    public function isOnlyOneDay($start, $end)
+    {
+        if ($end->diff($start)->format("%a") >= 1)
+        {
+            return False;
+        }
+        return True;
+    }
+
+    public function generateSubject(Event $event)
+    {
+        $one_day_event = $this->isOnlyOneDay($event->getStartDate(), $event->getEndDate());
+
+        $subject = $event->getCreator()->getUsername() . " a créé un évènement ";
+
+        if ($one_day_event)
+        {
+            $subject .= "le " . self::dateToFrench(date_format($event->getStartDate(), "l d F"), "l d F");
+        }
+        else
+        {
+            $subject .= "du " . self::dateToFrench(date_format($event->getStartDate(), "l d F"), "l d F");
+            $subject .= " au " . self::dateToFrench(date_format($event->getEndDate(), "l d F"), "l d F");
+        }
+
+        return $subject;
+    }
 
 }

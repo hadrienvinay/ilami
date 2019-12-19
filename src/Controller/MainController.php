@@ -21,13 +21,6 @@ class MainController extends Controller
             return $this->redirectToRoute('fos_user_security_login');
         }
         else{
-            
-            /*$manager = $this->get('mgilet.notification');
-            $notif=$manager->createNotification('Notification test','Some random text','http://google.fr');
-            // you can add a notification to a list of entities
-            // the third parameter ``$flush`` allows you to directly flush the entities
-            $manager->addNotification(array($this->getUser()), $notif, true);
-            */
             $notifiableRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableNotification');
             $notifiableEntityRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableEntity');
             $notifiable = $notifiableEntityRepo->findOneby(array("identifier" => $user));

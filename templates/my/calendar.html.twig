@@ -44,9 +44,9 @@
                     {% for event in events %}
                     {
                         title: '{{ event.name }}',
-                        start: '{{ event.startdate|date('Y-m-d') }}',
-                        end: '{{ event.enddate|date('Y-m-d') }}',
-                        url: '{{ path('event', { id: event.id})  }}'
+                        start: '{{ event.startdate|date('Y-m-d H:i') }}',
+                        end: '{{ event.enddate|date('Y-m-d H:i' ) }}',
+                        url: '{{ path('event', { id: event.id})  }}',
                     },
                     {% endfor %}
                     {% for user in users %}
@@ -68,16 +68,16 @@
                     }
                 ],
                 select: function(info) {
-                    if ((info.end - info.start) > 86400000)
+                    if ((info.end - info.start) > 86399999)
                     {
-                        var my_route = Routing.generate('add_event', {start : info.start.getTime(), end : info.end.getTime()})
+                        var my_route = Routing.generate('add_event', {start : info.start.getTime(), end : info.end.getTime() - 1})
                         //window.location.replace(my_route);
                         $('#btnYes').attr("href",my_route);
                         $('#myModal').modal('show');
                     }
                 },
                 dateClick: function(info) {
-                    var my_route = Routing.generate('add_event', {start : info.date.getTime(), end : info.date.getTime() + 86400000})
+                    var my_route = Routing.generate('add_event', {start : info.date.getTime(), end : info.date.getTime() + 86399999})
                     //window.location.replace(my_route);
                     $('#btnYes').attr("href",my_route);
                     $('#myModal').modal('show');
