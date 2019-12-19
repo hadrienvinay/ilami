@@ -63,7 +63,7 @@
                                 {% if event.startdate|date('d/m/Y') == event.enddate|date('d/m/Y') %}
                                     <p> le {{ event.startdate|date('d/m/Y') }} à partir de {{ event.startdate|date('H:i') }} </p>
                                 {% else %}
-                                    <p> du {{ event.startdate|date('d/m/Y') }} à {{ event.startdate|date('H:i') }} au  {{ event.enddate|date('d/m/Y') }} à  {{ event.enddate|date('H:i') }}</p>
+                                    <p> du {{ event.startdate|date('d/m/Y') }} au {{ event.startdate|date('H:i') }} au  {{ event.enddate|date('d/m/Y') }} à  {{ event.enddate|date('H:i') }}</p>
                                 {% endif %}
                                 </div>
                         </div>
@@ -90,8 +90,8 @@
       var map;
       function initMap() {
         
-        var lat= {{ lat }};
-        var long = {{ long }};
+        var lat= {{ event.latitude }};
+        var long = {{ event.longitude }};
         map = new google.maps.Map(document.getElementById('map'), {
            center: {lat: lat, lng: long},
            zoom: 15

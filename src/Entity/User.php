@@ -96,7 +96,26 @@ class User extends BaseUser implements NotifiableInterface
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $address;
+    
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="longitude", type="string", length=255)
+     */
+    private $longitude;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="latitude", type="string", length=255)
+     */
+    private $latitude;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedDate; 
+    
      public function __construct()
     {
         $this->events = new ArrayCollection();
@@ -328,5 +347,53 @@ class User extends BaseUser implements NotifiableInterface
         $this->address = $address;
 
         return $this;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getLongitude()
+    {
+        return $this->longitude;
+    }
+
+    /**
+     * @param string $longitude
+     */
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
+
+    /**
+     * @param string $latitude
+     */
+    public function setLatitude($latitude)
+    {
+        $this->latitude = $latitude;
+    }
+    
+         /**
+     * @return mixed
+     */
+    public function getUpdatedDate()
+    {
+        return $this->updatedDate;
+    }
+    
+    /**
+     * @param mixed $updatedDate
+     */
+    public function setUpdatedDate($updatedDate): void
+    {
+        $this->updatedDate = $updatedDate;
     }
 }

@@ -211,7 +211,7 @@ class GalleryController extends Controller
                 else{
                     $album->setPresentationPicture('default.png');
                 }
-
+                $album->setUpdatedDate(new \DateTime);
                 $em->persist($album);
                 $em->flush();
 
