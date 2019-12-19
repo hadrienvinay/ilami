@@ -38,6 +38,11 @@ class Album
      */
     private $presentationPicture;
 
+        /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedDate; 
+        
     public function getId(): ?int
     {
         return $this->id;
@@ -97,6 +102,22 @@ class Album
         $this->presentationPicture = $presentationPicture;
 
         return $this;
+    }
+    
+    /**
+     * @return mixed
+     */
+    public function getUpdatedDate()
+    {
+        return $this->updatedDate;
+    }
+    
+    /**
+     * @param mixed $updatedDate
+     */
+    public function setUpdatedDate($updatedDate): void
+    {
+        $this->updatedDate = $updatedDate;
     }
 
 }

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\UserType;
 use App\Form\RecommandationType;
+use App\Service\GeocoderService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -52,7 +53,7 @@ class ProfilController extends Controller
     /**
      * @return Response
      */
-    public function modifyProfil(Request $request, $id)
+    public function modifyProfil(Request $request, $id, GeocoderService $geocoder)
     {
         //check if user is connected
         $user=$this->getUser();
@@ -67,6 +68,7 @@ class ProfilController extends Controller
             
             $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository('App:User')->find($id);
+            $prevAddress = $user->getAddress();
 
             if($user != $this->getUser()){
                 throw new AccessDeniedException('Tu peux pas modifier un autre profil que le tien narvaloo !');
@@ -74,6 +76,12 @@ class ProfilController extends Controller
 
             $form = $this->get('form.factory')->create(UserType::class, $user);
             if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+                if ($prevAddress != $user->getAddress()){
+                    $pos = $geocoder->convertAddress($user->getAddress());
+                    $user->setLatitude($pos[0]);
+                    $user->setLongitude($pos[1]);
+                }
+                $user->setUpdatedDate(new \DateTime);
                 $em->persist($user);
                 $em->flush();
 

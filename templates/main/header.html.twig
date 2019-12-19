@@ -23,9 +23,9 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdown01">
                             {% if notificationList|length > 0 %}
-                            <!--<form action="{{ mgilet_notification_generate_path('notification_mark_all_as_seen', notificationList|first.notifiableEntity) }}" method="post">
+                            <form action="{{ mgilet_notification_generate_path('notification_mark_all_as_seen', notificationList|first.notifiableEntity) }}" method="post">
                                 <button type="submit">Mark all as seen</button>
-                            </form>-->
+                            </form>
                             {% endif %}
                                 {% for item in notificationList | slice(0,10) %}
                                     <a class="dropdown-item" {% if not item.seen %}style="background-color:blue;"{% endif %} href="{{ item.notification.link }}">

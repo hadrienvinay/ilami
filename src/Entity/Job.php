@@ -32,11 +32,30 @@ class Job
      */
     private $address;
     
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="longitude", type="string", length=255)
+     */
+    private $longitude;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="latitude", type="string", length=255)
+     */
+    private $latitude;
+    
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $desc;
+    private $description;
 
+        /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedDate; 
+       
     /**
      * @ORM\Column(type="datetime")
      */
@@ -90,15 +109,47 @@ class Job
 
         return $this;
     }
+    
+     /**
+     * @return string
+     */
+    public function getLongitude()
+    {
+        return $this->longitude;
+    }
 
-    public function getDesc(): ?string
+    /**
+     * @param string $longitude
+     */
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
+
+    /**
+     * @param string $latitude
+     */
+    public function setLatitude($latitude)
+    {
+        $this->latitude = $latitude;
+    }
+
+    public function getDescription(): ?string
     {
         return $this->desc;
     }
 
-    public function setDesc(string $desc): self
+    public function setDescription(string $description): self
     {
-        $this->desc = $desc;
+        $this->description = $description;
 
         return $this;
     }
@@ -118,5 +169,35 @@ class Job
     {
         $this->companyName = $companyName;
     }
+    
+    public function getStartDate(): ?\DateTimeInterface
+    {
+        return $this->startDate;
+    }
+
+    public function setStartDate(\DateTimeInterface $startDate): self
+    {
+        $this->startDate = $startDate;
+
+        return $this;
+    }
+    
+    /**
+     * @return mixed
+     */
+    public function getUpdatedDate()
+    {
+        return $this->updatedDate;
+    }
+    
+    /**
+     * @param mixed $updatedDate
+     */
+    public function setUpdatedDate($updatedDate): void
+    {
+        $this->updatedDate = $updatedDate;
+    }
+
+    
 
 }

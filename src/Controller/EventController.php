@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Event;
 use App\Form\EventType;
+use App\Service\GeocoderService;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -31,6 +32,7 @@ class EventController extends Controller
             $notifiableEntityRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableEntity');
             $notifiable = $notifiableEntityRepo->findOneby(array("identifier" => $user));
             $notificationList = $notifiableRepo->findAllForNotifiableId($notifiable);
+            
             $em = $this->getDoctrine()->getManager();
             $event = $em->getRepository('App:Event')->find($id);
             if (!$event) {
@@ -38,32 +40,9 @@ class EventController extends Controller
                     'Pas d\'évent trouvé narvaloo pour cet identifiant: '.$id
                 );
             }
-            $arrContextOptions = array(
-                       "ssl" => array(
-                           "verify_peer" => false,
-                           "verify_peer_name" => false,
-                       ),
-                   );
-            $geocoder = "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyA0wuGfkqLD67jR6NfcC8mm4EuUROGis_I&address=%s&sensor=false";
-            // Get latitude and longitude of the event address
-            if(!empty($event->getAddress())){
-                $query = sprintf($geocoder, urlencode(utf8_encode($event->getAddress())));
-                $result = json_decode(file_get_contents($query, false, stream_context_create($arrContextOptions)));
-
-                if (empty($result->results)) {
-                    $latitude = 0;
-                    $longitude = 0;
-                } else {
-                    $json = $result->results[0];
-                    $latitude = (float)$json->geometry->location->lat;
-                    $longitude = (float)$json->geometry->location->lng;
-                }
-            }
-
+            
             return $this->render('my/event.html.twig', array(
                 'event' => $event,
-                'lat' => $latitude,
-                'long' => $longitude,
                 'notificationList' => $notificationList
             ));
         }
@@ -72,7 +51,7 @@ class EventController extends Controller
     /**
      * @return Response
      */
-    public function addevent(Request $request, $start, $end)
+    public function addevent(Request $request, $start, $end, GeocoderService $geocoder)
     {
         //check if user is connected
         $user=$this->getUser();
@@ -98,6 +77,11 @@ class EventController extends Controller
             $form = $this->get('form.factory')->create(EventType::class, $event);
 
             if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+                //set lat and long
+                $pos = $geocoder->convertAddress($event->getAddress());
+                $event->setUpdatedDate(new \DateTime);
+                $event->setLatitude($pos[0]);
+                $event->setLongitude($pos[1]);
                 $event->setCreator($user);
                 $event->addParticipant($user);
                 $em->persist($event);
@@ -118,7 +102,7 @@ class EventController extends Controller
     /**
      * @return Response
      */
-    public function modifyEvent(Request $request, $id)
+    public function modifyEvent(Request $request, $id, GeocoderService $geocoder)
     {
         //check if user is connected
         $user=$this->getUser();
@@ -133,6 +117,7 @@ class EventController extends Controller
             
             $em = $this->getDoctrine()->getManager();
             $event = $em->getRepository('App:Event')->find($id);
+            $prevAddress = $event->getAddress();
 
             if (!$event) {
                 throw $this->createNotFoundException(
@@ -142,16 +127,18 @@ class EventController extends Controller
 
             $form = $this->get('form.factory')->create(EventType::class, $event);
             if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-
+                if ($prevAddress != $event->getAddress()){
+                    $pos = $geocoder->convertAddress($event->getAddress());
+                    $event->setLatitude($pos[0]);
+                    $event->setLongitude($pos[1]);
+                }
+                $event->setUpdatedDate(new \DateTime);
                 $em->persist($event);
                 $em->flush();
 
                 $request->getSession()->getFlashBag()->add('notice', 'Evènement modifié avec succès !');
 
-                return $this->render('my/event.html.twig',array(
-                    'event' => $event,
-                    'notificationList', $notificationList
-                ));
+                return $this->redirectToRoute('event',array('id' => $event->getId()));
             }
 
             return $this->render('modify/event.html.twig', array(

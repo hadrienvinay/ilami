@@ -28,6 +28,7 @@ class MainController extends Controller
             // the third parameter ``$flush`` allows you to directly flush the entities
             $manager->addNotification(array($this->getUser()), $notif, true);
             */
+            
             $notifiableRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableNotification');
             $notifiableEntityRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableEntity');
             $notifiable = $notifiableEntityRepo->findOneby(array("identifier" => $user));
