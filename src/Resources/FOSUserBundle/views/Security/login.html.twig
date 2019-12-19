@@ -8,7 +8,7 @@
                     <div class="myform form ">
                         <div class="logo mb-3">
                             <div class="col-md-12 text-center">
-                                <h1>Login</h1>
+                                <h1>Connexion</h1>
                             </div>
                         </div>
                         {% if error %}
@@ -27,14 +27,14 @@
                                 <input type="password" class="form-control" id="password" name="_password" required="required" autocomplete="current-password" placeholder="Enter Password"/>
                             </div>
                             <div class="form-group">
-                                <p class="text-center">By signing up you accept our <a href="#">Terms Of Use</a></p>
+                                <p class="text-center">En rejoignant ce site, vous acceptez les <a href="{{ path('rules') }}">Règles d'Imali</a></p>
                             </div>
                             <div class=" form-group col-md-12 text-center">
                                 <input type="submit" id="_submit" class="btn btn-primary" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
                             </div>
                             <hr>
                             <div class="form-group">
-                                <p class="text-center">Don't have account? <a href="#" id="signup">Sign up here</a></p>
+                                <p class="text-center">Pas encore de compte? <a href="#" id="signup">C'est baloo !</a></p>
                             </div>
 
                         </form>

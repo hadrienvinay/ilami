@@ -1,6 +1,10 @@
 main_app:
     path: /
     controller: App\Controller\MainController::index
+    
+rules:
+    path: /rules
+    controller: App\Controller\MainController::rules
 
 #######################
 #    Profil routes    #

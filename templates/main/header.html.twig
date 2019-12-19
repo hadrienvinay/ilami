@@ -17,15 +17,15 @@
                 {% endif %}
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                     <li id="notif" class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
-                            <i> {{ mgilet_notification_unseen_count(app.user) }} </i>
+                        <a class="nav-link dropdown" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                            {% if mgilet_notification_unseen_count(app.user) > 0 %}<span class="notification">{{ mgilet_notification_unseen_count(app.user) }}</span> {% endif %}
                             <i class="fa fa-bell" area-hidden="true"></i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdown01">
                             {% if notificationList|length > 0 %}
                             <!--<form action="{{ mgilet_notification_generate_path('notification_mark_all_as_seen', notificationList|first.notifiableEntity) }}" method="post">
                                 <button type="submit">Mark all as seen</button>
-                            </form>->>
+                            </form>-->
                             {% endif %}
                                 {% for item in notificationList | slice(0,10) %}
                                     <a class="dropdown-item" {% if not item.seen %}style="background-color:blue;"{% endif %} href="{{ item.notification.link }}">

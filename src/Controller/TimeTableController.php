@@ -22,6 +22,7 @@ class TimeTableController extends Controller
      */
     public function timetable()
     {
+        $user = $this->getUser();
         $notifiableRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableNotification');
         $notifiableEntityRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableEntity');
         $notifiable = $notifiableEntityRepo->findOneby(array("identifier" => $user));
