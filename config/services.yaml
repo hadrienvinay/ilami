@@ -8,6 +8,7 @@ parameters:
     profile_pic_directory: '%kernel.project_dir%/public/build/images/profile'
     pictures_directory: '%kernel.project_dir%/public/build/images/gallery'
     album_directory: '%kernel.project_dir%/public/build/images/gallery/album'
+    download_directory: '%kernel.project_dir%/public/build/downloads'
 
 services:
     # default configuration for services in *this* file

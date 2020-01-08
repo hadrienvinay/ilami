@@ -10,6 +10,7 @@
         "geocoder-php/google-maps-provider": "^4.4",
         "guzzlehttp/guzzle": "^6.5",
         "mgilet/notification-bundle": "^3.1",
+        "norkunas/youtube-dl-php": "^1.4",
         "php-http/guzzle6-adapter": "^2.0",
         "sensio/framework-extra-bundle": "^5.4",
         "symfony/apache-pack": "^1.0",
