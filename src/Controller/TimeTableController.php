@@ -79,6 +79,18 @@ class TimeTableController extends Controller
             'notificationList' => $notificationList
         ));
     }
+    
+    public function convertor(){
+        $user = $this->getUser();
+        $notifiableRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableNotification');
+        $notifiableEntityRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableEntity');
+        $notifiable = $notifiableEntityRepo->findOneby(array("identifier" => $user));
+        $notificationList = $notifiableRepo->findAllForNotifiableId($notifiable);
+        
+        return $this->render('my/convertor.html.twig',array(
+                'notificationList' => $notificationList
+            ));
+    }
 
 
 }

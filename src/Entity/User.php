@@ -46,6 +46,12 @@ class User extends BaseUser implements NotifiableInterface
     private $eventCreated;
     
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Album", mappedBy="creator")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $albumCreated;
+    
+    /**
      * @var ArrayCollection
      * @ORM\ManyToMany(targetEntity="App\Entity\Event", inversedBy="participants")
      */
@@ -151,6 +157,21 @@ class User extends BaseUser implements NotifiableInterface
         return $this->pictures;
     }
     
+    /**
+     * @param mixed $pictures
+     */
+    public function setPictures($pictures): void
+    {
+        $this->pictures = $pictures;
+    }
+    
+    public function addPicture($picture)
+    {
+        $this->pictures[] = $picture;
+
+        return $this;
+    }
+    
      /**
      * @return mixed
      */
@@ -165,6 +186,22 @@ class User extends BaseUser implements NotifiableInterface
     public function setEventCreated($eventCreated): void
     {
         $this->eventCreated = $eventCreated;
+    }
+    
+     /**
+     * @return mixed
+     */
+    public function getAlbumCreated()
+    {
+        return $this->albumCreated;
+    }
+
+    /**
+     * @param mixed $albumCreated
+     */
+    public function setAlbumCreated($albumCreated): void
+    {
+        $this->albumCreated = $albumCreated;
     }
     
     /**
@@ -234,24 +271,7 @@ class User extends BaseUser implements NotifiableInterface
     public function setJob($job): void
     {
         $this->job = $job;
-    }
-    
-    /**
-     * @return mixed
-     */
-    public function getPicture()
-    {
-        return $this->picture;
-    }
-
-    /**
-     * @param mixed $picture
-     */
-    public function setPicture($picture): void
-    {
-        $this->picture = $picture;
-    }
-
+    }  
 
     public function getName(): ?string
     {

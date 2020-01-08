@@ -65,13 +65,9 @@ div.desc {
 }
 
 .mybtn{
-    border: none;
     border-radius: 1.5rem;
-    width: 65%;
-    padding: 2%;
+    padding: 3%;
     font-weight: 600;
-    color: white;
-    cursor: pointer;
 }
 
 /* The Modal (background) */
@@ -170,4 +166,36 @@ div.desc {
 .notif-content{
     white-space: initial;
     font-size: 80%;
+}
+
+/* Pictures CSS*/
+
+.portfolio-menu{
+	text-align:center;
+}
+.portfolio-menu ul li{
+	display:inline-block;
+	margin:0;
+	list-style:none;
+	padding:10px 15px;
+	cursor:pointer;
+	-webkit-transition:all 05s ease;
+	-moz-transition:all 05s ease;
+	-ms-transition:all 05s ease;
+	-o-transition:all 05s ease;
+	transition:all .5s ease;
+}
+
+.portfolio-item{
+	/*width:100%;*/
+}
+.portfolio-item .item{
+	/*width:303px;*/
+	float:left;
+	margin-bottom:10px;
+}
+
+/* CALENDAR STYLE */
+.fc-toolbar h2 {
+    font-size: 1.25em !important;
 }

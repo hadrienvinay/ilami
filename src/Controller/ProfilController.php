@@ -87,9 +87,7 @@ class ProfilController extends Controller
 
                 $request->getSession()->getFlashBag()->add('notice', 'Profil modifié avec succès !');
 
-                return $this->render('my/profil.html.twig',array(
-                    'user' => $user
-                ));
+                return $this->redirectToRoute('profile',array('id'=>$user->getId()));
             }
 
             return $this->render('modify/profil.html.twig', array(

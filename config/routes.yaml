@@ -114,10 +114,20 @@ add_album:
 timetable:
     path: /timetable
     controller: App\Controller\TimeTableController::timetable
-    
+   
+#######################
+#  Notifications routes   #
+#######################
 mgilet_notification:
     resource: "@MgiletNotificationBundle/Controller/"
     prefix: /notifications
+    
+#######################
+#  Audio Converter routes   #
+#######################
+convertor:
+    path: /convertor
+    controller: App\Controller\TimeTableController::convertor
 
 
 

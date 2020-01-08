@@ -36,13 +36,14 @@ class Picture
     
     /**
      * @ORM\Column(type="string", length=255)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToMany(targetEntity="App\Entity\Files", cascade={"persist"})
      */
-    private $name;
+    private $files;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -131,14 +132,20 @@ class Picture
         return $this;
     }
 
-    public function getName()
-    {
-        return $this->name;
+    /**
+     * Get files
+     * 
+     * @return ArrayCollection
+     */
+    function getFiles() {
+        return $this->files;
     }
-
-    public function setName($name): void
-    {
-        $this->name = $name;
+    /**
+     * Set files
+     * @param type $files
+     */
+    function setFiles($files) {
+        $this->files = $files;
     }
 
 }
