@@ -80,7 +80,7 @@ class EventController extends Controller
             if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
                 //set lat and long
                 $pos = $geocoder->convertAddress($event->getAddress());
-                $event->setUpdatedDate(new \DateTime);
+                $event->setCreatedDate(new \DateTime);
                 $event->setLatitude($pos[0]);
                 $event->setLongitude($pos[1]);
                 $event->setCreator($user);

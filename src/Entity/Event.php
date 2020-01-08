@@ -75,6 +75,11 @@ class Event
      */
     private $endDate;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $createdDate; 
+    
      /**
      * @ORM\Column(type="datetime", nullable=true)
      */
@@ -272,6 +277,22 @@ class Event
     }
 
      /**
+     * @return mixed
+     */
+    public function getCreatedDate()
+    {
+        return $this->createdDate;
+    }
+    
+    /**
+     * @param mixed $createdDate
+     */
+    public function setCreatedDate($createdDate): void
+    {
+        $this->createdDate = $createdDate;
+    }
+    
+    /**
      * @return mixed
      */
     public function getUpdatedDate()

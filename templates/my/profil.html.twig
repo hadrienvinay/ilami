@@ -8,14 +8,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="profile-img text-center">
-                        <img src="{{asset('build/images/profile/' ~ user.username ~ '.jpg')}}" alt="{{ user.username }}" style="width: 60%;height: 100%;">
-                            <div class="file btn btn-lg btn-primary" style="position: relative;cursor: pointer;overflow: hidden;margin-top: -20%;width: 60%;border: none;border-radius: 0;font-size: 15px;background: #212529b8;">
-                            {% if app.user.id == user.id %}
-                                Changer Ma Photo
-                                    <input type="file" name="file" style="position: absolute;opacity: 0;right: 0;top: 0;">                                    
-                            {% endif %}
-                            </div>
-                        </a>
+                        <img src="{{asset('build/images/profile/' ~ user.username ~ '.jpg')}}" alt="{{ user.username }}" style="border-radius:5%; width: 45%;height: 100%;">
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -40,7 +33,8 @@
                 </div>
                 <div class="col-md-2">
                 {% if app.user.id == user.id %}
-                    <a href="{{path('modify_profile',{'id' : user.id}) }}" class="btn btn-primary mybtn">
+                    <a href="{{path('modify_profile',{'id' : user.id}) }}" class="btn-sm btn-primary mybtn">
+                        <i class="fa fa-edit" aria-hidden="true"></i>
                         Modifier mon profil
                     </a>
                 {% endif %}
@@ -49,24 +43,43 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="profile-work" style="padding: 20%;margin-top: -15%;">
-                        <p>                                       
-                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                            Bonnes adresses :                                 
-                        </p>                            
-                        {% if user.recommandations is empty %}
-                            <p>Aucune recommandations :/ </p>
-                        {% else %}
-                            {% for recommandation in user.recommandations| slice(0,5)%}
-                                <a> {{ recommandation.name }}</a>
-                            {% endfor %}
-                        {% endif %}
+                        <table class="fc-list-table">
+                            <tbody>
+                                <tr class="fc-list-heading" data-date="2019-12-27">
+                                    <td class="fc-widget-header" colspan="3">
+                                        <span class="fc-list-heading-main">
+                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                        Bonnes adresses :
+                                        </span>
+                                    </td>
+                                </tr>
+                                {% if user.recommandations is empty %}
+                                    <p>Aucune recommandations :/ </p>
+                                {% else %}
+                                    {% for recommandation in user.recommandations| slice(0,5)%}
+                                        <tr class="fc-list-item">
+                                            <td class="fc-list-item-time fc-widget-content">
+                                                {{ loop.index }}
+                                            </td>
+                                            <td class="fc-list-item-marker fc-widget-content">
+                                                <span class="fc-event-dot" {% if recommandation.type == "bar" %}style="background-color:green;"{% elseif recommandation.type == "restaurant"  %} style="background-color:blue;" {% else %}style="background-color:red;"{% endif %}></span>
+                                            </td>
+                                            <td class="fc-list-item-title fc-widget-content">
+                                                <a>
+                                                    {{ recommandation.name }}
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endif %}
+                            </tbody>
+                        </table>
                         {% if app.user.id == user.id %}
-                             <small class="d-block text-right mt-3">
-                                <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>
-                                <a href="{{ path('add_recommandation') }}">Ajouter une bonne adresse</a>
-                            </small>
-                        {% endif %}
-
+                            <small class="d-block text-right mt-3">
+                               <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                               <a href="{{ path('add_recommandation') }}">Ajouter une bonne adresse</a>
+                           </small>
+                       {% endif %}
                     </div>
                 </div>
                 <div class="col-md-8">

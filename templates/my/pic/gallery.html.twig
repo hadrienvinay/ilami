@@ -2,6 +2,13 @@
 
 {% block title %}Galleries {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.js"></script>
+{% endblock %}
+
 {% block body %}
     <br>
     <div class="container" style="padding: 3%;margin-top: 3%;margin-bottom: 3%;border-radius: 0.5rem;background: #fff;">
@@ -30,18 +37,35 @@
             <a href="{{ path('add_picture') }}">Ajouter une photo</a>
         </small>
         <br>
-        {% for picture in pictures %}
-            <div class="responsive">
-                <div class="gallery">
-                  <a target="_blank" href="{{ asset('build/images/gallery/' ~ picture.name )}}">
-                    <img src="{{asset('build/images/gallery/' ~ picture.name )}}" alt="{{ picture.description }}" width="600" height="400">
-                  </a>
-                  <div class="desc">{% if picture.description is not null%}{{ picture.description }}{% else %}Photo n°: {{ picture.id }}{% endif %}</div>
+        <div class="portfolio-item row">
+            {% for picture in pictures %}
+                <div class="item selfie col-lg-3 col-md-4 col-6 col-sm">
+                      <a class="fancylight popup-btn" href="{{ asset('build/images/gallery/' ~ picture.id )}}">
+                        <img src="{{asset('build/images/gallery/' ~ picture.id )}}" alt="{{ picture.description }}" class="img-fluid">
+                      </a>
+                      <!--<div class="desc">{% if picture.description is not null%}{{ picture.description }}{% else %}Photo n°: {{ picture.id }}{% endif %}</div>-->
                 </div>
+            {% endfor %}
+        </div>
+                   
             </div>
-        {% endfor %}
-        <div class="clearfix"></div>
-
+        </div>
     </div>
+    
+    <script>
+        $('.portfolio-item').isotope({
+         	itemSelector: '.item',
+         	layoutMode: 'fitRows'
+         });
+         $(document).ready(function() {
+            var popup_btn = $('.popup-btn');
+            popup_btn.magnificPopup({
+            type : 'image',
+            gallery : {
+                   enabled : true
+                }
+            });
+         });
+    </script>
 {% endblock %}
 

@@ -22,6 +22,12 @@ class Album
      */
     private $pictures;
     
+     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="albumCreated")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $creator;
+    
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Event", inversedBy="album")
      * @ORM\JoinColumn(nullable=true)
@@ -38,7 +44,7 @@ class Album
      */
     private $presentationPicture;
 
-        /**
+    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedDate; 
@@ -48,6 +54,22 @@ class Album
         return $this->id;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCreator()
+    {
+        return $this->creator;
+    }
+
+    /**
+     * @param mixed $creator
+     */
+    public function setCreator($creator): void
+    {
+        $this->creator = $creator;
+    }
+    
     /**
      * @return mixed
      */

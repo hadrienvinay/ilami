@@ -52,9 +52,6 @@
 
                         </div>
                     </li>
-                    <li id="home" class="nav-item active">
-                        <a class="nav-link" href="{{ path('main_app') }}">Home</a>
-                    </li>
                     <li id="profil" class="nav-item">
                         <a class="nav-link" href="{{ path('profile',{'id': app.user.id}) }}">Profil</a>
                     </li>
@@ -80,21 +77,26 @@
     </div>
 </nav>
 <script>
-    $('.notif-content').click(function(){
-        var url = $(this).attr("data");
-        if(url !== ""){
-            $.ajax({
-               url: url
-               });
-            }
-    });
-    $('#all-seen').click(function(){
-        var url = $(this).attr("data");
-            $.ajax({
-               url: url
-               });
-        //reload page
-        location.reload(true);
+    $(document).ready(function(){
 
+        $('.notif-content').click(function(){
+            var url = $(this).attr("data");
+            if(url !== ""){
+                $.ajax({
+                   url: url
+                });
+            }
+        });
+        $('#all-seen').click(function(e){
+            e.preventDefault();
+            var url = $(this).attr("data");
+            $.ajax({
+               url: url,
+               success: function(data) {
+                    $('.notif-content').css("background-color","#f8f9fa"); 
+                   }
+               });
+        });
     });
+        
 </script>

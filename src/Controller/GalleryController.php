@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Picture;
+use App\Entity\Files;
 use App\Entity\Album;
 use App\Form\AlbumType;
 use App\Form\PictureType;
@@ -115,46 +116,71 @@ class GalleryController extends Controller
             $notifiable = $notifiableEntityRepo->findOneby(array("identifier" => $user));
             $notificationList = $notifiableRepo->findAllForNotifiableId($notifiable);
             
-            $picture = new Picture();
             $em = $this->getDoctrine()->getManager();
+            $id = $request->query->get('id');
+            if($id){
+                $album = $em->getRepository('App:Album')->find($id);
+            } 
+            else{ $album = null;}
 
+            $picture = new Picture();
+            
+            if($album){
+                $picture->setAlbum($album);
+            }
+            
             $form = $this->get('form.factory')->create(PictureType::class, $picture);
 
             if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 
-                $fileName = $form['name']->getData();
+                dump($picture);
+                dump($form);
+                dump($form['files']->getData());
+                $fileNames = $picture->getFiles();
+                dump($fileNames);
+                if($fileNames){
+                    //foreach ($fileNames as $file){                
+                        //if($file){
+                            $file = new Files();
+                            $newPic = new Picture();
+                            $newPic = $picture;
+                            $originalFilename = pathinfo($fileNames->getClientOriginalName(), PATHINFO_FILENAME);
+                            // this is needed to safely include the file name as part of the URL
+                            $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                            $newFilename = $safeFilename.'-'.uniqid().'.'.$fileNames->guessExtension();
 
-                if($fileName){
-                    $originalFilename = pathinfo($fileName->getClientOriginalName(), PATHINFO_FILENAME);
-                    // this is needed to safely include the file name as part of the URL
-                    $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
-                    $newFilename = $safeFilename.'-'.uniqid().'.'.$fileName->guessExtension();
-
-                    // Move the file to the directory where brochures are stored
-                    try {
-                        $fileName->move(
-                            $this->getParameter('pictures_directory'),
-                            $newFilename
-                        );
-                    } catch (FileException $e) {
-                        // ... handle exception if something happens during file upload
-                        throw $this->createNotFoundException(
-                            'Erreur lors de l\'import narvaloooo'
-                        );
-                    }
-
+                            // Move the file to the directory where brochures are stored
+                            try {
+                                $fileNames->move(
+                                    $this->getParameter('pictures_directory'),
+                                    $newFilename
+                                );
+                            } catch (FileException $e) {
+                                // ... handle exception if something happens during file upload
+                                throw $this->createNotFoundException(
+                                    'Erreur lors de l\'import narvaloooo'
+                                );
+                            }
+                            $file->setFile($newFilename);
+                            $em->persist($file);
+                            $newPic->setDate(new \DateTime);
+                            $newPic->setPublisher($user);
+                            $user->addPicture($newPic);
+                            $em->persist($newPic);
+                            $em->flush();
+                        //}
+                   // }
                 }
-
-                $picture->setName($newFilename);
-                $picture->setDate(new \DateTime);
-                $picture->setPublisher($user);
-                $em->persist($picture);
+                
+                $em->persist($user);
                 $em->flush();
 
                 $request->getSession()->getFlashBag()->add('notice', 'Photo ajoutée avec succès !');
 
-                return $this->redirectToRoute('gallery');
-
+return $this->render('add/picture.html.twig', array(
+                'form' => $form->createView(),
+                'notificationList' => $notificationList
+            ));
             }
             return $this->render('add/picture.html.twig', array(
                 'form' => $form->createView(),
@@ -211,6 +237,7 @@ class GalleryController extends Controller
                 else{
                     $album->setPresentationPicture('default.png');
                 }
+                $album->setCreator($user);
                 $album->setUpdatedDate(new \DateTime);
                 $em->persist($album);
                 $em->flush();

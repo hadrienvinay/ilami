@@ -33,6 +33,7 @@
             </header>
 
               <!-- Page Features -->
+              <!--
               <div class="row text-center">
                   <div class="col-lg-3 col-md-6 mb-4">
                       <div class="card h-100">
@@ -102,7 +103,6 @@
                                       </li>
                                   {% endfor %}
                               </ul>
-                               -->
                           </div>
                           <div class="card-footer">
                               <a href="{{ path('resume') }}" class="btn btn-primary">Trop chauuuud ^^</a>
@@ -111,6 +111,23 @@
                   </div>
 
               </div>
+            -->
+            <div class="my-3 p-3 bg-white rounded box-shadow">
+            <h6 class="border-bottom border-gray pb-2 mb-0">Les p'tits mises à jour</h6>
+            {% for info in infos|sort((a, b) => b.date <=> a.date) %}
+                <div class="media text-muted pt-3">
+                    <img class="mr-2 rounded" src="{{asset('build/images/profile/' ~ info.name ~ '.jpg')}}" alt="{{ user.username }}" style="width: 5%;height: 100%;border-radius: 10%;">
+                    <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                        <a href="{{ path(info.link,{id: info.link_attr}) }}">
+                            <strong class="d-block text-gray-dark">{{ info.name }} </strong>
+                        </a>
+                        {{ info.description }}
+                        {{ info.date|time_diff }}
+                    </p>
+                </div>
+            {% endfor %}
+            </div>
+                          
           </div>
           <div class="" style="flex: 0 0 13.5%;max-width: 13.5%;padding:1%;">
               <div class="card my-3">
@@ -145,6 +162,12 @@
                             <div class="d-block">
                                 <i class="fa fa-user-o" aria-hidden="true"></i>
                                 <a href="{{ path('profile',{id: user.id}) }}">P'tit profil</a>
+                            </div>                       
+                      </li>
+                       <li>
+                            <div class="d-block">
+                                <i class="fa fa-video" aria-hidden="true"></i>
+                                <a href="{{ path('convertor') }}">P'tit convertisseur</a>
                             </div>                       
                       </li>
                     </ul>
@@ -195,6 +218,7 @@
 
                var calendar = new FullCalendar.Calendar(calendarEl, {
                    plugins: ['list'],
+                   locale: 'fr',
                    defaultView: 'listWeek',
                    events: [
                        {% for event in events %}
@@ -209,12 +233,15 @@
                        {
                            title: 'Anniversaire {{ user.prename }}',
                            start: '2019-{{ user.birthdate|date('m-d') }}',
-                           allDay : true
+                           allDay : true,
+                           backgroundColor: 'red'
+
                        },
                        {
                            title: 'Anniversaire {{ user.prename }}',
                            start: '2020-{{ user.birthdate|date('m-d') }}',
-                           allDay : true
+                           allDay : true,
+                           backgroundColor: 'red'
                        },
                        {% endfor %}
                    ]
