@@ -93,7 +93,14 @@ class EventController extends Controller
                 // you can add a notification to a list of entities
                 // the third parameter ``$flush`` allows you to directly flush the entities
                 $users = $em->getRepository('App:User')->findAll();
-                $manager->addNotification(array($this->getUser()), $notif, true);
+                foreach ($users as $to_notify)
+                {
+                    if ($to_notify != $this->getUser())
+                    {
+                        $manager->addNotification(array($to_notify), $notif, true);
+                    }
+                }
+
 
                 $request->getSession()->getFlashBag()->add('notice', 'Evènement créé avec succès !');
 
