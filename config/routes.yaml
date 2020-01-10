@@ -109,6 +109,17 @@ add_album:
   controller: App\Controller\GalleryController:addAlbum
   
 #######################
+#     Music routes    #
+#######################
+radio:
+    path: /radio
+    controller: App\Controller\MusicController::radio
+
+convertor:
+    path: /convertor
+    controller: App\Controller\MusicController::convertor
+
+#######################
 #  Timetable routes   #
 #######################
 timetable:
@@ -116,18 +127,18 @@ timetable:
     controller: App\Controller\TimeTableController::timetable
    
 #######################
-#  Notifications routes   #
+# Notifications routes#
 #######################
 mgilet_notification:
     resource: "@MgiletNotificationBundle/Controller/"
     prefix: /notifications
-    
+        
 #######################
-#  Audio Converter routes   #
+#        Catan        #
 #######################
-convertor:
-    path: /convertor
-    controller: App\Controller\TimeTableController::convertor
+catan:
+    path: /catan
+    controller: App\Controller\CatanController::catan
 
 
 

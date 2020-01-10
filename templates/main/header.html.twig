@@ -10,12 +10,15 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") and app.user.id == 4 %}
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") and app.user.id == 4 %}                     
                     <li id="timetable" class="nav-item">
-                        <a class="nav-link" href="{{ path('timetable') }}">TimeTable</a>
-                    </li>
+                        <a class="nav-link" href="{{ path('timetable') }}">TimeTable</a>  
+                    </li> 
                 {% endif %}
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    <li id="timetable" class="nav-item">
+                        <a class="nav-link" href="{{ path('catan') }}">Catan</a>
+                    </li> 
                     <li id="notif" class="nav-item dropdown">
                         <a class="nav-link dropdown" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
                             {% if mgilet_notification_unseen_count(app.user) > 0 %}<span class="notification">{{ mgilet_notification_unseen_count(app.user) }}</span> {% endif %}

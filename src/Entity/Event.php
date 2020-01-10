@@ -192,7 +192,7 @@ class Event
         return $this;
     }
 
-        /**
+     /**
      * @return string
      */
     public function getLongitude()

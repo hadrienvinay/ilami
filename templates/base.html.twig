@@ -19,7 +19,7 @@
 
         {% endblock %}
     </head>
-    <body style="background-color: #5eb5e0;">
+    <body style="background-color: #5eb5e0;" {% if app.request.attributes.get('_route') == 'catan' %}onload='Ini()'{% endif %}>
 
     {% block header %}
         {% include "main/header.html.twig" %}

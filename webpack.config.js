@@ -18,7 +18,8 @@ Encore
     //.setManifestKeyPrefix('build/')
 
     .addPlugin(new CopyWebpackPlugin([
-        { from: './assets/images', to: 'images' }
+        { from: './assets/images', to: 'images' },
+        { from: './assets/downloads', to: 'downloads' }
     ]))
 
     /*

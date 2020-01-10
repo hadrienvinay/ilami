@@ -6,7 +6,6 @@ use App\Entity\Event;
 use App\Entity\User;
 use App\Form\EventType;
 use App\Service\GeocoderService;
-use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
@@ -67,6 +66,11 @@ class EventController extends Controller
             
             date_default_timezone_set("Europe/Paris");
             $event = new Event();
+            //default: user address 
+            $event->setAddress($user->getAddress());
+            $event->setLatitude($user->getLatitude());   
+            $event->setLongitude($user->getALongitude());
+                        
             $em = $this->getDoctrine()->getManager();
 
             if (!is_null($start) and !is_null($end))
@@ -79,10 +83,12 @@ class EventController extends Controller
 
             if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
                 //set lat and long
-                $pos = $geocoder->convertAddress($event->getAddress());
+                if($event->getAddress() != $user->getAddress()){
+                    $pos = $geocoder->convertAddress($event->getAddress());
+                    $event->setLatitude($pos[0]);
+                    $event->setLongitude($pos[1]);
+                }
                 $event->setCreatedDate(new \DateTime);
-                $event->setLatitude($pos[0]);
-                $event->setLongitude($pos[1]);
                 $event->setCreator($user);
                 $event->addParticipant($user);
                 $em->persist($event);
@@ -101,9 +107,7 @@ class EventController extends Controller
                     }
                 }
 
-
                 $request->getSession()->getFlashBag()->add('notice', 'Evènement créé avec succès !');
-
                 return $this->redirectToRoute('resume');
 
             }

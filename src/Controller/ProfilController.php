@@ -5,17 +5,18 @@ namespace App\Controller;
 use App\Form\UserType;
 use App\Form\RecommandationType;
 use App\Service\GeocoderService;
+use App\Entity\ProfilePicture;
+use App\Entity\Recommandation;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use App\Entity\ProfilePicture;
-use App\Entity\Recommandation;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\File;
+
 
 
 class ProfilController extends Controller
@@ -101,7 +102,7 @@ class ProfilController extends Controller
     /**
      * @return Response
      */
-    public function addRecommandation(Request $request)
+    public function addRecommandation(Request $request, GeocoderService $geocoder)
     {
         //check if user is connected
         $user=$this->getUser();
@@ -120,7 +121,10 @@ class ProfilController extends Controller
             $form = $this->get('form.factory')->create(RecommandationType::class, $recommandation);
             
             $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid()) {                
+            if ($form->isSubmitted() && $form->isValid()) {
+                $pos = $geocoder->convertAddress($recommandation->getAddress());
+                $recommandation->setLatitude($pos[0]);
+                $recommandation->setLongitude($pos[1]);
                 $recommandation->setUser($user);
                 $em->persist($recommandation);
                 $em->flush();

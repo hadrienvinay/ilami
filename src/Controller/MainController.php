@@ -71,13 +71,10 @@ class MainController extends Controller
     public function rules()
     {
         $user=$this->getUser();
-
         if(!$user) {
-
         return $this->render('main/rules.html.twig', array());
         }
         else{
-            
             $notifiableRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableNotification');
             $notifiableEntityRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableEntity');
             $notifiable = $notifiableEntityRepo->findOneby(array("identifier" => $user));

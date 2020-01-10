@@ -33,16 +33,31 @@ class Recommandation
     private $address;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="longitude", type="string", length=255)
+     */
+    private $longitude;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="latitude", type="string", length=255)
+     */
+    private $latitude;
+    
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $type;
+    
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-         /**
+    /**
      * @return mixed
      */
     public function getUser()
@@ -80,6 +95,38 @@ class Recommandation
         $this->address = $address;
 
         return $this;
+    }
+     
+    /**
+     * @return string
+     */
+    public function getLongitude()
+    {
+        return $this->longitude;
+    }
+
+    /**
+     * @param string $longitude
+     */
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
+
+    /**
+     * @param string $latitude
+     */
+    public function setLatitude($latitude)
+    {
+        $this->latitude = $latitude;
     }
 
     public function getType(): ?string

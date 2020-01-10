@@ -9,6 +9,7 @@ parameters:
     pictures_directory: '%kernel.project_dir%/public/build/images/gallery'
     album_directory: '%kernel.project_dir%/public/build/images/gallery/album'
     download_directory: '%kernel.project_dir%/public/build/downloads'
+    yt-app_directory: '%kernel.project_dir%/public/build/'
 
 services:
     # default configuration for services in *this* file
