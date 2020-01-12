@@ -25,7 +25,15 @@
                         <div id='calendar'></div>
                     </div>
                     <div class="col-md-6">
-                      <img src="{{asset('build/images/background.jpg')}}" class="center rounded" title="logo" alt="Background Image">
+                        {#<img src="{{asset('build/images/background.jpg')}}" class="center rounded" title="logo" alt="Background Image">#}
+                        <div id="carrousel">
+                            <figure>
+                                <img src="{{asset('build/images/dashboard/background1.jpg')}}" class="center rounded" title="back1" alt="Background Image1">
+                                <img src="{{asset('build/images/dashboard/background2.jpg')}}" class="center rounded" title="back2" alt="Background Image2">
+                                <img src="{{asset('build/images/dashboard/background3.jpg')}}" class="center rounded" title="back3" alt="Background Image3">
+                                <img src="{{asset('build/images/dashboard/background4.jpg')}}" class="center rounded" title="back4" alt="Background Image4">
+                            </figure>
+                        </div>
                     </div>
                 </div>
                 <br>
@@ -245,7 +253,7 @@
                 <h2 class="margin-auto">Un p'tit nouvel album</h2>
             </div>
             <div class="modal-body">
-                {{ form_start(albumForm, {'method': 'post', 'action': path('main_app')}) }}
+                {{ form_start(albumForm, {'method': 'post', 'action': path('add_album')}) }}
                 {{ form_widget(albumForm, {'attr': {'class': 'form-group'}}) }}
                 <div class="form-group text-center">
                     <input class=" btn btn-primary btn-md login-button" type="submit" value="Ajouter" />
@@ -260,10 +268,10 @@
     <div id="pictureModal" class="modal">
          <div class="modal-content">
             <div class="modal-header">
-                <h2 class="margin-auto">Un p'tite nouvelle photo</h2>
+                <h2 class="margin-auto">Une p'tite nouvelle photo</h2>
             </div>
             <div class="modal-body">
-                {{ form_start(pictureForm, {'method': 'post', 'action': path('main_app')}) }}
+                {{ form_start(pictureForm, {'method': 'post', 'action': path('add_picture')}) }}
                 {{ form_widget(pictureForm, {'attr': {'class': 'form-group'}}) }}
                 <div class="form-group text-center">
                     <input class=" btn btn-primary btn-md login-button" type="submit" value="Ajouter" />
@@ -281,8 +289,11 @@
                 <h2 class="margin-auto">Un p'tit nouveau morceau</h2>
             </div>
             <div class="modal-body">
-                {{ form_start(songForm, {'method': 'post', 'action': path('main_app')}) }}
-                {{ form_widget(songForm, {'attr': {'class': 'form-group'}}) }}
+                {{ form_start(songForm, {'method': 'post', 'action': path('add_song')}) }}
+                {{ form_row(songForm.file, {'attr': {'class': 'form-group'}}) }}
+                <p class="text-center">OU</p>
+                <hr>
+                {{ form_row(songForm.url, {'attr': {'class': 'form-group'}}) }}
                 <div class="form-group text-center">
                     <input class=" btn btn-primary btn-md login-button" type="submit" value="Ajouter" />
                 </div>
@@ -294,6 +305,8 @@
       
        <script>
            $(document).ready(function(){
+                $("#myCarousel").carousel();
+
                 $('#click').click(function(e){
                   //Some code
                   e.preventDefault();
@@ -329,7 +342,7 @@
            });
            // When the user clicks anywhere outside of the modal, close it
             window.onclick = function(event) {
-              if (event.target == modal) {
+              if (event.target == modal2) {
                 modal.style.display = "none";
               }
               if (event.target == modal2) {

@@ -43,7 +43,7 @@ class Picture
     private $fileName;
     
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @ORM\JoinColumn(nullable=true)
      */
     private $description;

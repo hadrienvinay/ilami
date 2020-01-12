@@ -32,9 +32,11 @@ class GalleryController extends Controller
             
             $em = $this->getDoctrine()->getManager();
             $pictures = $em->getRepository('App:Picture')->findAll();
+            $albums = $em->getRepository('App:Album')->findAll();
 
             return $this->render('my/pic/gallery.html.twig', array(
                 'pictures' => $pictures,
+                'albums' => $albums,
                 'notificationList' => $notificationList
             ));
         }
@@ -58,7 +60,7 @@ class GalleryController extends Controller
             
             $em = $this->getDoctrine()->getManager();
             $albums = $em->getRepository('App:Album')->findAll();
-            dump($albums);
+
             return $this->render('my/pic/albums.html.twig', array(
                 'albums' => $albums,
                 'notificationList' => $notificationList
@@ -157,7 +159,7 @@ class GalleryController extends Controller
                                 );
                             }
                             $picture->setFileName($newFilename);
-                            $picture->setDate(new \DateTime);
+                            $picture->setCreatedDate(new \DateTime);
                             $picture->setPublisher($user);
                             $user->addPicture($picture);
                             $em->persist($picture);
@@ -210,7 +212,7 @@ class GalleryController extends Controller
                     // Move the file to the directory where brochures are stored
                     try {
                         $fileName->move(
-                            $this->getParameter('album_directory'),
+                            $this->getParameter('pictures_directory'),
                             $newFilename
                         );
                     } catch (FileException $e) {
@@ -220,25 +222,87 @@ class GalleryController extends Controller
                         );
                     }
 
-                    $album->setPresentationPicture($newFilename);   
+                    $album->setPresentationPicture($newFilename);
+                    $picture = new Picture();
+                    $picture->setAlbum($album);
+                    $picture->setFileName($newFilename);
+                    $picture->setCreatedDate(new \DateTime);
+                    $picture->setPublisher($user);
+                    $user->addPicture($picture);
+                    $em->persist($picture);
                 }
                 else{
                     $album->setPresentationPicture('default.png');
                 }
                 $album->setCreator($user);
                 $album->setUpdatedDate(new \DateTime);
+                $user->setAlbumCreated($album->getId());
                 $em->persist($album);
+                $em->persist($user);
                 $em->flush();
 
                 $request->getSession()->getFlashBag()->add('success', 'Album créé avec succès !');
 
-                return $this->redirectToRoute('albums');
-
+                return $this->redirectToRoute('album',array('id'=>$album->getId()));
             }
                 return $this->render('add/album.html.twig', array(
                     'form' => $form->createView(),
                     'notificationList' => $notificationList
             ));
+        }
+    }
+    
+     /**
+     * @return Response
+     */
+    public function deleteAlbum(Request $request, $id)
+    {
+        //check if user is connected
+        $user=$this->getUser();
+        if(!$user) {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
+        else{
+            $em = $this->getDoctrine()->getManager();
+            $album = $em->getRepository('App:Album')->find($id);
+            // Security check
+            if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+                throw new AccessDeniedException('Accès limité aux admins narvaloo.');
+            }
+            if (!$album) {
+                throw $this->createNotFoundException('Aucune photo trouvé pour id: ' . $album);
+            }
+            $em->remove($album);
+            $em->flush();
+            $request->getSession()->getFlashBag()->add('success', 'Album supprimé avec succès !');
+            return $this->redirectToRoute('gallery');
+        }
+    }
+    
+    /**
+     * @return Response
+     */
+    public function deletePicture(Request $request, $id)
+    {
+        //check if user is connected
+        $user=$this->getUser();
+        if(!$user) {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
+        else{
+            $em = $this->getDoctrine()->getManager();
+            $picture = $em->getRepository('App:Picture')->find($id);
+            // Security check
+            if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+                throw new AccessDeniedException('Accès limité aux admins narvaloo.');
+            }
+            if (!$picture) {
+                throw $this->createNotFoundException('Aucune photo trouvé pour id: ' . $picture);
+            }
+            $em->remove($picture);
+            $em->flush();
+            $request->getSession()->getFlashBag()->add('success', 'Photo supprimée avec succès !');
+            return $this->redirectToRoute('gallery');
         }
     }
 

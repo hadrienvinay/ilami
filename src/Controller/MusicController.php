@@ -40,16 +40,46 @@ class MusicController extends Controller
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
             $songFile = $form['file']->getData();
-            dump($songFile);
-            $fileName = $songFile->getClientOriginalName();
-            //$fileName = $file.'.'.$file->guessExtension();
-
-           $songFile->move(
-                $this->getParameter('download_directory'),
-                $fileName
-            );
+            $songYt = $form['url']->getData();
+            if($songFile){
+                $fileName = $songFile->getClientOriginalName();
+                $songFile->move(
+                    $this->getParameter('download_directory'),
+                    $fileName
+                );
+            }else if($songYt){
+                $dl = new YoutubeDl([
+                'extract-audio' => true,
+                'audio-format' => 'mp3',
+                'audio-quality' => 0, // best
+                'output' => '%(title)s.%(ext)s',
+                 ]);
+                $dl->setDownloadPath($this->getParameter('download_directory'));
+                $dl->setBinPath('C:\wamp64\youtube-dl');        
+                $filePath=false;
+                try {
+                    $video = $dl->download($songYt);
+                    $filePath = $this->getParameter('download_directory').'/'.$video->getTitle().'.mp3';
+                    $fileName=$video->getTitle().'.mp3';
+                } catch (NotFoundException $e) {
+                    $error = "Cette vidéo n'existe pas";
+                } catch (PrivateVideoException $e) {
+                    $error = "Cette vidéo est privée";
+                } catch (CopyrightException $e) {
+                    $error = "Copyright Error";
+                } catch (\Exception $e) {
+                    $error = "Erreur lors du téléchargement";
+                }
+                if(!$filePath){
+                        $request->getSession()->getFlashBag()->add('danger', $error);
+                        return $this->RedirectToRoute('convertor');
+                }
+            }
+            else{
+                $request->getSession()->getFlashBag()->add('error', 'Aucun son fourni en entrée narvalo !');
+                return $this->redirectToRoute('radio');
+            }
             $song->setFileName($fileName);
             $song->setTitle("a");
             $song->setArtist("b");
@@ -125,8 +155,7 @@ class MusicController extends Controller
             }
 
         }
-        
-        
+
         return $this->render('my/music/convertor.html.twig',array(
             'notificationList' => $notificationList,
             'form' => $form->createView(),
@@ -156,16 +185,46 @@ class MusicController extends Controller
             
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
-                
                 $songFile = $form['file']->getData();
-                dump($songFile);
-                $fileName = $songFile->getClientOriginalName();
-                //$fileName = $file.'.'.$file->guessExtension();
-
-               $songFile->move(
-                    $this->getParameter('download_directory'),
-                    $fileName
-                );
+                $songYt = $form['url']->getData();
+                if($songFile){
+                    $fileName = $songFile->getClientOriginalName();
+                    $songFile->move(
+                        $this->getParameter('download_directory'),
+                        $fileName
+                    );
+                }else if($songYt){
+                    $dl = new YoutubeDl([
+                    'extract-audio' => true,
+                    'audio-format' => 'mp3',
+                    'audio-quality' => 0, // best
+                    'output' => '%(title)s.%(ext)s',
+                     ]);
+                    $dl->setDownloadPath($this->getParameter('download_directory'));
+                    $dl->setBinPath('C:\wamp64\youtube-dl');        
+                    $filePath=false;
+                    try {
+                        $video = $dl->download($songYt);
+                        $filePath = $this->getParameter('download_directory').'/'.$video->getTitle().'.mp3';
+                        $fileName=$video->getTitle().'.mp3';
+                    } catch (NotFoundException $e) {
+                        $error = "Cette vidéo n'existe pas";
+                    } catch (PrivateVideoException $e) {
+                        $error = "Cette vidéo est privée";
+                    } catch (CopyrightException $e) {
+                        $error = "Copyright Error";
+                    } catch (\Exception $e) {
+                        $error = "Erreur lors du téléchargement";
+                    }
+                    if(!$filePath){
+                        $request->getSession()->getFlashBag()->add('danger', $error);
+                        return $this->RedirectToRoute('convertor');
+                    }
+                }
+                else{
+                    $request->getSession()->getFlashBag()->add('danger', 'Aucun son fourni en entrée narvalo !');
+                    return $this->redirectToRoute('radio');
+                }
                 $song->setFileName($fileName);
                 $song->setTitle("a");
                 $song->setArtist("b");

@@ -24,7 +24,7 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         //User Fixtures
-$user0 = new User();
+        $user0 = new User();
         $user0->setEnabled(true);
         $user0->setName('Vinay');
         $user0->setPrename('Hadrien');
@@ -524,7 +524,7 @@ $user0 = new User();
         
         $event10 = new Event();
         $event10->setName('Monaco Grand Prix');
-        $event9->setAddress('Circuit de Monaco');
+        $event10->setAddress('Circuit de Monaco');
         $event10->setStartDate(new \DateTime('2020-05-21 11:00:00'));
         $event10->setEndDate(new \DateTime('2020-05-24 17:10:00'));
         $event10->setCreatedDate(new \DateTime());
@@ -536,7 +536,7 @@ $user0 = new User();
         
         $event8 = new Event();
         $event8->setName('Azerbaijan Grand Prix');
-        $event9->setAddress('Circuit de Baku');
+        $event8->setAddress('Circuit de Baku');
         $event8->setStartDate(new \DateTime('2020-06-05 11:00:00'));
         $event8->setEndDate(new \DateTime('2020-06-07 16:10:00'));
         $event8->setCreatedDate(new \DateTime());
@@ -548,7 +548,7 @@ $user0 = new User();
         
         $event11 = new Event();
         $event11->setName('Canadian Grand Prix');
-        $event9->setAddress('Circuit Gilles-Villeneuve');
+        $event11->setAddress('Circuit Gilles-Villeneuve');
         $event11->setStartDate(new \DateTime('2020-06-12 16:00:00'));
         $event11->setEndDate(new \DateTime('2020-06-14 22:10:00'));
         $event11->setCreatedDate(new \DateTime());
@@ -560,7 +560,7 @@ $user0 = new User();
         
         $event12 = new Event();
         $event12->setName('French Grand Prix');
-        $event9->setAddress('Circuit Automobile Paul Ricard');
+        $event12->setAddress('Circuit Automobile Paul Ricard');
         $event12->setStartDate(new \DateTime('2020-06-26 11:00:00'));
         $event12->setEndDate(new \DateTime('2020-06-28 17:10:00'));
         $event12->setCreatedDate(new \DateTime());
@@ -572,7 +572,7 @@ $user0 = new User();
         
         $event13 = new Event();
         $event13->setName('Austrian Grand Prix');
-        $event9->setAddress('Circuit de Spielberg');
+        $event13->setAddress('Circuit de Spielberg');
         $event13->setStartDate(new \DateTime('2020-07/03 11:00:00'));
         $event13->setEndDate(new \DateTime('2020-07-05 17:10:00'));
         $event13->setCreatedDate(new \DateTime());
@@ -584,7 +584,7 @@ $user0 = new User();
         
         $event14 = new Event();
         $event14->setName('British Grand Prix');
-        $event9->setAddress('Circuit de Silverstone');
+        $event14->setAddress('Circuit de Silverstone');
         $event14->setStartDate(new \DateTime('2020-07-17 11:00:00'));
         $event14->setEndDate(new \DateTime('2020-07-19 17:10:00'));
         $event14->setCreatedDate(new \DateTime());
@@ -596,7 +596,7 @@ $user0 = new User();
         
         $event15 = new Event();
         $event15->setName('Hungarian Grand Prix');
-        $event9->setAddress('Hungaroring');
+        $event15->setAddress('Hungaroring');
         $event15->setStartDate(new \DateTime('2020-07-31 11:00:00'));
         $event15->setEndDate(new \DateTime('2020-08-02 17:10:00'));
         $event15->setCreatedDate(new \DateTime());
@@ -608,7 +608,7 @@ $user0 = new User();
         
         $event16 = new Event();
         $event16->setName('Belgian Grand Prix');
-        $event9->setAddress('Circuit de Spa-Francorchamps');
+        $event16->setAddress('Circuit de Spa-Francorchamps');
         $event16->setStartDate(new \DateTime('2020-08-28 11:00:00'));
         $event16->setEndDate(new \DateTime('2020-08-30 17:10:00'));
         $event16->setCreatedDate(new \DateTime());
@@ -620,7 +620,7 @@ $user0 = new User();
         
         $event17 = new Event();
         $event17->setName('Italian Grand Prix');
-        $event9->setAddress('Circuit Internationnal de Monza');
+        $event17->setAddress('Circuit Internationnal de Monza');
         $event17->setStartDate(new \DateTime('2020-09-04 11:00:00'));
         $event17->setEndDate(new \DateTime('2020-09-06 17:10:00'));
         $event17->setCreatedDate(new \DateTime());
@@ -632,7 +632,7 @@ $user0 = new User();
         
         $event18 = new Event();
         $event18->setName('Singapore Grand Prix');
-        $event9->setAddress('Circuit de Singapour');
+        $event18->setAddress('Circuit de Singapour');
         $event18->setStartDate(new \DateTime('2020-09-18 10:30:00'));
         $event18->setEndDate(new \DateTime('2020-09-20 16:10:00'));
         $event18->setCreatedDate(new \DateTime());
@@ -644,7 +644,7 @@ $user0 = new User();
         
         $event19 = new Event();
         $event19->setName('Russian Grand Prix');
-        $event9->setAddress('Autodrome de Sotchi');
+        $event19->setAddress('Autodrome de Sotchi');
         $event19->setStartDate(new \DateTime('2020-09-25 10:00:00'));
         $event19->setEndDate(new \DateTime('2020-09-27 13:10:00'));
         $event19->setCreatedDate(new \DateTime());
@@ -656,7 +656,7 @@ $user0 = new User();
         
         $event20 = new Event();
         $event20->setName('Japanese Grand Prix');
-        $event9->setAddress('Circuit de Suzuka');
+        $event20->setAddress('Circuit de Suzuka');
         $event20->setStartDate(new \DateTime('2020-10-09 03:00:00'));
         $event20->setEndDate(new \DateTime('2020-10-11 07:10:00'));
         $event20->setCreatedDate(new \DateTime());
@@ -668,7 +668,7 @@ $user0 = new User();
         
         $event21 = new Event();
         $event21->setName('United States Grand Prix');
-        $event9->setAddress('Circuit des Amériques');
+        $event21->setAddress('Circuit des Amériques');
         $event21->setStartDate(new \DateTime('2020-10-23 18:00:00'));
         $event21->setEndDate(new \DateTime('2020-10-25 21:10:00'));
         $event21->setCreatedDate(new \DateTime());
@@ -680,7 +680,7 @@ $user0 = new User();
         
         $event22 = new Event();
         $event22->setName('Mexican Grand Prix');
-        $event9->setAddress('Autódromo Hermanos Rodríguez');
+        $event22->setAddress('Autódromo Hermanos Rodríguez');
         $event22->setStartDate(new \DateTime('2020-10-30 17:00:00'));
         $event22->setEndDate(new \DateTime('2020-11-01 22:10:00'));
         $event22->setCreatedDate(new \DateTime());
@@ -692,7 +692,7 @@ $user0 = new User();
         
         $event23 = new Event();
         $event23->setName('Brazilian Grand Prix');
-        $event9->setAddress('Autodromo José Carlos Pace');
+        $event23->setAddress('Autodromo José Carlos Pace');
         $event23->setStartDate(new \DateTime('2020-11-13 14:00:00'));
         $event23->setEndDate(new \DateTime('2020-11-15 20:10:00'));
         $event23->setCreatedDate(new \DateTime());
@@ -704,7 +704,7 @@ $user0 = new User();
         
         $event24 = new Event();
         $event24->setName('Abu Dhabi Grand Prix');
-        $event9->setAddress('Yas Marina Circuit');
+        $event24->setAddress('Yas Marina Circuit');
         $event24->setStartDate(new \DateTime('2020-11-27 10:00:00'));
         $event24->setEndDate(new \DateTime('2020-11-29 16:10:00'));
         $event24->setCreatedDate(new \DateTime());
@@ -713,6 +713,18 @@ $user0 = new User();
         $event24->setLatitude(32.797250);
         $event24->setLongitude(35.103060);
         $manager->persist($event24);
+        
+        $event25 = new Event();
+        $event25->setName('Pik Pik Party');
+        $event25->setAddress('8 rue Emile Locq, Cauvigny');
+        $event25->setStartDate(new \DateTime('2020-03-26 10:00:00'));
+        $event25->setEndDate((new \DateTime('2020-03-29 10:00:00')));
+        $event25->setCreatedDate(new \DateTime());
+        $event25->setDescription('P\'tite pik pik zooo\n Préparez vos fois comme d\'abb');
+        $event25->setCreator($user0);
+        $event25->setLatitude(48.851100);
+        $event25->setLongitude(2.301080);
+        $manager->persist($event25);
         
         
         //Job Fixtures
@@ -724,7 +736,6 @@ $user0 = new User();
         $job0->setLongitude(48.841520);
         $job0->setUser($user0);
         $manager->persist($job0);
-        $manager->persist($user0);
         
         $job1 = new Job();
         $job1->setAddress('EY, Tour First, Place des Saisons, Paris');
@@ -734,7 +745,6 @@ $user0 = new User();
         $job1->setLongitude(48.889920);
         $job1->setUser($user5);
         $manager->persist($job1);
-        $manager->persist($user5);
 
 
         
@@ -745,9 +755,11 @@ $user0 = new User();
         $recommandation0->setUser($user0);
         $recommandation0->setAddress('12 Avenue de Suffren, Paris, 75015');
         $manager->persist($recommandation0);
-        $manager->persist($user0);
-
         
+        //persist all users and entities remaining
+        $manager->persist($user0);
+        $manager->persist($user5);
+        //flush database
         $manager->flush();
     }
     

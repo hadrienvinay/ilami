@@ -14,44 +14,136 @@
     <div class="container" style="padding: 3%;margin-top: 3%;margin-bottom: 3%;border-radius: 0.5rem;background: #fff;">
         <h1 class="text-center">La P'tite Gallerie</h1>
         <div style="margin:1%;">
-            <div class="row">
-                <div class="col-md-4">
-                    <a id="pic" class="list-group-item active" href="{{ path('gallery') }}">
-                        Photos
-                    </a>
+            <ul class="nav nav-tabs" id="myTab" role="tablist" >
+                <li class="nav-item">
+                    <a class="nav-link active" id="pictures-tab" data-toggle="tab" href="#pictures" role="tab" aria-controls="pictures" aria-selected="true">Les P'tites Photos</a>
+                </li> 
+                <li class="nav-item">
+                    <a class="nav-link" id="albums-tab" data-toggle="tab" href="#albums" role="tab" aria-controls="albums" aria-selected="false">Les P'tits Albums</a>
+                </li> 
+                <li class="nav-item">
+                    <a class="nav-link" id="others-tab" data-toggle="tab" href="#others" role="tab" aria-controls="others" aria-selected="false">Autres</a>
+                </li> 
+            </ul> 
+            
+            <div class="tab-content gallery-tab" id="myTabContent">
+                <div class="tab-pane fade show active" id="pictures" role="tabpanel" aria-labelledby="pictures-tab">
+                    <small class="d-block text-right mt-3">
+                        <i class="fa fa-download" aria-hidden="true"></i>
+                        <a href="{{ path('add_picture') }}">Ajouter une photo</a>
+                    </small>
+                    <br>
+                    <div class="portfolio-item row">
+                        {% for picture in pictures %}
+                            <div class="item selfie col-lg-3 col-md-4 col-6 col-sm">
+                                  <a class="fancylight popup-btn" href="{{ asset('build/images/gallery/' ~ picture.fileName )}}">
+                                    <img src="{{asset('build/images/gallery/' ~ picture.fileName )}}" alt="{{ picture.description }}" class="img-fluid">
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <a id="delete_picture{{ picture.id }}" class="btn-sm btn-danger delete-picture" href="{{ path('delete_picture',{id:picture.id}) }}" style="position: absolute;top: 1%;left: 80%;">
+                                            <span class="fa fa-trash"></span>
+                                        </a>
+                                    {% endif %}
+                                  </a>
+                                  <!--<div class="desc">{% if picture.description is not null%}{{ picture.description }}{% else %}Photo n°: {{ picture.id }}{% endif %}</div>-->
+                            </div>
+                        {% endfor %}
+                        <div class="clearfix"></div>
+                    </div>   
                 </div>
-                <div class="col-md-4" >
-                    <a id="album" class="list-group-item" href="{{ path('albums') }}">
-                        Albums                    
-                    </a>                   
-                </div>
-                <div class="col-md-4">
-                     <a id="album2" class="list-group-item" href="{{ path('albums') }}">
-                        Autres                    
-                    </a>  
+                <div class="tab-pane fade" id="albums" role="tabpanel" aria-labelledby="albums-tab">
+                    <small class="d-block text-right mt-3">
+                        <i class="fa fa-download" aria-hidden="true"></i>
+                        <a href="{{ path('add_album') }}">Créer un album</a>
+                    </small>
+                    <br>
+                    <div class="portfolio-item row">
+                    {% for album in albums %}
+                        <div class="item selfie col-lg-3 col-md-4 col-6 col-sm">
+                            <a href="{{ path('album',{id: album.id })}}">
+                              <img src="{{ asset('build/images/gallery/' ~ album.presentationPicture) }}" alt="{{ album.name }}" class="img-fluid rounded border border-primary">
+                              {% if is_granted('ROLE_ADMIN') %}
+                                  <a id="delete_album{{ album.id }}" class="btn-sm btn-danger delete-album" href="{{ path('delete_album',{id:album.id}) }}" style="position: absolute;top: 1%;left: 80%;">
+                                      <span class="fa fa-trash"></span>
+                                  </a>
+                              {% endif %}
+                            </a>
+                            <div class="desc">{{ album.name }}</div>
+                        </div>
+                    {% endfor %}
+                    <div class="clearfix"></div>
+                    </div>
                 </div>
             </div>
         </div>
-        <small class="d-block text-right mt-3">
-            <i class="fa fa-download" aria-hidden="true"></i>
-            <a href="{{ path('add_picture') }}">Ajouter une photo</a>
-        </small>
-        <br>
-        <div class="portfolio-item row">
-            {% for picture in pictures %}
-                <div class="item selfie col-lg-3 col-md-4 col-6 col-sm">
-                      <a class="fancylight popup-btn" href="{{ asset('build/images/gallery/' ~ picture.fileName )}}">
-                        <img src="{{asset('build/images/gallery/' ~ picture.fileName )}}" alt="{{ picture.description }}" class="img-fluid">
-                      </a>
-                      <!--<div class="desc">{% if picture.description is not null%}{{ picture.description }}{% else %}Photo n°: {{ picture.id }}{% endif %}</div>-->
-                </div>
-            {% endfor %}
-        </div>        
     </div>
-       
+        
+    <!-- Modal delete a picture-->
+    <div id="deleteModal" class="modal">
+         <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="margin-auto">Suppression d'une photo</h2>
+            </div>
+            <div class="modal-body">
+                <p>Vous allez supprimer cette photo </p>
+                <p>Etes-vous sur?</p>
+            </div>
+            <div class="modal-footer">
+                <a href="" id="btnYes" class="btn btn-danger" data="">Oui</a>
+                <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Non</a>
+            </div>
+         </div>
+    </div>
+    
+    <!-- Modal delete an album-->
+    <div id="deleteModal2" class="modal">
+         <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="margin-auto">Suppression d'une album</h2>
+            </div>
+            <div class="modal-body">
+                <p>Vous allez supprimer cet album </p>
+                <p>Etes-vous sur?</p>
+            </div>
+            <div class="modal-footer">
+                <a href="" id="btnYes2" class="btn btn-danger" data="">Oui</a>
+                <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Non</a>
+            </div>
+         </div>
+    </div>
     
     <script>
          $(document).ready(function() {
+            var modal = document.getElementById("deleteModal");
+            var modal2 = document.getElementById("deleteModal2");
+
+            $('.delete-picture').on('click', function(e) {
+                e.preventDefault();
+                var href = $(this).attr("href");
+                var id = $(this).attr("id");
+                $('#btnYes').attr("href",href);
+                $('#btnYes').attr("data",id);
+                $('#deleteModal').modal('show');
+            });
+
+            $('.delete-album').on('click', function(e) {
+                e.preventDefault();
+                var href = $(this).attr("href");
+                var id = $(this).attr("id");
+                $('#btnYes2').attr("href",href);
+                $('#btnYes2').attr("data",id);
+                $('#deleteModal2').modal('show');
+            });
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+              if (event.target == modal) {
+                modal.style.display = "none";
+              }
+              if (event.target == modal2) {
+                modal2.style.display = "none";
+              }
+            };
+    
             var popup_btn = $('.popup-btn');
             popup_btn.magnificPopup({
             type : 'image',

@@ -28,24 +28,58 @@ class MapController extends Controller
             
             $em = $this->getDoctrine()->getManager();
             $users = $em->getRepository('App:User')->findAll();
-            //select all lat and long of users address
+            //Users Pos
             $allPos = array(array(NULL));
             $userName = array(NULL);
             $i = 0;
             // Get latitude and longitude of the users address
             foreach($users as $user){
                 if(!empty($user->getAddress())){
-                    
                     $allPos[0][$i] = $user->getLatitude();
                     $allPos[1][$i] = $user->getLongitude();
                     $userName[$i] = $user->getUsername();
                     $i++;
                 }
             }
+            //Events Pos
+            $events = $em->getRepository('App:Event')->findAll();
+            //select all lat and long of users address
+            $allPos2 = array(array(NULL));
+            $allName2 = array(NULL);
+            $i = 0;
+            // Get latitude and longitude of the users address
+            foreach($events as $event){
+                if(!empty($event->getAddress())){
+                    $allPos2[0][$i] = $event->getLatitude();
+                    $allPos2[1][$i] = $event->getLongitude();
+                    $allName2[$i] = $event->getName();
+                    $i++;
+                }
+            }
+            //Jobs Pos
+            $allPos3 = array(array(NULL));
+            $userName3 = array(NULL);
+            $allName3 = array(NULL);
+            $i = 0;
+            foreach($users as $user){
+                if(!empty($user->getJob() and $user->getJob()->getAddress())){
+                    $allPos3[0][$i] = $user->getJob()->getLatitude();
+                    $allPos3[1][$i] = $user->getJob()->getLongitude();
+                    $allName3[$i] = $user->getUsername();
+                    $userName3[$i] = $user->getUsername() . " - " . $user->getJob()->getCompanyName();
+                    $i++;
+                }
+            }
+            
             return $this->render('my/map/map.html.twig', array(
                 'users' => $users,
                 'userName' => $userName,
                 'allPos' => $allPos,
+                'allName2' => $allName2,
+                'allPos2' => $allPos2,
+                'allName3' => $allName3,
+                'userName3' => $userName3,
+                'allPos3' => $allPos3,
                 'notificationList' => $notificationList
             ));
         }

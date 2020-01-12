@@ -1,0 +1,88 @@
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="margin-bottom: 20px;">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ path('main_app') }}">
+            Imalipusram Website
+            <img src="{{asset('build/images/imali.png')}}" style="width: 50px;" title="logo" alt="Logo Imali">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto" style="margin-right: 2%;">
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <span class="fa fa-list-alt"></span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ path('resume') }}">
+                            <span class="fa fa-newspaper-o"></span> What's up
+                        </a>
+                        <a class="dropdown-item" href="{{ path('profile',{'id': app.user.id}) }}">
+                            <span class="fa fa-user-circle-o"></span> Profil
+                        </a>
+                        <a class="dropdown-item" href="{{ path('gallery') }}">
+                            <span class="fa fa-photo"></span> Gallerie Photo
+                        </a>    
+                        <a class="dropdown-item" href="{{ path('calendar') }}">
+                            <span class="fa fa-calendar"></span> Calendrier
+                        </a>
+                        <a class="dropdown-item" href="{{ path('radio') }}">
+                            <span class="fa fa-music"></span> Radio
+                        </a>
+                        <a class="dropdown-item" href="{{ path('map') }}">
+                            <span class="fa fa-map-o"></span> Map
+                        </a>
+                        <a class="dropdown-item" href="{{ path('catan') }}">
+                            <span class="fa fa-gamepad"></span> Catan
+                        </a>
+                        {% if app.user.id == 4 %}             
+                            <a class="dropdown-item" href="{{ path('timetable') }}">
+                                <span class="fa fa-clock-o"></span> TimeTable
+                            </a>  
+                        {% endif %}
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ path('fos_user_security_logout') }}">
+                            <span class="fa fa-sign-out"></span> {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                        </a>
+                        </div>
+                    </li>
+
+                {% else %}
+                    <li class="nav-item">
+                        <a class="btn btn-primary" href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+         <form class="form-inline">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><span class="fa fa-search"></span></button>
+        </form>
+    </div>
+</nav>
+<script>
+    $(document).ready(function(){
+
+        $('.notif-content').click(function(){
+            var url = $(this).attr("data");
+            if(url !== ""){
+                $.ajax({
+                   url: url
+                });
+            }
+        });
+        $('#all-seen').click(function(e){
+            e.preventDefault();
+            var url = $(this).attr("data");
+            $.ajax({
+               url: url,
+               success: function(data) {
+                    $('.notif-content').css("background-color","#f8f9fa"); 
+                   }
+               });
+        });
+    });
+        
+</script>

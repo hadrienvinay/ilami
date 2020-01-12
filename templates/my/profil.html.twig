@@ -46,7 +46,7 @@
             </div>
             <div class="col-md-2">
             {% if app.user.id == user.id %}
-                <a href="{{path('modify_profile',{'id' : user.id}) }}" class="btn-sm btn-primary mybtn update-event">
+                <a href="{{path('modify_profile',{'id' : user.id}) }}" class="btn-sm btn-outline-primary update-profil">
                     <i class="fa fa-edit" aria-hidden="true"></i>
                     Modifier mon profil
                 </a>
@@ -90,7 +90,7 @@
                     {% if app.user.id == user.id %}
                         <small class="d-block text-right mt-3">
                            <i class="fa fa-plus-square-o" aria-hidden="true"></i>
-                           <a href="{{ path('add_recommandation') }}">Ajouter une bonne adresse</a>
+                           <a href="{{ path('add_recommandation') }}" class="add-recommandation">Ajouter une bonne adresse</a>
                        </small>
                    {% endif %}
                 </div>
@@ -125,9 +125,15 @@
                                 <p>{{ user.phone }}</p>
                             </div>
                         </div>
-                            <hr>
+                        <hr>
+                        {% if app.user.id == user.id %}
+                            <small class="d-block text-right mt-3">
+                               <i class="fa fa-edit" aria-hidden="true"></i>
+                               <a  href="{{ path('add_job') }}" class="add-job">{% if user.job != null %}Modifier mon job{% else %}Ajouter un job{% endif %}</a>
+                           </small>
+                       {% endif %}
                          <div class="row">
-                            <div class="col-md-4">
+                           <div class="col-md-4">
                                 <i class="fa fa-industry" aria-hidden="true"></i>
                                 <label>Travaille chez</label>
                             </div>
@@ -156,6 +162,17 @@
                     </div>
                     <div class="tab-pane fade" id="photos" role="tabpanel" aria-labelledby="photos-tab">
                         <div class="portfolio-item row">
+                            {% if app.user.id == user.id %}
+                                <small class="d-block text-right mt-3">
+                                   <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                                   <a href="{{ path('add_picture') }}" class="add-picture">Ajouter une photo</a>
+                               </small>
+                           {% endif %}
+                           {% if user.pictures is empty %}
+                               <p class="text-center">
+                                   Aucune photos
+                               </p>
+                            {% endif %}
                             {% for picture in user.pictures %}
                                 <div class="item selfie col-lg-3 col-md-4 col-6 col-sm">
                                       <a class="fancylight popup-btn" href="{{ asset('build/images/gallery/' ~ picture.fileName )}}">
@@ -167,6 +184,17 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="musics" role="tabpanel" aria-labelledby="musics-tab">
+                       {% if app.user.id == user.id %}
+                                <small class="d-block text-right mt-3">
+                                   <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                                   <a href="{{ path('add_song') }}" class="add-song">Ajouter une musique</a>
+                               </small>
+                           {% endif %}
+                        {% if user.songs is empty %}
+                            <p class="text-center">
+                                Aucun sons
+                            </p>
+                        {% endif %}
                         {% for song in user.songs|sort((a, b) => a.createddate <=> b.createddate)%}
                             <div class="media text-muted pt-3">
                                 <img alt="Musique" class="mr-2 rounded" style="width: 32px; height: 32px;" src="{{ asset('build/images/musique/soundcloud.png') }}">
@@ -194,7 +222,7 @@
                 <h2 class="margin-auto">Modification du profil</h2>
             </div>
             <div class="modal-body">
-                {{ form_start(form, {'method': 'post', 'action': path('modify_profile',{'id': user.id}), 'attr': {'class': ''}}) }}
+                {{ form_start(form, {'method': 'post', 'action': path('modify_profile',{'id': user.id})}) }}
                 {{ form_widget(form, {'attr': {'class': 'form-group'}}) }}
                 <div class="form-group text-center">
                     <input class=" btn btn-primary btn-md login-button" type="submit" value="Modifier" />
@@ -204,18 +232,119 @@
             </div>
          </div>
     </div>
+     
+    <!-- Modal add a picture -->
+    <div id="addPictureModal" class="modal">
+         <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="margin-auto">Ajout d'une P'tite Photo</h2>
+            </div>
+            <div class="modal-body">
+                {{ form_start(pictureForm, {'method': 'post', 'action': path('add_picture')}) }}
+                {{ form_widget(pictureForm, {'attr': {'class': 'form-group'}}) }}
+                <div class="form-group text-center">
+                    <input class=" btn btn-primary btn-md login-button" type="submit" value="Modifier" />
+                </div>
+                {{ form_rest(pictureForm) }}
+                {{ form_end(pictureForm) }}
+            </div>
+         </div>
+    </div>
+               <!-- Modal add a job -->
+    <div id="addSongModal" class="modal">
+         <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="margin-auto">Ajout d'une P'tite Musique</h2>
+            </div>
+            <div class="modal-body">
+                {{ form_start(songForm, {'method': 'post', 'action': path('add_song')}) }}
+                {{ form_widget(songForm, {'attr': {'class': 'form-group'}}) }}
+                <div class="form-group text-center">
+                    <input class=" btn btn-primary btn-md login-button" type="submit" value="Modifier" />
+                </div>
+                {{ form_rest(songForm) }}
+                {{ form_end(songForm) }}
+            </div>
+         </div>
+    </div>
+    <!-- Modal add a job -->
+    <div id="addJobModal" class="modal">
+         <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="margin-auto">{% if user.job != null %}Modification de mon job{% else %}Ajout d'un job{% endif %}</h2>
+            </div>
+            <div class="modal-body">
+                {{ form_start(jobForm, {'method': 'post', 'action': path('add_job')}) }}
+                {{ form_widget(jobForm, {'attr': {'class': 'form-group'}}) }}
+                <div class="form-group text-center">
+                    <input class=" btn btn-primary btn-md login-button" type="submit" value="Modifier" />
+                </div>
+                {{ form_rest(jobForm) }}
+                {{ form_end(jobForm) }}
+            </div>
+         </div>
+    </div>
+            
+    <!-- Modal add a recommandation -->
+    <div id="addRecommandationModal" class="modal">
+         <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="margin-auto">Ajout d'une bonne adresse :)</h2>
+            </div>
+            <div class="modal-body">
+                {{ form_start(recommandationForm, {'method': 'post', 'action': path('add_recommandation')}) }}
+                {{ form_widget(recommandationForm, {'attr': {'class': 'form-group'}}) }}
+                <div class="form-group text-center">
+                    <input class=" btn btn-primary btn-md login-button" type="submit" value="Modifier" />
+                </div>
+                {{ form_rest(recommandationForm) }}
+                {{ form_end(recommandationForm) }}
+            </div>
+         </div>
+    </div>
                                     
     <script>
          $(document).ready(function() {
             var modal = document.getElementById("updateModal");
-            $('.update-event').on('click', function(e) {
-                        e.preventDefault();
-                        $('#updateModal').modal('show');
+            var modal2 = document.getElementById("addPictureModal");
+            var modal3 = document.getElementById("addSongModal");
+            var modal4 = document.getElementById("addJobModal");
+            var modal5 = document.getElementById("addRecommandationModal");
+
+            $('.update-profil').on('click', function(e) {
+                e.preventDefault();
+                $('#updateModal').modal('show');
             });
+            $('.add-picture').on('click', function(e) {
+                e.preventDefault();
+                $('#addPictureModal').modal('show');
+            });
+            $('.add-song').on('click', function(e) {
+                e.preventDefault();
+                $('#addSongModal').modal('show');
+            });
+            $('.add-job').on('click', function(e) {
+                e.preventDefault();
+                $('#addJobModal').modal('show');
+            });
+            $('.add-recommandation').on('click', function(e) {
+                e.preventDefault();
+                $('#addRecommandationModal').modal('show');
+            });
+            
              // When the user clicks anywhere outside of the modal, close it
             window.onclick = function(event) {
               if (event.target == modal) {
                 modal.style.display = "none";
+              }
+              if (event.target == modal2) {
+                modal2.style.display = "none";
+              }
+              if (event.target == modal3) {
+                modal3.style.display = "none";
+              }
+              if (event.target == modal4) {
+                modal4.style.display = "none";
               }
             };
 

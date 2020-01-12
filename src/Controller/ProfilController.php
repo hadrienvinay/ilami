@@ -4,9 +4,16 @@ namespace App\Controller;
 
 use App\Form\UserType;
 use App\Form\RecommandationType;
+use App\Form\JobType;
+use App\Form\PictureType;
+use App\Form\SongType;
 use App\Service\GeocoderService;
 use App\Entity\ProfilePicture;
 use App\Entity\Recommandation;
+use App\Entity\Job;
+use App\Entity\Song;
+use App\Entity\Picture;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -63,9 +70,32 @@ class ProfilController extends Controller
                 $request->getSession()->getFlashBag()->add('notice', 'Profil modifié avec succès !');
                 return $this->redirectToRoute('profile',array('id'=>$user->getId()));
             }
+            
+            //picture form
+            $picture = new Picture();
+            $pictureForm = $this->get('form.factory')->create(PictureType::class, $picture);
+            //song form
+            $song = new Song();
+            $songForm = $this->get('form.factory')->create(SongType::class, $song);
+            
+            //Job form
+            $job = $user->getJob();
+            if(!$job){
+                $job = new Job();
+            }
+            $jobForm = $this->get('form.factory')->create(JobType::class, $job);
+            
+            //recommandation form
+            $recommandation = new Recommandation();
+            $recommandationform = $this->get('form.factory')->create(RecommandationType::class, $recommandation);
+            
             return $this->render('my/profil.html.twig', array(
                 'user' => $user,
                 'form' => $form->createView(),
+                'jobForm' => $jobForm->createView(),
+                'pictureForm' => $pictureForm->createView(),
+                'songForm' => $songForm->createView(),
+                'recommandationForm' => $recommandationform->createView(),
                 'notificationList' => $notificationList
             ));
         }
@@ -137,7 +167,6 @@ class ProfilController extends Controller
             
             $recommandation = new Recommandation();
             $em = $this->getDoctrine()->getManager();
-
             $form = $this->get('form.factory')->create(RecommandationType::class, $recommandation);
             
             $form->handleRequest($request);
@@ -149,15 +178,57 @@ class ProfilController extends Controller
                 $em->persist($recommandation);
                 $em->flush();
 
-                $request->getSession()->getFlashBag()->add('notice', 'Recommandation ajoutée avec succès !');
+                $request->getSession()->getFlashBag()->add('success', 'Recommandation ajoutée avec succès !');
 
-                return $this->render('my/profil.html.twig',array(
-                    'user' => $user,
-                    'notificationList' => $notificationList
-                ));
+                return $this->redirectToRoute('profile',array('id'=>$user->getId()));
+
             }
 
             return $this->render('add/recommandation.html.twig', array(
+                'user' => $user,
+                'form' => $form->createView(),
+                'notificationList' => $notificationList
+            ));
+        }
+    }
+    
+     /**
+     * @return Response
+     */
+    public function addJob(Request $request, GeocoderService $geocoder)
+    {
+        //check if user is connected
+        $user=$this->getUser();
+        if(!$user) {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
+        else{
+            $notifiableRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableNotification');
+            $notifiableEntityRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableEntity');
+            $notifiable = $notifiableEntityRepo->findOneby(array("identifier" => $user));
+            $notificationList = $notifiableRepo->findAllForNotifiableId($notifiable);
+                        
+            $em = $this->getDoctrine()->getManager();
+            $job = $user->getJob();
+            if(!$job){
+                $job = new Job();
+            }
+            $form = $this->get('form.factory')->create(JobType::class, $job);
+            
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $job->setUser($user);
+                $em->persist($job);
+                $user->setJob($job);
+                $em->persist($user);
+                $em->flush();
+
+                $request->getSession()->getFlashBag()->add('success', 'Job modifié avec succès !');
+
+                return $this->redirectToRoute('profile',array('id'=>$user->getId()));
+            }
+
+            return $this->render('add/job.html.twig', array(
                 'user' => $user,
                 'form' => $form->createView(),
                 'notificationList' => $notificationList

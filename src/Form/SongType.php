@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\File;
 
 class SongType extends AbstractType
@@ -18,6 +19,7 @@ class SongType extends AbstractType
                 'label' => 'Morceau (mp3 file)',
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
+                'required' => false,
                 'constraints' => [
                     new File([
                         'maxSize' => '20M',
@@ -29,6 +31,13 @@ class SongType extends AbstractType
                     ])
                     ]
                 ))
+                ->add('url',TextType::class, array(
+                    'attr'=>array('placeholder'=> 'https://youtube.com/cjxkcsdhsd', 'class'=> 'form-control'),
+                    'label' => 'Import d\'une vidéo Youtube',
+                    'mapped' => false,
+                    'required' => false,
+                    )
+            )
             ;
     }
 

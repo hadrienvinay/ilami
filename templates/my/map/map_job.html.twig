@@ -42,7 +42,6 @@
        var infoWindow = new google.maps.InfoWindow(); //display the place name on the map
        
        for(i=0;i<allPos[0].length;i++ ){
-
               var newPos = {lat: parseFloat(allPos[0][i]), lng: parseFloat(allPos[1][i]) };
               var imagePerso ='../../build/images/profile/mini/'+allName[i]+'.png';
               console.log(imagePerso);
@@ -52,13 +51,10 @@
                   icon: imagePerso,
                   infoWindowContent: allNameJob[i]
               });
-
-              //listener that display the pharmacy name when there is a 'click' on it
               google.maps.event.addListener(markerDepart, 'click', function() {
                   infoWindow.setContent(this.infoWindowContent);
                   infoWindow.open(map,this);
               });
-
           }
           
       }

@@ -34,7 +34,10 @@
             <div class="responsive">
                 <div class="gallery">
                   <a target="_blank" href="{{ path('album',{id: album.id })}}">
-                    <img src="{{ asset('build/images/gallery/album/' ~ album.presentationPicture) }}" alt="{{ album.name }}" width="600" height="400">
+                    <img src="{{ asset('build/images/gallery/' ~ album.presentationPicture) }}" alt="{{ album.name }}" width="600" height="400">
+                    <a id="delete_album{{ album.id }}" class="btn-sm btn-danger delete-album" href="{{ path('delete_album',{id:album.id}) }}" style="position: absolute;top: 1%;left: 80%;">
+                        <span class="fa fa-trash"></span>
+                    </a>
                   </a>
                   <div class="desc">{{ album.name }}</div>
                 </div>

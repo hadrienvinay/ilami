@@ -25,6 +25,10 @@ add_recommandation:
   path: /add/recommandation
   controller: App\Controller\ProfilController:addRecommandation
 
+add_job:
+  path: /add/job
+  controller: App\Controller\ProfilController:addJob
+
 #######################
 #   Calendar routes   #
 #######################
@@ -107,6 +111,14 @@ add_picture:
 add_album:
   path: /add/album
   controller: App\Controller\GalleryController:addAlbum
+  
+delete_album:
+  path: /delete/album/{id}
+  controller: App\Controller\GalleryController:deleteAlbum
+  
+delete_picture:
+  path: /delete/picture/{id}
+  controller: App\Controller\GalleryController:deletePicture
   
 #######################
 #     Music routes    #
