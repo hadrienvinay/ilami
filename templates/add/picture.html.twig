@@ -8,9 +8,7 @@
         <h1 class="text-center">Une p'tite nouvelle image</h1>
         <br>
         {{ form_start(form, {'method': 'post', 'action': path('add_picture')}) }}
-        {{ form_widget(form) }}
-
-
+        {{ form_widget(form, {'attr': {'class': 'form-group'}}) }}
         <div class="form-group text-center">
             <input class=" btn btn-primary btn-md login-button" type="submit" value="Importer" />
         </div>

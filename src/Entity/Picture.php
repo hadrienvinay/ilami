@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -38,17 +40,18 @@ class Picture
      * @ORM\Column(type="string", length=255)
      * @ORM\JoinColumn(nullable=true)
      */
-    private $description;
-
+    private $fileName;
+    
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Files", cascade={"persist"})
+     * @ORM\Column(type="string", length=255)
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $files;
+    private $description;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $date;
+    private $createdDate;
 
     public function getId(): ?int
     {
@@ -75,9 +78,17 @@ class Picture
     /**
      * @return mixed
      */
-    public function getDate()
+    public function getCreatedDate()
     {
-        return $this->date;
+        return $this->createdDate;
+    }
+    
+    /**
+     * @param mixed $createdDate
+     */
+    public function setCreatedDate($createdDate): void
+    {
+        $this->createdDate = $createdDate;
     }
 
     /**
@@ -112,14 +123,18 @@ class Picture
         $this->publisher = $publisher;
     }
     
-    /**
-     * @param mixed $date
-     */
-    public function setDate($date): void
+    public function getFileName(): ?string
     {
-        $this->date = $date;
+        return $this->fileName;
     }
-    
+
+    public function setFileName(string $fileName): self
+    {
+        $this->fileName = $fileName;
+        
+        return $this;
+    }
+        
     public function getDescription(): ?string
     {
         return $this->description;
@@ -131,21 +146,42 @@ class Picture
 
         return $this;
     }
-
+    
+    
     /**
+     * 
+     *     /**
      * Get files
      * 
      * @return ArrayCollection
-     */
+     
     function getFiles() {
         return $this->files;
     }
     /**
      * Set files
      * @param type $files
-     */
+     
     function setFiles($files) {
         $this->files = $files;
     }
 
+    public function addFile(Files $file): self
+    {
+        if (!$this->files->contains($file)) {
+            $this->files[] = $file;
+        }
+
+        return $this;
+    }
+
+    public function removeFile(Files $file): self
+    {
+        if ($this->files->contains($file)) {
+            $this->files->removeElement($file);
+        }
+
+        return $this;
+    }
+ */
 }

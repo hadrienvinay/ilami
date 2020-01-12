@@ -24,7 +24,7 @@ class ProfilController extends Controller
     /**
      * @return Response
      */
-    public function profil($id)
+    public function profil(Request $request, $id, GeocoderService $geocoder)
     {
         //check if user is connected
         $user=$this->getUser();
@@ -44,8 +44,28 @@ class ProfilController extends Controller
                     'Pas d\'utilisateur trouvé narvaloo pour cet identifiant: '.$id
                 );
             }
+            
+            $prevAddress = $user->getAddress();
+            $form = $this->get('form.factory')->create(UserType::class, $user);
+            if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+                if($user != $this->getUser()){
+                    throw new AccessDeniedException('Tu peux pas modifier un autre profil que le tien narvaloo !');
+                }
+                if ($prevAddress != $user->getAddress()){
+                    $pos = $geocoder->convertAddress($user->getAddress());
+                    $user->setLatitude($pos[0]);
+                    $user->setLongitude($pos[1]);
+                }
+                $user->setUpdatedDate(new \DateTime);
+                $em->persist($user);
+                $em->flush();
+
+                $request->getSession()->getFlashBag()->add('notice', 'Profil modifié avec succès !');
+                return $this->redirectToRoute('profile',array('id'=>$user->getId()));
+            }
             return $this->render('my/profil.html.twig', array(
                 'user' => $user,
+                'form' => $form->createView(),
                 'notificationList' => $notificationList
             ));
         }
@@ -146,7 +166,7 @@ class ProfilController extends Controller
     }
 
 
-    /** NOT WORKING  TO SET UP
+    /** NOT WORKING  -- TO SET UP
      * @param Request $request
      * @param $id
      * @return Response

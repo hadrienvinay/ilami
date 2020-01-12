@@ -15,7 +15,7 @@
                 <div class="">
                     <img src="{{asset('build/images/imali.png')}}" style="width: 80px; float: left; margin-left:15%;" title="logo" alt="Marsupilami">
                     <img src="{{asset('build/images/imali2.png')}}" style="width: 80px; float: right; margin-right: 15%;" title="logo" alt="Marsupilami">
-                    <h1 class="text-center">Bienvenue {{ user.username }} sur le site d'Imaliii</h1>
+                    <h1 class="text-center">Bienvenue {{ app.user.username }} sur le site d'Imaliii</h1>
 
                 </div>
                 <br>
@@ -118,7 +118,7 @@
                 <div class="media text-muted pt-3">
                     <img class="mr-2 rounded" src="{{asset('build/images/profile/' ~ info.name ~ '.jpg')}}" alt="{{ user.username }}" style="width: 5%;height: 100%;border-radius: 10%;">
                     <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                        <a href="{{ path(info.link,{id: info.link_attr}) }}">
+                        <a {% if info.link_attr is defined %}href="{{ path(info.link,{id: info.link_attr}) }}"{% else %}href="{{ path(info.link) }}"{% endif %}>
                             <strong class="d-block text-gray-dark">{{ info.name }} </strong>
                         </a>
                         {{ info.description }}
@@ -192,29 +192,105 @@
                       <li>
                             <div class="d-block">
                                 <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>
-                                <a href="{{ path('add_event') }}">Add event</a>
+                                <a class="add-event" href="{{ path('add_event') }}">Add event</a>
                             </div>                      
                       </li>
                       <li>
                             <div class="d-block">
                                 <i class="fa fa-heart-o" aria-hidden="true"></i>
-                                <a href="{{ path('add_album') }}">Add album</a>
+                                <a class="add-album" href="{{ path('add_album') }}">Add album</a>
                             </div>                       
                       </li>
                       <li>
                             <div class="d-block">
                                 <i class="fa fa-file-picture-o" aria-hidden="true"></i>
-                                <a href="{{ path('add_picture') }}">Add photo</a>
+                                <a class="add-picture" href="{{ path('add_picture') }}">Add photo</a>
                             </div>                       
                       </li>
-
+                      <li>
+                            <div class="d-block">
+                                <i class="fa fa-music" aria-hidden="true"></i>
+                                <a class="add-song" href="{{ path('add_song') }}">Add musique</a>
+                            </div>                       
+                      </li>
                     </ul>
                   </div>
                 </div>
               </div>
           </div>
-
       </div>
+      
+     <!-- Modal add an event-->
+    <div id="eventModal" class="modal">
+         <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="margin-auto">Un p'tit nouvel event</h2>
+            </div>
+            <div class="modal-body">
+                {{ form_start(eventForm, {'method': 'post', 'action': path('main_app')}) }}
+                {{ form_widget(eventForm, {'attr': {'class': 'form-group'}}) }}
+                <div class="form-group text-center">
+                    <input class=" btn btn-primary btn-md login-button" type="submit" value="Ajouter" />
+                </div>
+                {{ form_rest(eventForm) }}
+                {{ form_end(eventForm) }}
+            </div>
+         </div>
+    </div>
+            
+    <!-- Modal add an album -->
+    <div id="albumModal" class="modal">
+         <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="margin-auto">Un p'tit nouvel album</h2>
+            </div>
+            <div class="modal-body">
+                {{ form_start(albumForm, {'method': 'post', 'action': path('main_app')}) }}
+                {{ form_widget(albumForm, {'attr': {'class': 'form-group'}}) }}
+                <div class="form-group text-center">
+                    <input class=" btn btn-primary btn-md login-button" type="submit" value="Ajouter" />
+                </div>
+                {{ form_rest(albumForm) }}
+                {{ form_end(albumForm) }}
+            </div>
+         </div>
+    </div>
+            
+    <!-- Modal add a picture -->
+    <div id="pictureModal" class="modal">
+         <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="margin-auto">Un p'tite nouvelle photo</h2>
+            </div>
+            <div class="modal-body">
+                {{ form_start(pictureForm, {'method': 'post', 'action': path('main_app')}) }}
+                {{ form_widget(pictureForm, {'attr': {'class': 'form-group'}}) }}
+                <div class="form-group text-center">
+                    <input class=" btn btn-primary btn-md login-button" type="submit" value="Ajouter" />
+                </div>
+                {{ form_rest(pictureForm) }}
+                {{ form_end(pictureForm) }}
+            </div>
+         </div>
+    </div>
+            
+    <!-- Modal upload a song-->
+    <div id="songModal" class="modal">
+         <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="margin-auto">Un p'tit nouveau morceau</h2>
+            </div>
+            <div class="modal-body">
+                {{ form_start(songForm, {'method': 'post', 'action': path('main_app')}) }}
+                {{ form_widget(songForm, {'attr': {'class': 'form-group'}}) }}
+                <div class="form-group text-center">
+                    <input class=" btn btn-primary btn-md login-button" type="submit" value="Ajouter" />
+                </div>
+                {{ form_rest(songForm) }}
+                {{ form_end(songForm) }}
+            </div>
+         </div>
+    </div>
       
        <script>
            $(document).ready(function(){
@@ -224,7 +300,50 @@
                   alert('Click Click !');
                  });
                 $('.fc-scroller').addClass("home_fc-scroller");
+                
+                //modal actions
+                var modal = document.getElementById("eventModal");
+                var modal2 = document.getElementById("albumModal");
+                var modal3 = document.getElementById("pictureModal");
+                var modal4 = document.getElementById("songModal");
+                
+                $('.add-event').on('click', function(e) {
+                    e.preventDefault();
+                    $('#eventModal').modal('show');
+                });
+                    
+                $('.add-album').on('click', function(e) {
+                    e.preventDefault();
+                    $('#albumModal').modal('show');
+                });
+
+                $('.add-picture').on('click', function(e) {
+                    e.preventDefault();
+                    $('#pictureModal').modal('show');
+                });
+
+                $('.add-song').on('click', function(e) {
+                    e.preventDefault();
+                    $('#songModal').modal('show');
+                });
            });
+           // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+              if (event.target == modal) {
+                modal.style.display = "none";
+              }
+              if (event.target == modal2) {
+                modal2.style.display = "none";
+              }
+              if (event.target == modal2) {
+                modal3.style.display = "none";
+              }
+              if (event.target == modal2) {
+                modal4.style.display = "none";
+              }
+            };
+           
+           
            document.addEventListener('DOMContentLoaded', function() {
                var calendarEl = document.getElementById('calendar');
 

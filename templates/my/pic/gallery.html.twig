@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Galleries {% endblock %}
+{% block title %}Gallerie {% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -40,23 +40,17 @@
         <div class="portfolio-item row">
             {% for picture in pictures %}
                 <div class="item selfie col-lg-3 col-md-4 col-6 col-sm">
-                      <a class="fancylight popup-btn" href="{{ asset('build/images/gallery/' ~ picture.id )}}">
-                        <img src="{{asset('build/images/gallery/' ~ picture.id )}}" alt="{{ picture.description }}" class="img-fluid">
+                      <a class="fancylight popup-btn" href="{{ asset('build/images/gallery/' ~ picture.fileName )}}">
+                        <img src="{{asset('build/images/gallery/' ~ picture.fileName )}}" alt="{{ picture.description }}" class="img-fluid">
                       </a>
                       <!--<div class="desc">{% if picture.description is not null%}{{ picture.description }}{% else %}Photo n°: {{ picture.id }}{% endif %}</div>-->
                 </div>
             {% endfor %}
-        </div>
-                   
-            </div>
-        </div>
+        </div>        
     </div>
+       
     
     <script>
-        $('.portfolio-item').isotope({
-         	itemSelector: '.item',
-         	layoutMode: 'fitRows'
-         });
          $(document).ready(function() {
             var popup_btn = $('.popup-btn');
             popup_btn.magnificPopup({

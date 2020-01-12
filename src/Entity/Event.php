@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -93,6 +94,7 @@ class Event
     public function __construct()
     {
         $this->participants = new ArrayCollection();
+        $this->pictures = new ArrayCollection();
     }
     
     public function getId(): ?int
@@ -306,5 +308,28 @@ class Event
     public function setUpdatedDate($updatedDate): void
     {
         $this->updatedDate = $updatedDate;
+    }
+
+    public function addPicture(Picture $picture): self
+    {
+        if (!$this->pictures->contains($picture)) {
+            $this->pictures[] = $picture;
+            $picture->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removePicture(Picture $picture): self
+    {
+        if ($this->pictures->contains($picture)) {
+            $this->pictures->removeElement($picture);
+            // set the owning side to null (unless already changed)
+            if ($picture->getEvent() === $this) {
+                $picture->setEvent(null);
+            }
+        }
+
+        return $this;
     }
 }

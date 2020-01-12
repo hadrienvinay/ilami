@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -47,7 +49,12 @@ class Album
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $updatedDate; 
+    private $updatedDate;
+
+    public function __construct()
+    {
+        $this->pictures = new ArrayCollection();
+    } 
         
     public function getId(): ?int
     {
@@ -140,6 +147,29 @@ class Album
     public function setUpdatedDate($updatedDate): void
     {
         $this->updatedDate = $updatedDate;
+    }
+
+    public function addPicture(Picture $picture): self
+    {
+        if (!$this->pictures->contains($picture)) {
+            $this->pictures[] = $picture;
+            $picture->setAlbum($this);
+        }
+
+        return $this;
+    }
+
+    public function removePicture(Picture $picture): self
+    {
+        if ($this->pictures->contains($picture)) {
+            $this->pictures->removeElement($picture);
+            // set the owning side to null (unless already changed)
+            if ($picture->getAlbum() === $this) {
+                $picture->setAlbum(null);
+            }
+        }
+
+        return $this;
     }
 
 }

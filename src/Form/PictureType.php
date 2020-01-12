@@ -30,9 +30,11 @@ class PictureType extends AbstractType
                         ),
                     'label' => 'Photo (img file)',
                     // unmapped means that this field is not associated to any entity property
-                    //'mapped' => false,
+                    'mapped' => false,
 
                     'required' => true,
+                    
+                    'data_class' => null,
                 
                     'constraints' => [
                         new File([

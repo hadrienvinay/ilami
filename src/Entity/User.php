@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -44,6 +45,12 @@ class User extends BaseUser implements NotifiableInterface
      * @ORM\JoinColumn(nullable=true)
      */
     private $eventCreated;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Song", mappedBy="uploader")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $songs;
     
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Album", mappedBy="creator")
@@ -125,6 +132,11 @@ class User extends BaseUser implements NotifiableInterface
      public function __construct()
     {
         $this->events = new ArrayCollection();
+        $this->pictures = new ArrayCollection();
+        $this->eventCreated = new ArrayCollection();
+        $this->albumCreated = new ArrayCollection();
+        $this->recommandations = new ArrayCollection();
+        $this->songs = new ArrayCollection();
     }
     
     
@@ -415,5 +427,127 @@ class User extends BaseUser implements NotifiableInterface
     public function setUpdatedDate($updatedDate): void
     {
         $this->updatedDate = $updatedDate;
+    }
+
+    public function removePicture(Picture $picture): self
+    {
+        if ($this->pictures->contains($picture)) {
+            $this->pictures->removeElement($picture);
+            // set the owning side to null (unless already changed)
+            if ($picture->getPublisher() === $this) {
+                $picture->setPublisher(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function addEventCreated(Event $eventCreated): self
+    {
+        if (!$this->eventCreated->contains($eventCreated)) {
+            $this->eventCreated[] = $eventCreated;
+            $eventCreated->setCreator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEventCreated(Event $eventCreated): self
+    {
+        if ($this->eventCreated->contains($eventCreated)) {
+            $this->eventCreated->removeElement($eventCreated);
+            // set the owning side to null (unless already changed)
+            if ($eventCreated->getCreator() === $this) {
+                $eventCreated->setCreator(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function addAlbumCreated(Album $albumCreated): self
+    {
+        if (!$this->albumCreated->contains($albumCreated)) {
+            $this->albumCreated[] = $albumCreated;
+            $albumCreated->setCreator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAlbumCreated(Album $albumCreated): self
+    {
+        if ($this->albumCreated->contains($albumCreated)) {
+            $this->albumCreated->removeElement($albumCreated);
+            // set the owning side to null (unless already changed)
+            if ($albumCreated->getCreator() === $this) {
+                $albumCreated->setCreator(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): self
+    {
+        if ($this->events->contains($event)) {
+            $this->events->removeElement($event);
+        }
+
+        return $this;
+    }
+
+    public function addRecommandation(Recommandation $recommandation): self
+    {
+        if (!$this->recommandations->contains($recommandation)) {
+            $this->recommandations[] = $recommandation;
+            $recommandation->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecommandation(Recommandation $recommandation): self
+    {
+        if ($this->recommandations->contains($recommandation)) {
+            $this->recommandations->removeElement($recommandation);
+            // set the owning side to null (unless already changed)
+            if ($recommandation->getUser() === $this) {
+                $recommandation->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Song[]
+     */
+    public function getSongs(): Collection
+    {
+        return $this->songs;
+    }
+
+    public function addSong(Song $song): self
+    {
+        if (!$this->songs->contains($song)) {
+            $this->songs[] = $song;
+            $song->setUploader($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSong(Song $song): self
+    {
+        if ($this->songs->contains($song)) {
+            $this->songs->removeElement($song);
+            // set the owning side to null (unless already changed)
+            if ($song->getUploader() === $this) {
+                $song->setUploader(null);
+            }
+        }
+
+        return $this;
     }
 }

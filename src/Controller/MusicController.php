@@ -10,17 +10,16 @@ use YoutubeDl\YoutubeDl;
 use YoutubeDl\Exception\CopyrightException;
 use YoutubeDl\Exception\NotFoundException;
 use YoutubeDl\Exception\PrivateVideoException;
-use App\Entity\User;
 use App\Form\ConvertorType;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use App\Entity\Song;
+use App\Form\SongType;
 
 class MusicController extends Controller
 {
     /**
      * @Route("/music", name="music")
      */
-    public function radio()
+    public function radio(Request $request)
     {
         $user=$this->getUser();
         //check if user is connected
@@ -33,14 +32,47 @@ class MusicController extends Controller
         $notifiable = $notifiableEntityRepo->findOneby(array("identifier" => $user));
         $notificationList = $notifiableRepo->findAllForNotifiableId($notifiable);
         
+        $em = $this->getDoctrine()->getManager();
+        $songs = $em->getRepository('App:Song')->findAll();
+            
+        $song = new Song();
+        $form = $this->get('form.factory')->create(SongType::class, $song);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $songFile = $form['file']->getData();
+            dump($songFile);
+            $fileName = $songFile->getClientOriginalName();
+            //$fileName = $file.'.'.$file->guessExtension();
+
+           $songFile->move(
+                $this->getParameter('download_directory'),
+                $fileName
+            );
+            $song->setFileName($fileName);
+            $song->setTitle("a");
+            $song->setArtist("b");
+            $song->setUploader($user);
+            $song->setCreatedDate(new \DateTime());
+            $em->persist($song);
+            $em->flush();
+
+            $request->getSession()->getFlashBag()->add('success', 'Morceau ajouté avec succès !');
+
+            return $this->redirectToRoute('radio');
+        }
         return $this->render('my/music/radio.html.twig', array(
             'notificationList' => $notificationList,
-            ));
+            'songs' => $songs,
+            'form' => $form->createView(),
+             ));
         }
     }
     
     
-    public function convertor(Request $request){
+    public function convertor(Request $request)
+    {
         $user = $this->getUser();
         $notifiableRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableNotification');
         $notifiableEntityRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableEntity');
@@ -99,5 +131,92 @@ class MusicController extends Controller
             'notificationList' => $notificationList,
             'form' => $form->createView(),
         ));
+    }
+    
+    /**
+     * @return Response
+     */
+    public function addSong(Request $request)
+    {
+        //check if user is connected
+        $user=$this->getUser();
+        if(!$user) {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
+        else{
+            $notifiableRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableNotification');
+            $notifiableEntityRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableEntity');
+            $notifiable = $notifiableEntityRepo->findOneby(array("identifier" => $user));
+            $notificationList = $notifiableRepo->findAllForNotifiableId($notifiable);
+            
+            $song = new Song();
+            $em = $this->getDoctrine()->getManager();
+
+            $form = $this->get('form.factory')->create(SongType::class, $song);
+            
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                
+                $songFile = $form['file']->getData();
+                dump($songFile);
+                $fileName = $songFile->getClientOriginalName();
+                //$fileName = $file.'.'.$file->guessExtension();
+
+               $songFile->move(
+                    $this->getParameter('download_directory'),
+                    $fileName
+                );
+                $song->setFileName($fileName);
+                $song->setTitle("a");
+                $song->setArtist("b");
+                $song->setUploader($user);
+                $song->setCreatedDate(new \DateTime());
+                $em->persist($song);
+                $em->flush();
+
+                $request->getSession()->getFlashBag()->add('success', 'Morceau ajouté avec succès !');
+
+                return $this->redirectToRoute('radio');
+            }
+
+            return $this->render('add/song.html.twig', array(
+                'user' => $user,
+                'form' => $form->createView(),
+                'notificationList' => $notificationList
+            ));
+        }
+    }
+    
+    /**
+     * @return Response
+     */
+    public function deleteSong(Request $request, $id)
+    {
+        //check if user is connected
+        $user=$this->getUser();
+        if(!$user) {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
+        else{
+            $em = $this->getDoctrine()->getManager();
+            $song = $em->getRepository('App:Song')->find($id);
+
+            // Security check
+            if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+                // else error page
+                throw new AccessDeniedException('Accès limité aux admins narvaloo.');
+            }
+            
+            if (!$song) {
+                throw $this->createNotFoundException('Aucun son trouvé pour id: ' . $song);
+            }
+
+            $em->remove($song);
+            $em->flush();
+
+            $request->getSession()->getFlashBag()->add('success', 'Morceau supprimé avec succès !');
+
+            return $this->redirectToRoute('radio');
+        }
     }
 }

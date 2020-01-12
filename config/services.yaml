@@ -38,4 +38,7 @@ services:
         class: App\Form\UserType
         tags:
             - { name: form.type, alias: app_user_registration }
+            
+    eventController:
+        class: App\Controller\EventController
 

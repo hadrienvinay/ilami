@@ -118,6 +118,14 @@ radio:
 convertor:
     path: /convertor
     controller: App\Controller\MusicController::convertor
+    
+add_song:
+    path: /add/song
+    controller: App\Controller\MusicController::addSong
+
+delete_song:
+    path: /delete/song/{id}
+    controller: App\Controller\MusicController::deleteSong
 
 #######################
 #  Timetable routes   #

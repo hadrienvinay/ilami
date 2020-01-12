@@ -29,6 +29,9 @@ class UserType extends AbstractType
                     'label' => 'Adresse')
             )
             ->remove('username')
+            ->remove('plainPassword')
+
+
         ;
     }/**
  * {@inheritdoc}

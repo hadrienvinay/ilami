@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Event;
-use App\Entity\User;
 use App\Form\EventType;
 use App\Service\GeocoderService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -35,6 +34,7 @@ class EventController extends Controller
             
             $em = $this->getDoctrine()->getManager();
             $event = $em->getRepository('App:Event')->find($id);
+       
             if (!$event) {
                 throw $this->createNotFoundException(
                     'Pas d\'évent trouvé narvaloo pour cet identifiant: '.$id
@@ -69,8 +69,9 @@ class EventController extends Controller
             //default: user address 
             $event->setAddress($user->getAddress());
             $event->setLatitude($user->getLatitude());   
-            $event->setLongitude($user->getALongitude());
-                        
+            $event->setLongitude($user->getLongitude());
+            $event->setName("Soirée chez ".$user->getUsername());
+
             $em = $this->getDoctrine()->getManager();
 
             if (!is_null($start) and !is_null($end))

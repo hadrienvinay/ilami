@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Picture;
-use App\Entity\Files;
 use App\Entity\Album;
 use App\Form\AlbumType;
 use App\Form\PictureType;
@@ -133,25 +132,21 @@ class GalleryController extends Controller
 
             if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 
-                dump($picture);
+                $file = $form['files']->getData();
+                dump($file);
                 dump($form);
-                dump($form['files']->getData());
-                $fileNames = $picture->getFiles();
-                dump($fileNames);
-                if($fileNames){
+
+                if($file){
                     //foreach ($fileNames as $file){                
                         //if($file){
-                            $file = new Files();
-                            $newPic = new Picture();
-                            $newPic = $picture;
-                            $originalFilename = pathinfo($fileNames->getClientOriginalName(), PATHINFO_FILENAME);
+                            $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
                             // this is needed to safely include the file name as part of the URL
                             $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
-                            $newFilename = $safeFilename.'-'.uniqid().'.'.$fileNames->guessExtension();
+                            $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
 
                             // Move the file to the directory where brochures are stored
                             try {
-                                $fileNames->move(
+                                $file->move(
                                     $this->getParameter('pictures_directory'),
                                     $newFilename
                                 );
@@ -161,26 +156,19 @@ class GalleryController extends Controller
                                     'Erreur lors de l\'import narvaloooo'
                                 );
                             }
-                            $file->setFile($newFilename);
-                            $em->persist($file);
-                            $newPic->setDate(new \DateTime);
-                            $newPic->setPublisher($user);
-                            $user->addPicture($newPic);
-                            $em->persist($newPic);
+                            $picture->setFileName($newFilename);
+                            $picture->setDate(new \DateTime);
+                            $picture->setPublisher($user);
+                            $user->addPicture($picture);
+                            $em->persist($picture);
+                            $em->persist($user);
                             $em->flush();
+                            
+                            $request->getSession()->getFlashBag()->add('success', 'Photo ajoutée avec succès !');
                         //}
                    // }
                 }
-                
-                $em->persist($user);
-                $em->flush();
-
-                $request->getSession()->getFlashBag()->add('notice', 'Photo ajoutée avec succès !');
-
-return $this->render('add/picture.html.twig', array(
-                'form' => $form->createView(),
-                'notificationList' => $notificationList
-            ));
+                return $this->redirectToRoute('gallery');
             }
             return $this->render('add/picture.html.twig', array(
                 'form' => $form->createView(),
@@ -242,7 +230,7 @@ return $this->render('add/picture.html.twig', array(
                 $em->persist($album);
                 $em->flush();
 
-                $request->getSession()->getFlashBag()->add('notice', 'Album créé avec succès !');
+                $request->getSession()->getFlashBag()->add('success', 'Album créé avec succès !');
 
                 return $this->redirectToRoute('albums');
 

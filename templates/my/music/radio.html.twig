@@ -6,6 +6,129 @@
     <br>
     <div class="container" style="padding: 3%;margin-top: 3%;margin-bottom: 3%;border-radius: 0.5rem;background: #fff;">   
         <h1 class="text-center">La P'tite Radio ✅</h1>
-
+        <br>
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+            <h6 class="border-bottom border-gray pb-2 mb-0">Les p'tits sons du moment</h6>
+            <small class="d-block text-right mt-3">
+                <i class="fa fa-plus-square" aria-hidden="true"></i>
+                <a class="upload-song" href="{{ path('add_song') }}">Ajouter un son</a>
+            </small>
+            {% for song in songs|sort((a, b) => a.createddate <=> b.createddate)%}
+                <div class="media text-muted pt-3">
+                    <img alt="Musique" class="mr-2 rounded" style="width: 32px; height: 32px;" src="{{ asset('build/images/musique/soundcloud.png') }}">
+                    <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                        <audio id="audioPlayer{{loop.index}}" controls="controls" style="float: right;margin-right: 25%;">
+                            {#<source src="{{ song.fileName }}.ogg">#}
+                            <source src="{{ asset("build/downloads/"~song.fileName )}}">
+                        </audio> 
+                            <strong class="d-block text-gray-dark">{{ song.fileName }}</strong>
+                            Uploadé par <a href="{{ path('profile',{id:song.uploader.id}) }}">{{ song.uploader.username }}</a> {{ song.createddate|time_diff() }}
+                    </p>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a id="delete_song{{ song.id }}" class="btn-sm btn-danger delete-song" href="{{ path('delete_song',{'id': song.id}) }}">Supprimer</a>
+                    {% endif %}
+               </div>
+            {% endfor %}
+        </div>
     </div>
+        
+    <!-- Modal upload a song-->
+    <div id="uploadModal" class="modal">
+         <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="margin-auto">Un p'tit nouveau morceau</h2>
+            </div>
+            <div class="modal-body">
+                {{ form_start(form, {'method': 'post', 'action': path('add_song')}) }}
+                {{ form_widget(form, {'attr': {'class': 'form-group'}}) }}
+                <div class="form-group text-center">
+                    <input class=" btn btn-primary btn-md login-button" type="submit" value="Ajouter" />
+                </div>
+                {{ form_rest(form) }}
+                {{ form_end(form) }}
+            </div>
+         </div>
+    </div>
+            
+    <!-- Modal confirm cancel an order-->
+    <div id="deleteModal" class="modal">
+         <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="margin-auto">Suppression d'un morceau</h2>
+            </div>
+            <div class="modal-body">
+                <p>Vous allez supprimer ce morceau </p>
+                <p>Etes-vous sur?</p>
+            </div>
+            <div class="modal-footer">
+                <a href="" id="btnYes" class="btn btn-danger" data="">Oui</a>
+                <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Non</a>
+            </div>
+         </div>
+    </div>
+            
+        <script>
+            //MP3 Player 
+            /*
+            function play(idPlayer, control) {
+                var player = document.querySelector('#' + idPlayer);
+                player.volume=1;
+                if (player.paused) {
+                    player.play();
+                    control.textContent = 'Pause';
+                } else {
+                    player.pause();	
+                    control.textContent = 'Play';
+                }
+            }   
+
+            function resume(idPlayer) {
+                var player = document.querySelector('#' + idPlayer);
+                player.currentTime = 0;
+                player.pause();
+            }*/
+            
+                $(document).ready(function (){                     
+                    //Modal management
+                    var modal = document.getElementById("deleteModal");
+                    var modal2 = document.getElementById("uploadModal");
+                    
+                    $('.upload-song').on('click', function(e) {
+                        e.preventDefault();
+                        $('#uploadModal').modal('show');
+                    });
+
+                    $('.delete-song').on('click', function(e) {
+                        e.preventDefault();
+                        var href = $(this).attr("href");
+                        var id = $(this).attr("id");
+                        $('#btnYes').attr("href",href);
+                        $('#btnYes').attr("data",id);
+                        $('#deleteModal').modal('show');
+                    });
+                    //delete an event and the correponding bloc
+                    $('#btnYes').on('click', function (e) {
+                        //e.preventDefault();
+                        //var notifUrl = $(this).attr('href');
+                        //var div = $(this).attr('data');
+                        //var divNum = div.replace('delete_event','');
+                        //$.ajax({url: notifUrl,
+                         //   success: function(result){
+                          //      $('#event'+ divNum).remove();
+                           // }});
+                    });
+
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function(event) {
+                  if (event.target == modal) {
+                    modal.style.display = "none";
+                  }
+                  if (event.target == modal2) {
+                    modal2.style.display = "none";
+                  }
+                };
+
+            });
+        </script>
+
 {% endblock %}

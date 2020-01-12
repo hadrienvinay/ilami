@@ -39,7 +39,7 @@
 
             <small class="d-block text-right mt-3">
                 <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>
-                <a href="{{ path('add_event') }}">Ajouter un évènement</a>
+                <a class="add-event" href="{{ path('add_event') }}">Ajouter un évènement</a>
             </small>
 
             <h6 class="border-bottom border-gray pb-2 mb-0">Les p'tits évènements passés</h6>
@@ -58,7 +58,7 @@
                                 {% if is_granted('ROLE_ADMIN') %}
                                     <a id="delete_event{{ event.id }}" class="btn-sm btn-danger delete-event" href="{{ path('delete_event',{'id': event.id}) }}">Supprimer</a>
                                 {% endif %}
-                                </div>
+                            </div>
                         {% endif %}
                 {% endif %}
             {% endfor %}
@@ -84,9 +84,27 @@
             </small>
         </div>
     </div>
+        
+    <!-- Modal add an event-->
+    <div id="addModal" class="modal">
+         <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="margin-auto">Création d'un évènement</h2>
+            </div>
+            <div class="modal-body">
+                {{ form_start(form, {'method': 'post', 'action': path('add_event')}) }}
+                {{ form_widget(form, {'attr': {'class': 'form-group'}}) }}
+                <div class="form-group text-center">
+                    <input class=" btn btn-primary btn-md login-button" type="submit" value="Créer" />
+                </div>
+                {{ form_rest(form) }}
+                {{ form_end(form) }}
+            </div>
+         </div>
+    </div>
             
-            <!-- Modal confirm cancel an order-->
-    <div id="myModal" class="modal">
+    <!-- Modal delete an event-->
+    <div id="deleteModal" class="modal">
          <div class="modal-content">
             <div class="modal-header">
                 <h2 class="margin-auto">Suppression d'un évènement</h2>
@@ -104,15 +122,21 @@
             
             <script>
                 $(document).ready(function (){
-                    var modal = document.getElementById("myModal");
-               
+                    var modal = document.getElementById("addModal");
+                    var modal2 = document.getElementById("deleteModal");
+                                        
+                    $('.add-event').on('click', function(e) {
+                        e.preventDefault();
+                        $('#addModal').modal('show');
+                    });
+
                     $('.delete-event').on('click', function(e) {
                         e.preventDefault();
                         var href = $(this).attr("href");
                         var id = $(this).attr("id");
                         $('#btnYes').attr("href",href);
                         $('#btnYes').attr("data",id);
-                        $('#myModal').modal('show');
+                        $('#deleteModal').modal('show');
                     });
                     //delete an event and the correponding bloc
                     $('#btnYes').on('click', function (e) {
@@ -130,6 +154,9 @@
                 window.onclick = function(event) {
                   if (event.target == modal) {
                     modal.style.display = "none";
+                  }
+                  if (event.target == modal) {
+                    modal2.style.display = "none";
                   }
                 };
                 
