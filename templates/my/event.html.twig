@@ -24,17 +24,27 @@
                         <a {% if app.user in event.participants %} href="#"  class="btn btn-primary" {% else %}href="{{ path('add_participant',{id: event.id}) }}" class="btn btn-outline-primary" {% endif %}>Participe</a>
                         <a {% if app.user in event.participants %} href="{{ path('cancel_participant',{id: event.id}) }}" class="btn btn-outline-secondary" {% else %}href="#" class="btn btn-secondary" {% endif %}>Ne Participe Pas</a>
                     </div>
+                    <br>
                     <ul class="nav nav-tabs" id="myTab" role="tablist" >
                         <li class="nav-item">
-                            <a style="font-weight: 600;border: none; border-bottom: 2px solid #0062cc;" class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">A propos</a>
+                            <a class="nav-link active" id="infos-tab" data-toggle="tab" href="#infos" role="tab" aria-controls="infos" aria-selected="true">A propos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="photos-tab" data-toggle="tab" href="#photos" role="tab" aria-controls="photos" aria-selected="false">Les P'tites Photos</a>
                         </li>
                     </ul>
                 </div>
             </div>
             <div class="col-md-2">
                 {% if event.creator.id == app.user.id %}
-                    <a href="{{path('modify_event',{'id' : event.id }) }}" class="btn btn-primary" style="border: none;border-radius: 1.5rem;width: 70%;padding: 2%;font-weight: 600;color: white;cursor: pointer;">
+                    <a href="{{path('modify_event',{'id' : event.id }) }}" class="btn-sm btn-outline-primary update-event">
+                    <i class="fa fa-edit" aria-hidden="true"></i>
                         Modifier event
+                    </a>
+                    <br>
+                    <a href="{{path('delete_event',{'id' : event.id }) }}" class="btn-sm btn-outline-danger delete-event">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                        Supprimer event
                     </a>
                 {% endif %}
             </div>
@@ -43,8 +53,8 @@
             <div class="col-md-4">
             </div>
             <div class="col-md-8">
-                <div class="tab-content profile-tab" id="myTabContent">
-                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div class="tab-content event-tab" id="myTabContent">
+                    <div class="tab-pane fade show active" id="infos" role="tabpanel" aria-labelledby="infos-tab">
                         <div class="row">
                             <div class="col-md-3">
                                 <i class="fa fa-user-o" aria-hidden="true"></i>
@@ -81,9 +91,32 @@
                             </div>
                             <div class="col-md-9">
                                 {% for user in event.participants  %}
-                                    <img src="{{asset('build/images/profile/mini/' ~ user.username ~ '.png')}}" alt="{{ user.username }}">
+                                    <img src="{{asset('build/images/profile/mini/' ~ user.username ~ '.png')}}" alt="{{ user.username }}" data-toggle="tooltip" data-placement="top" title="{{ user.username }}">
                                 {% endfor %}
                             </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="photos" role="tabpanel" aria-labelledby="photos-tab">
+                        {% if app.user.id == event.creator.id %}
+                            <small class="d-block text-right mt-3">
+                               <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                               <a href="{{ path('add_picture') }}" class="add-picture">Ajouter une photo</a>
+                           </small>
+                        {% endif %}
+                        {% if event.pictures is empty %}
+                            <p class="text-center">
+                                Aucune photos pour cet évènement :/
+                            </p>
+                        {% endif %}
+                        <div class="portfolio-item row">
+                            {% for picture in event.pictures %}
+                                <div class="item selfie col-lg-3 col-md-4 col-6 col-sm">
+                                      <a class="fancylight popup-btn" href="{{ asset('build/images/gallery/' ~ picture.fileName )}}">
+                                        <img src="{{asset('build/images/gallery/' ~ picture.fileName )}}" alt="{{ picture.description }}" class="img-fluid">
+                                      </a>
+                                      <!--<div class="desc">{% if picture.description is not null%}{{ picture.description }}{% else %}Photo n°: {{ picture.id }}{% endif %}</div>-->
+                                </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
@@ -92,11 +125,108 @@
         <hr>
         <div id="map" style="height:300px; width:100%"></div>
     </div>
-                                    
+           
+                        
+    <!-- Modal update an event -->
+    <div id="updateModal" class="modal">
+         <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="margin-auto">Modification de l'event</h2>
+            </div>
+            <div class="modal-body">
+                {{ form_start(eventForm, {'method': 'post', 'action': path('event',{'id': event.id})}) }}
+                {{ form_widget(eventForm, {'attr': {'class': 'form-group'}}) }}
+                <div class="form-group text-center">
+                    <input class=" btn btn-primary btn-md login-button" type="submit" value="Modifier" />
+                </div>
+                {{ form_rest(eventForm) }}
+                {{ form_end(eventForm) }}
+            </div>
+         </div>
+    </div>
+            
+    <!-- Modal add a picture -->
+    <div id="addPictureModal" class="modal">
+         <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="margin-auto">Ajout d'une P'tite Photo</h2>
+            </div>
+            <div class="modal-body">
+                {{ form_start(pictureForm, {'method': 'post', 'action': path('add_picture')}) }}
+                {{ form_widget(pictureForm, {'attr': {'class': 'form-group'}}) }}
+                <div class="form-group text-center">
+                    <input class=" btn btn-primary btn-md login-button" type="submit" value="Modifier" />
+                </div>
+                {{ form_rest(pictureForm) }}
+                {{ form_end(pictureForm) }}
+            </div>
+         </div>
+    </div>
+    
+    <!-- Modal delete an event-->
+    <div id="deleteModal" class="modal">
+         <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="margin-auto">Suppression d'un event</h2>
+            </div>
+            <div class="modal-body">
+                <p>Vous allez supprimer cette evènenement </p>
+                <p>Etes-vous sur?</p>
+            </div>
+            <div class="modal-footer">
+                <a href="" id="btnYes" class="btn btn-danger" data="">Oui</a>
+                <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Non</a>
+            </div>
+         </div>
+    </div>
+            
     <script>
+        $(document).ready(function() {
+            var modal = document.getElementById("updateModal");
+            var modal2 = document.getElementById("addPictureModal");
+            var modal3 = document.getElementById("deleteModal");
+            
+            $('.update-event').on('click', function(e) {
+                e.preventDefault();
+                $('#updateModal').modal('show');
+            });
+            $('.add-picture').on('click', function(e) {
+                e.preventDefault();
+                $('#addPictureModal').modal('show');
+            });
+            
+           $('.delete-event').on('click', function(e) {
+                e.preventDefault();
+                var href = $(this).attr("href");
+                var id = $(this).attr("id");
+                $('#btnYes').attr("href",href);
+                $('#btnYes').attr("data",id);
+                $('#deleteModal').modal('show');
+            });
+            
+            window.onclick = function(event) {
+              if (event.target == modal) {
+                modal.style.display = "none";
+              }
+              if (event.target == modal2) {
+                modal2.style.display = "none";
+              }
+              if (event.target == modal3) {
+                modal2.style.display = "none";
+              }
+            };
+            
+            var popup_btn = $('.popup-btn');
+            popup_btn.magnificPopup({
+            type : 'image',
+            gallery : {
+                   enabled : true
+                }
+            });
+         });
+         
       var map;
       function initMap() {
-        
         var lat= {{ event.latitude }};
         var long = {{ event.longitude }};
         map = new google.maps.Map(document.getElementById('map'), {

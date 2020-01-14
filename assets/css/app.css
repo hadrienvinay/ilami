@@ -249,3 +249,8 @@ div#carrousel{
     85% {left: -200%;}
     90% {left: -300%;}                  
 }
+
+/* Autocomplete*/
+.ui-autocomplete {
+     z-index: 0 !important;
+}

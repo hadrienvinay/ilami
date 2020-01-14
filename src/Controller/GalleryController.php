@@ -266,16 +266,18 @@ class GalleryController extends Controller
             $em = $this->getDoctrine()->getManager();
             $album = $em->getRepository('App:Album')->find($id);
             // Security check
-            if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-                throw new AccessDeniedException('Accès limité aux admins narvaloo.');
+            if ($user != $album->getCreator() || !$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+                throw new AccessDeniedException('Tu ne peux pas supprimer un album que tu n\as pas crée narvalo !');
             }
             if (!$album) {
                 throw $this->createNotFoundException('Aucune photo trouvé pour id: ' . $album);
             }
-            $em->remove($album);
-            $em->flush();
-            $request->getSession()->getFlashBag()->add('success', 'Album supprimé avec succès !');
-            return $this->redirectToRoute('gallery');
+            else{
+                $em->remove($album);
+                $em->flush();
+                $request->getSession()->getFlashBag()->add('success', 'Album supprimé avec succès !');
+                return $this->redirectToRoute('gallery');
+            }
         }
     }
     
@@ -293,16 +295,18 @@ class GalleryController extends Controller
             $em = $this->getDoctrine()->getManager();
             $picture = $em->getRepository('App:Picture')->find($id);
             // Security check
-            if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-                throw new AccessDeniedException('Accès limité aux admins narvaloo.');
+            if ($user != $picture->getPublisher() || !$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+                throw new AccessDeniedException('Tu ne peux pas supprimer une photo que tu n\as pas importée narvalo !');
             }
             if (!$picture) {
                 throw $this->createNotFoundException('Aucune photo trouvé pour id: ' . $picture);
             }
-            $em->remove($picture);
-            $em->flush();
-            $request->getSession()->getFlashBag()->add('success', 'Photo supprimée avec succès !');
-            return $this->redirectToRoute('gallery');
+            else{
+                $em->remove($picture);
+                $em->flush();
+                $request->getSession()->getFlashBag()->add('success', 'Photo supprimée avec succès !');
+                return $this->redirectToRoute('gallery');
+            }
         }
     }
 

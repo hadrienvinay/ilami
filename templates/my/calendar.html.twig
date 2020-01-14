@@ -70,14 +70,14 @@
                 select: function(info) {
                     if ((info.end - info.start) > 86399999)
                     {
-                        var my_route = Routing.generate('add_event', {start : info.start.getTime(), end : info.end.getTime() - 1})
+                        var my_route = Routing.generate('add_event', {start : info.start.getTime(), end : info.end.getTime() - 1});
                         //window.location.replace(my_route);
                         $('#btnYes').attr("href",my_route);
                         $('#myModal').modal('show');
                     }
                 },
                 dateClick: function(info) {
-                    var my_route = Routing.generate('add_event', {start : info.date.getTime(), end : info.date.getTime() + 86399999})
+                    var my_route = Routing.generate('add_event', {start : info.date.getTime(), end : info.date.getTime() + 86399999});
                     //window.location.replace(my_route);
                     $('#btnYes').attr("href",my_route);
                     $('#myModal').modal('show');

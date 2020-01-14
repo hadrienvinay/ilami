@@ -5,6 +5,10 @@ main_app:
 rules:
     path: /rules
     controller: App\Controller\MainController::rules
+    
+autocomplete_search:
+    path: /autocomplete
+    controller: App\Controller\MainController:autocompleteSearch
 
 #######################
 #    Profil routes    #

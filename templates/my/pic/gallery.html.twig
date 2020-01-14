@@ -38,7 +38,7 @@
                             <div class="item selfie col-lg-3 col-md-4 col-6 col-sm">
                                   <a class="fancylight popup-btn" href="{{ asset('build/images/gallery/' ~ picture.fileName )}}">
                                     <img src="{{asset('build/images/gallery/' ~ picture.fileName )}}" alt="{{ picture.description }}" class="img-fluid">
-                                    {% if is_granted('ROLE_ADMIN') %}
+                                    {% if app.user.id == picture.publisher.id %}
                                         <a id="delete_picture{{ picture.id }}" class="btn-sm btn-danger delete-picture" href="{{ path('delete_picture',{id:picture.id}) }}" style="position: absolute;top: 1%;left: 80%;">
                                             <span class="fa fa-trash"></span>
                                         </a>

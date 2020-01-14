@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Entity\Picture;
 use App\Form\EventType;
+use App\Form\PictureType;
 use App\Service\GeocoderService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -19,7 +21,7 @@ class EventController extends Controller
     /**
      * @return Response
      */
-    public function event($id)
+    public function event($id, Request $request, GeocoderService $geocoder)
     {
         //check if user is connected
         $user=$this->getUser();
@@ -41,8 +43,35 @@ class EventController extends Controller
                 );
             }
             
+            //Event Form
+            $prevAddress = $event->getAddress();
+            $eventForm = $this->get('form.factory')->create(EventType::class, $event);
+            if ($request->isMethod('POST') && $eventForm->handleRequest($request)->isValid()) {
+                if($user != $event->getCreator()){
+                    throw new AccessDeniedException('Tu peux pas modifier un event qui n\'est pas le tien narvalo !');
+                }
+                if($event->getAddress() != $prevAddress){
+                    $pos = $geocoder->convertAddress($event->getAddress());
+                    $event->setLatitude($pos[0]);
+                    $event->setLongitude($pos[1]);
+                }
+                $event->setUpdatedDate(new \DateTime);
+                $em->persist($event);
+                $em->flush();
+
+                $request->getSession()->getFlashBag()->add('success', 'Evènement modifié avec succès !');
+                return $this->redirectToRoute('event',array('id'=>$event->getId()));
+
+            }
+            //Picture Form
+            $picture = new Picture();
+            $picture->setEvent($event);
+            $pictureForm = $this->get('form.factory')->create(PictureType::class, $picture);
+            
             return $this->render('my/event.html.twig', array(
                 'event' => $event,
+                'eventForm' => $eventForm->createView(),
+                'pictureForm' => $pictureForm->createView(),
                 'notificationList' => $notificationList
             ));
         }
@@ -108,7 +137,7 @@ class EventController extends Controller
                     }
                 }
 
-                $request->getSession()->getFlashBag()->add('notice', 'Evènement créé avec succès !');
+                $request->getSession()->getFlashBag()->add('success', 'Evènement créé avec succès !');
                 return $this->redirectToRoute('resume');
 
             }
@@ -156,7 +185,7 @@ class EventController extends Controller
                 $em->persist($event);
                 $em->flush();
 
-                $request->getSession()->getFlashBag()->add('notice', 'Evènement modifié avec succès !');
+                $request->getSession()->getFlashBag()->add('success', 'Evènement modifié avec succès !');
 
                 return $this->redirectToRoute('event',array('id' => $event->getId()));
             }
@@ -193,7 +222,7 @@ class EventController extends Controller
             $em->persist($user);
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add('notice', 'Participation confirmée avec succès !');
+            $request->getSession()->getFlashBag()->add('success', 'Participation confirmée avec succès !');
 
             return $this->redirectToRoute('event',array('id' => $id));
         }
@@ -222,7 +251,7 @@ class EventController extends Controller
             $em->persist($user);
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add('notice', 'Participation annulée avec succès !');
+            $request->getSession()->getFlashBag()->add('success', 'Participation annulée avec succès !');
 
             return $this->redirectToRoute('event',array('id' => $id));
             
@@ -242,23 +271,23 @@ class EventController extends Controller
         else{
             $em = $this->getDoctrine()->getManager();
             $event = $em->getRepository('App:Event')->find($id);
-
+            
             // Security check
-            if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            if ($user != $event->getCreator()) {
                 // else error page
-                throw new AccessDeniedException('Accès limité aux admins narvaloo.');
+                throw new AccessDeniedException('Tu ne peux pas supprimer un évènement que tu n\'as pas crée narvalo !');
             }
-
             if (!$event) {
                 throw $this->createNotFoundException('Aucun event trouvé pour id: ' . $event);
             }
+            else{
+                $em->remove($event);
+                $em->flush();
 
-            $em->remove($event);
-            $em->flush();
+                $request->getSession()->getFlashBag()->add('success', 'Evènement supprimé avec succès !');
 
-            $request->getSession()->getFlashBag()->add('notice', 'Evènement supprimé avec succès !');
-
-            return $this->redirectToRoute('resume');
+                return $this->redirectToRoute('resume');
+            }
         }
     }
 

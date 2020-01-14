@@ -261,9 +261,9 @@ class MusicController extends Controller
             $song = $em->getRepository('App:Song')->find($id);
 
             // Security check
-            if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            if ($user != $song->getUploader || !$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
                 // else error page
-                throw new AccessDeniedException('Accès limité aux admins narvaloo.');
+                throw new AccessDeniedException('Tu ne peux pas supprimer un son que tu n\as pas importé narvalo !');
             }
             
             if (!$song) {

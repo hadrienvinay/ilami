@@ -55,9 +55,9 @@
         </div>
         <div class="row">
             <div class="col-md-4">
-                <div class="profile-work" style="padding: 20%;margin-top: -15%;">
+                <div class="profile-work" style="margin-left:22%;">
                     <table class="fc-list-table">
-                        <tbody>
+                        <thead>
                             <tr class="fc-list-heading" data-date="2019-12-27">
                                 <td class="fc-widget-header" colspan="3">
                                     <span class="fc-list-heading-main">
@@ -66,8 +66,14 @@
                                     </span>
                                 </td>
                             </tr>
+                        </thead>
+                        <tbody>
                             {% if user.recommandations is empty %}
-                                <p>Aucune recommandations :/ </p>
+                                <td class="fc-list-item-title fc-widget-content">
+                                    <i>
+                                        Aucune recommandations :/ 
+                                    </i>
+                                </td>
                             {% else %}
                                 {% for recommandation in user.recommandations| slice(0,5)%}
                                     <tr class="fc-list-item">
@@ -98,6 +104,7 @@
             <div class="col-md-8">
                 <div class="tab-content profile-tab" id="myTabContent">
                     <div class="tab-pane fade show active" id="infos" role="tabpanel" aria-labelledby="infos-tab">
+                        <br>
                         <div class="row">
                             <div class="col-md-4">
                             <i class="fa fa-free-code-camp" aria-hidden="true"></i>
@@ -161,8 +168,7 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="photos" role="tabpanel" aria-labelledby="photos-tab">
-                        <div class="portfolio-item row">
-                            {% if app.user.id == user.id %}
+                        {% if app.user.id == user.id %}
                                 <small class="d-block text-right mt-3">
                                    <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                                    <a href="{{ path('add_picture') }}" class="add-picture">Ajouter une photo</a>
@@ -173,10 +179,16 @@
                                    Aucune photos
                                </p>
                             {% endif %}
+                        <div class="portfolio-item row">
                             {% for picture in user.pictures %}
                                 <div class="item selfie col-lg-3 col-md-4 col-6 col-sm">
                                       <a class="fancylight popup-btn" href="{{ asset('build/images/gallery/' ~ picture.fileName )}}">
                                         <img src="{{asset('build/images/gallery/' ~ picture.fileName )}}" alt="{{ picture.description }}" class="img-fluid">
+                                        {% if app.user.id == user.id %}
+                                            <a id="delete_picture{{ picture.id }}" class="btn-sm btn-danger delete-picture" href="{{ path('delete_picture',{id:picture.id}) }}" style="position: absolute;top: 1%;left: 75%;">
+                                                <span class="fa fa-trash"></span>
+                                            </a>
+                                        {% endif %}
                                       </a>
                                       <!--<div class="desc">{% if picture.description is not null%}{{ picture.description }}{% else %}Photo n°: {{ picture.id }}{% endif %}</div>-->
                                 </div>
@@ -206,6 +218,11 @@
                                         <strong class="d-block text-gray-dark">{{ song.fileName }}</strong>
                                         {{ song.createddate|time_diff() }}
                                 </p>
+                                {% if user.id == song.uploader.id %}
+                                    <a id="delete_song{{ song.id }}" class="btn-sm btn-danger delete-song" href="{{ path('delete_song',{'id': song.id}) }}">
+                                       <span class="fa fa-trash"></span> 
+                                    </a>
+                                {% endif %}
                            </div>
                         {% endfor %}                      
                     </div>
@@ -250,7 +267,8 @@
             </div>
          </div>
     </div>
-               <!-- Modal add a job -->
+            
+    <!-- Modal add a job -->
     <div id="addSongModal" class="modal">
          <div class="modal-content">
             <div class="modal-header">
@@ -258,7 +276,10 @@
             </div>
             <div class="modal-body">
                 {{ form_start(songForm, {'method': 'post', 'action': path('add_song')}) }}
-                {{ form_widget(songForm, {'attr': {'class': 'form-group'}}) }}
+                {{ form_row(songForm.file, {'attr': {'class': 'form-group'}}) }}
+                <p class="text-center">OU</p>
+                <hr>
+                {{ form_row(songForm.url, {'attr': {'class': 'form-group'}}) }}
                 <div class="form-group text-center">
                     <input class=" btn btn-primary btn-md login-button" type="submit" value="Modifier" />
                 </div>
@@ -302,6 +323,40 @@
             </div>
          </div>
     </div>
+            
+    <!-- Modal delete a picture-->
+    <div id="deletePictureModal" class="modal">
+         <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="margin-auto">Suppression d'une photo</h2>
+            </div>
+            <div class="modal-body">
+                <p>Vous allez supprimer cette photo </p>
+                <p>Etes-vous sur?</p>
+            </div>
+            <div class="modal-footer">
+                <a href="" id="btnYes" class="btn btn-danger" data="">Oui</a>
+                <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Non</a>
+            </div>
+         </div>
+    </div>
+    
+    <!-- Modal delete a song-->
+    <div id="deleteSongModal" class="modal">
+         <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="margin-auto">Suppression d'une musique</h2>
+            </div>
+            <div class="modal-body">
+                <p>Vous allez supprimer cette musique </p>
+                <p>Etes-vous sur?</p>
+            </div>
+            <div class="modal-footer">
+                <a href="" id="btnYes2" class="btn btn-danger" data="">Oui</a>
+                <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Non</a>
+            </div>
+         </div>
+    </div>
                                     
     <script>
          $(document).ready(function() {
@@ -310,7 +365,9 @@
             var modal3 = document.getElementById("addSongModal");
             var modal4 = document.getElementById("addJobModal");
             var modal5 = document.getElementById("addRecommandationModal");
-
+            var modal6 = document.getElementById("deletePictureModal");
+            var modal7 = document.getElementById("deleteSongModal");
+            
             $('.update-profil').on('click', function(e) {
                 e.preventDefault();
                 $('#updateModal').modal('show');
@@ -332,6 +389,24 @@
                 $('#addRecommandationModal').modal('show');
             });
             
+            $('.delete-picture').on('click', function(e) {
+                e.preventDefault();
+                var href = $(this).attr("href");
+                var id = $(this).attr("id");
+                $('#btnYes').attr("href",href);
+                $('#btnYes').attr("data",id);
+                $('#deletePictureModal').modal('show');
+            });
+
+            $('.delete-song').on('click', function(e) {
+                e.preventDefault();
+                var href = $(this).attr("href");
+                var id = $(this).attr("id");
+                $('#btnYes2').attr("href",href);
+                $('#btnYes2').attr("data",id);
+                $('#deleteSongModal').modal('show');
+            });
+            
              // When the user clicks anywhere outside of the modal, close it
             window.onclick = function(event) {
               if (event.target == modal) {
@@ -345,6 +420,15 @@
               }
               if (event.target == modal4) {
                 modal4.style.display = "none";
+              }
+              if (event.target == modal5) {
+                modal5.style.display = "none";
+              }
+              if (event.target == modal6) {
+                modal6.style.display = "none";
+              }
+              if (event.target == modal7) {
+                modal7.style.display = "none";
               }
             };
 

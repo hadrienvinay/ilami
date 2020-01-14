@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\GeocoderService;
 use App\Entity\Event;
@@ -163,6 +164,32 @@ class MainController extends Controller
             ));
         
         }
+    }
+    
+    /**
+     * @param Request $request
+     * @return \App\Controller\JsonResponse
+     */
+    public function autocompleteSearch(Request $request){
+        $names = array();
+        $term = trim(strip_tags($request->get('term')));
+
+        $em = $this->getDoctrine()->getManager();
+        $entities = $em->getRepository('App:User')->createQueryBuilder('c')
+           ->where('c.username LIKE :username')
+           ->setParameter('username', '%'.$term.'%')
+           ->getQuery()
+           ->getResult();
+
+        foreach ($entities as $entity)
+        {
+            $names[] = $entity->getUsername();
+        }
+
+        $response = new JsonResponse();
+        $response->setData($names);
+
+        return $response;
     }
        
 
