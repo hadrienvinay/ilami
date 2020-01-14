@@ -32,25 +32,24 @@
                                 </small>
                                 <div class="dropdown-divider"></div>
                             {% endif %}
-                                {% for item in notificationList | slice(0,8) %}
-                                    <a class="dropdown-item notif-content" {% if not item.seen %}style="background-color:#5eb5e0;" data="{{ mgilet_notification_generate_path('notification_mark_as_seen', item.notifiableEntity, item.notification) }}" {% else %} data="" {% endif %} href="{{ path('main_app') }}{{ item.notification.link }}">
-                                           <b>{{ item.notification.subject }}</b>
-                                           <i>{{ item.notification.message }}</i>
-                                           <br>
-                                           <i>{{ item.notification.date|time_diff }}</i>
-                                        <!--
-                                        form action="{{ mgilet_notification_generate_path('notification_mark_as_seen', item.notifiableEntity, item.notification) }}"
-                                              method="post">
-                                            <button type="submit">Mark as seen</button>
-                                        </form>
-                                        <form action="{{ mgilet_notification_generate_path('notification_mark_as_unseen', item.notifiableEntity, item.notification) }}"
-                                              method="post">
-                                            <button type="submit">Mark as unseen</button>
-                                        </form>
-                                        -->
-                                    </a>
-                                {% endfor %}
-
+                            {% for item in notificationList | slice(0,8) %}
+                                <a class="dropdown-item notif-content" {% if not item.seen %}style="background-color:#5eb5e0;" data="{{ mgilet_notification_generate_path('notification_mark_as_seen', item.notifiableEntity, item.notification) }}" {% else %} data="" {% endif %} href="{{ path('main_app') }}{{ item.notification.link }}">
+                                       <b>{{ item.notification.subject }}</b>
+                                       <i>{{ item.notification.message }}</i>
+                                       <br>
+                                       <i>{{ item.notification.date|time_diff }}</i>
+                                    <!--
+                                    form action="{{ mgilet_notification_generate_path('notification_mark_as_seen', item.notifiableEntity, item.notification) }}"
+                                          method="post">
+                                        <button type="submit">Mark as seen</button>
+                                    </form>
+                                    <form action="{{ mgilet_notification_generate_path('notification_mark_as_unseen', item.notifiableEntity, item.notification) }}"
+                                          method="post">
+                                        <button type="submit">Mark as unseen</button>
+                                    </form>
+                                    -->
+                                </a>
+                            {% endfor %}
                         </div>
                     </li>
                     <li id="menu-dropdown" class="nav-item dropdown"  data-toggle="tooltip" data-placement="bottom" title="Rubriques">
@@ -97,7 +96,7 @@
                 {% endif %}
             </ul>
         </div>
-        <form class="form-inline">
+        <form class="form-inline" style="margin-right:8%;">
            <input id="search" class="form-control mr-sm-2" placeholder="Rechercher" aria-label="Search">
            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"  data-toggle="tooltip" data-placement="bottom" title="Rechercher">
                <span class="fa fa-search"></span>
@@ -108,20 +107,27 @@
             
 <script>
     $(document).ready(function(){
-        //Autocomplete
 
+        //Autocomplete
         $("#search").autocomplete({
             source: "{{ path('autocomplete_search') }}",
             minLength: 1,
             autoFocus: true,
             select: function( event, ui ) {
-                console.log(ui.item);
-                var my_route = Routing.generate('profile',{id:4});
+                var my_route = Routing.generate('profile',{id: ui.item.label});
                 window.location.replace(my_route);
             }
-        });
+            
+        })
+        .autocomplete("instance")._renderItem = function( ul, item ) {
+            return $("<li>")
+              .append("<div>" + "<img src='{{asset('build/images/profile/')}}"+ item.value + ".jpg' style='width: 10%;height: 100%;border-radius: 10%;'>" + " " + item.value + "</div>")
+              .appendTo(ul);
+        };
         
-        $('[data-toggle="tooltip"]').tooltip();   
+      
+        $('[data-toggle="tooltip"]').tooltip();  
+        
         $('#notif').on('click', function () {
             $(this).tooltip('hide');
         });
@@ -140,7 +146,7 @@
             $.ajax({
                url: url,
                success: function(data) {
-                    $('.notif-content').css("background-color","#f8f9fa"); 
+                    $('.notif-content').css("background-color","transparent"); 
                    }
                });
         });

@@ -34,9 +34,17 @@ class GalleryController extends Controller
             $pictures = $em->getRepository('App:Picture')->findAll();
             $albums = $em->getRepository('App:Album')->findAll();
 
+            //picture form
+            $picture = new Picture();
+            $pictureForm = $this->get('form.factory')->create(PictureType::class, $picture);
+            //album form
+            $album = new Album();
+            $albumForm = $this->get('form.factory')->create(AlbumType::class, $album);
             return $this->render('my/pic/gallery.html.twig', array(
                 'pictures' => $pictures,
                 'albums' => $albums,
+                'pictureForm' => $pictureForm->createView(),
+                'albumForm' => $albumForm->createView(),
                 'notificationList' => $notificationList
             ));
         }
@@ -93,9 +101,15 @@ class GalleryController extends Controller
                     'Pas d\'album trouvé narvaloo pour cet identifiant: '.$id
                 );
             }
+            
+            //picture form
+            $picture = new Picture();
+            $picture->setAlbum($album);
+            $pictureForm = $this->get('form.factory')->create(PictureType::class, $picture);
 
             return $this->render('my/pic/album.html.twig', array(
                 'album' => $album,
+                'pictureForm' => $pictureForm->createView(),
                 'notificationList' => $notificationList
             ));
         }

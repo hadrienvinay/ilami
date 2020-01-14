@@ -4,22 +4,26 @@
         <meta charset="UTF-8">
         <title>{% block title %}Imalipusram{% endblock %}</title>
         {% block stylesheets %}
+            {# Website Icon #}
+            <link rel="icon" href="{{asset('build/images/imali.png')}}">
+
+            {# Jquery #}
             {#<script src="https://code.jquery.com/jquery-3.4.1.js"></script>#}
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
+            {# Boostrap#}
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            {# Font Icons #}
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">            
+            {# Online css librairies for js functions #}
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.1.0/main.min.css">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/list@4.3.0/main.min.css">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.3.0/main.min.css">
             {#<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.3.0/main.min.css">#}
-            <link rel="icon" href="{{asset('build/images/imali.png')}}">
-            
             <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.css" />
 
-            <!-- My custom css -->
+            {# My css#}
             <link rel="stylesheet" href="{{ asset('build/app.css') }}">
-
 
         {% endblock %}
     </head>
@@ -54,20 +58,26 @@
 
 
     {% block javascripts %}
+        {# Jquery librairies#}
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity=""></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
+        
+        {# Popover librairies #}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-        {# Full Calendar Librairies#}
+        {# Popup photos librairies #}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.js"></script>
+        
+        {# Full Calendar Librairies #}
         <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.1.0/main.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.1.0/main.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.1.0/main.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.1.0/main.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/list@4.3.0/main.min.js"></script>
         
-        {# Fos Js Routing#}
+        {# Fos Js Routing #}
         <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
         <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
     {% endblock %}

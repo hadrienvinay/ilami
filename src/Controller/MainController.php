@@ -175,17 +175,28 @@ class MainController extends Controller
         $term = trim(strip_tags($request->get('term')));
 
         $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('App:User')->createQueryBuilder('c')
+        $users = $em->getRepository('App:User')->createQueryBuilder('c')
            ->where('c.username LIKE :username')
            ->setParameter('username', '%'.$term.'%')
            ->getQuery()
            ->getResult();
 
-        foreach ($entities as $entity)
+        foreach ($users as $user)
         {
-            $names[] = $entity->getUsername();
+            $names[] = array('value'=>$user->getUsername(),'label'=>$user->getId());
         }
-
+        
+        $events = $em->getRepository('App:Event')->createQueryBuilder('c')
+           ->where('c.name LIKE :name')
+           ->setParameter('name', '%'.$term.'%')
+           ->getQuery()
+           ->getResult();
+        
+        foreach ($events as $event)
+        {
+            $names[] = array('value'=>$event->getName(),'label'=>$event->getId());
+        }
+        
         $response = new JsonResponse();
         $response->setData($names);
 

@@ -2,13 +2,6 @@
 
 {% block title %}Profil - {{ user.prename }} {{ user.name }}{% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.js"></script>
-{% endblock %}
-
 {% block body %}
 <br>
     <div class="container" style="padding: 3%;margin-top: 3%;margin-bottom: 3%;border-radius: 0.5rem;background: #fff;">
@@ -94,7 +87,7 @@
                         </tbody>
                     </table>
                     {% if app.user.id == user.id %}
-                        <small class="d-block text-right mt-3">
+                        <small class="d-block text-left mt-3">
                            <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                            <a href="{{ path('add_recommandation') }}" class="add-recommandation">Ajouter une bonne adresse</a>
                        </small>
@@ -260,7 +253,7 @@
                 {{ form_start(pictureForm, {'method': 'post', 'action': path('add_picture')}) }}
                 {{ form_widget(pictureForm, {'attr': {'class': 'form-group'}}) }}
                 <div class="form-group text-center">
-                    <input class=" btn btn-primary btn-md login-button" type="submit" value="Modifier" />
+                    <input class=" btn btn-primary btn-md login-button" type="submit" value="Ajouter" />
                 </div>
                 {{ form_rest(pictureForm) }}
                 {{ form_end(pictureForm) }}
