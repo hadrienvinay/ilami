@@ -71,81 +71,105 @@
     </div>
         
     <!-- Modal add a picture -->
-    <div id="addPictureModal" class="modal">
-         <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="margin-auto">Ajout d'une P'tite Photo</h2>
+    <div id="addPictureModal" class="modal" role="dialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title">Ajout d'une P'tite Photo</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+               <div class="modal-body">
+                   {{ form_start(pictureForm, {'method': 'post', 'action': path('add_picture')}) }}
+                   {{ form_widget(pictureForm, {'attr': {'class': 'form-group'}}) }}
+               </div>
+                <div class="modal-footer">
+                   <div class="form-group middle">
+                       <input class=" btn btn-primary" type="submit" value="Modifier" />
+                   </div>
+                   {{ form_rest(pictureForm) }}
+                   {{ form_end(pictureForm) }}
+               </div>
             </div>
-            <div class="modal-body">
-                {{ form_start(pictureForm, {'method': 'post', 'action': path('add_picture')}) }}
-                {{ form_widget(pictureForm, {'attr': {'class': 'form-group'}}) }}
-                <div class="form-group text-center">
-                    <input class=" btn btn-primary btn-md login-button" type="submit" value="Ajouter" />
-                </div>
-                {{ form_rest(pictureForm) }}
-                {{ form_end(pictureForm) }}
-            </div>
-         </div>
+        </div>
     </div>
             
     <!-- Modal add an album -->
-    <div id="addAlbumModal" class="modal">
-         <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="margin-auto">Ajout d'un P'tit Album</h2>
+    <div id="addAlbumModal" class="modal" role="dialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title">Ajout d'un P'tit Album</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+               <div class="modal-body">
+                   {{ form_start(albumForm, {'method': 'post', 'action': path('add_album')}) }}
+                   {{ form_widget(albumForm, {'attr': {'class': 'form-group'}}) }}
+               </div>
+                <div class="modal-footer">
+                   <div class="form-group middle">
+                       <input class=" btn btn-primary" type="submit" value="Modifier" />
+                   </div>
+                   {{ form_rest(albumForm) }}
+                   {{ form_end(albumForm) }}
+               </div>
             </div>
-            <div class="modal-body">
-                {{ form_start(albumForm, {'method': 'post', 'action': path('add_album')}) }}
-                {{ form_widget(albumForm, {'attr': {'class': 'form-group'}}) }}
-                <div class="form-group text-center">
-                    <input class=" btn btn-primary btn-md login-button" type="submit" value="Ajouter" />
-                </div>
-                {{ form_rest(albumForm) }}
-                {{ form_end(albumForm) }}
-            </div>
-         </div>
+        </div>
     </div>
             
     <!-- Modal delete a picture-->
-    <div id="deleteModal" class="modal">
-         <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="margin-auto">Suppression d'une photo</h2>
+    <div id="deletePictureModal" class="modal" role="dialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title">Suppression d'une photo</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+               <div class="modal-body">
+                   <p>Vous allez supprimer cette photo </p>
+                   <p>Etes-vous sur?</p>
+               </div>
+               <div class="modal-footer">
+                   <a href="" id="btnYes" class="btn btn-danger" data="">Oui</a>
+                   <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Non</a>
+               </div>
             </div>
-            <div class="modal-body">
-                <p>Vous allez supprimer cette photo </p>
-                <p>Etes-vous sur?</p>
-            </div>
-            <div class="modal-footer">
-                <a href="" id="btnYes" class="btn btn-danger" data="">Oui</a>
-                <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Non</a>
-            </div>
-         </div>
+        </div>
     </div>
     
     <!-- Modal delete an album-->
-    <div id="deleteModal2" class="modal">
-         <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="margin-auto">Suppression d'une album</h2>
+    <div id="deleteAlbumModal" class="modal" role="dialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title">Suppression d'un Album</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+               <div class="modal-body">
+                   <p>Vous allez supprimer cet album </p>
+                   <p>Etes-vous sur?</p>
+               </div>
+               <div class="modal-footer">
+                   <a href="" id="btnYes" class="btn btn-danger" data="">Oui</a>
+                   <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Non</a>
+               </div>
             </div>
-            <div class="modal-body">
-                <p>Vous allez supprimer cet album </p>
-                <p>Etes-vous sur?</p>
-            </div>
-            <div class="modal-footer">
-                <a href="" id="btnYes2" class="btn btn-danger" data="">Oui</a>
-                <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Non</a>
-            </div>
-         </div>
+        </div>
     </div>
     
     <script>
          $(document).ready(function() {
             var modal = document.getElementById("addPictureModal");
             var modal2 = document.getElementById("addAlbumModal");
-            var modal3 = document.getElementById("deleteModal");
-            var modal4 = document.getElementById("deleteModal2");
+            var modal3 = document.getElementById("deletePictureModal");
+            var modal4 = document.getElementById("deleteAlbumModal");
             
             $('.add-picture').on('click', function(e) {
                 e.preventDefault();
@@ -163,7 +187,7 @@
                 var id = $(this).attr("id");
                 $('#btnYes').attr("href",href);
                 $('#btnYes').attr("data",id);
-                $('#deleteModal').modal('show');
+                $('#deletePictureModal').modal('show');
             });
 
             $('.delete-album').on('click', function(e) {
@@ -172,7 +196,7 @@
                 var id = $(this).attr("id");
                 $('#btnYes2').attr("href",href);
                 $('#btnYes2').attr("data",id);
-                $('#deleteModal2').modal('show');
+                $('#deleteAlbumModal').modal('show');
             });
 
             // When the user clicks anywhere outside of the modal, close it
@@ -185,6 +209,9 @@
               }
               if (event.target == modal3) {
                 modal3.style.display = "none";
+              }
+              if (event.target == modal4) {
+                modal4.style.display = "none";
               }
             };
     

@@ -68,7 +68,7 @@
                                     </i>
                                 </td>
                             {% else %}
-                                {% for recommandation in user.recommandations| slice(0,5)%}
+                                {% for recommandation in user.recommandations| slice(0,8)%}
                                     <tr class="fc-list-item">
                                         <td class="fc-list-item-time fc-widget-content">
                                             {{ loop.index }}
@@ -77,7 +77,7 @@
                                             <span class="fc-event-dot" {% if recommandation.type == "bar" %}style="background-color:green;"{% elseif recommandation.type == "restaurant"  %} style="background-color:blue;" {% else %}style="background-color:red;"{% endif %}></span>
                                         </td>
                                         <td class="fc-list-item-title fc-widget-content">
-                                            <a>
+                                            <a data-toggle="tooltip" data-placement="right" title="{{ recommandation.type }}">
                                                 {{ recommandation.name }}
                                             </a>
                                         </td>
@@ -225,130 +225,173 @@
         </div>
     </div>
                     
-    <!-- Modal update a profil -->
-    <div id="updateModal" class="modal">
-         <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="margin-auto">Modification du profil</h2>
+    <!-- Modal update an profil -->
+    <div id="updateModal" class="modal" role="dialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title">Modification du profil</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+               <div class="modal-body">
+                    {{ form_start(form, {'method': 'post', 'action': path('modify_profile',{'id': user.id})}) }}
+                    {{ form_widget(form, {'attr': {'class': 'form-group'}}) }}
+               </div>
+               <div class="modal-footer">
+                   <div class="form-group middle">
+                       <input class=" btn btn-primary" type="submit" value="Modifier" />
+                   </div>
+                   {{ form_rest(form) }}
+                   {{ form_end(form) }}
+               </div>
             </div>
-            <div class="modal-body">
-                {{ form_start(form, {'method': 'post', 'action': path('modify_profile',{'id': user.id})}) }}
-                {{ form_widget(form, {'attr': {'class': 'form-group'}}) }}
-                <div class="form-group text-center">
-                    <input class=" btn btn-primary btn-md login-button" type="submit" value="Modifier" />
-                </div>
-                {{ form_rest(form) }}
-                {{ form_end(form) }}
-            </div>
-         </div>
-    </div>
-     
+        </div>
+    </div>    
+    
     <!-- Modal add a picture -->
-    <div id="addPictureModal" class="modal">
-         <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="margin-auto">Ajout d'une P'tite Photo</h2>
+    <div id="addPictureModal" class="modal" role="dialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title">Ajout d'une P'tite Photo</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+               <div class="modal-body">
+                   {{ form_start(pictureForm, {'method': 'post', 'action': path('add_picture')}) }}
+                   {{ form_widget(pictureForm, {'attr': {'class': 'form-group'}}) }}
+               </div>
+                <div class="modal-footer">
+                   <div class="form-group middle">
+                       <input class=" btn btn-primary" type="submit" value="Modifier" />
+                   </div>
+                   {{ form_rest(pictureForm) }}
+                   {{ form_end(pictureForm) }}
+               </div>
             </div>
-            <div class="modal-body">
-                {{ form_start(pictureForm, {'method': 'post', 'action': path('add_picture')}) }}
-                {{ form_widget(pictureForm, {'attr': {'class': 'form-group'}}) }}
-                <div class="form-group text-center">
-                    <input class=" btn btn-primary btn-md login-button" type="submit" value="Ajouter" />
-                </div>
-                {{ form_rest(pictureForm) }}
-                {{ form_end(pictureForm) }}
-            </div>
-         </div>
+        </div>
     </div>
             
-    <!-- Modal add a job -->
-    <div id="addSongModal" class="modal">
-         <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="margin-auto">Ajout d'une P'tite Musique</h2>
+    <!-- Modal add a song -->
+    <div id="addSongModal" class="modal" role="dialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title">Ajout d'une P'tite Musique</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+               <div class="modal-body">
+                   {{ form_start(songForm, {'method': 'post', 'action': path('add_song')}) }}
+                   {{ form_widget(songForm, {'attr': {'class': 'form-group'}}) }}
+               </div>
+                <div class="modal-footer">
+                   <div class="form-group middle">
+                       <input class=" btn btn-primary" type="submit" value="Ajouter" />
+                   </div>
+                   {{ form_rest(songForm) }}
+                   {{ form_end(songForm) }}
+               </div>
             </div>
-            <div class="modal-body">
-                {{ form_start(songForm, {'method': 'post', 'action': path('add_song')}) }}
-                {{ form_row(songForm.file, {'attr': {'class': 'form-group'}}) }}
-                <p class="text-center">OU</p>
-                <hr>
-                {{ form_row(songForm.url, {'attr': {'class': 'form-group'}}) }}
-                <div class="form-group text-center">
-                    <input class=" btn btn-primary btn-md login-button" type="submit" value="Modifier" />
-                </div>
-                {{ form_rest(songForm) }}
-                {{ form_end(songForm) }}
-            </div>
-         </div>
+        </div>
     </div>
+
     <!-- Modal add a job -->
-    <div id="addJobModal" class="modal">
-         <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="margin-auto">{% if user.job != null %}Modification de mon job{% else %}Ajout d'un job{% endif %}</h2>
+    <div id="addJobModal" class="modal" role="dialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title">{% if user.job != null %}Modification de mon job{% else %}Ajout d'un job{% endif %}</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+               <div class="modal-body">
+                   {{ form_start(jobForm, {'method': 'post', 'action': path('add_job')}) }}
+                   {{ form_widget(jobForm, {'attr': {'class': 'form-group'}}) }}
+               </div>
+                <div class="modal-footer">
+                   <div class="form-group middle">
+                       <input class=" btn btn-primary" type="submit" value="Ajouter" />
+                   </div>
+                   {{ form_rest(jobForm) }}
+                   {{ form_end(jobForm) }}
+               </div>
             </div>
-            <div class="modal-body">
-                {{ form_start(jobForm, {'method': 'post', 'action': path('add_job')}) }}
-                {{ form_widget(jobForm, {'attr': {'class': 'form-group'}}) }}
-                <div class="form-group text-center">
-                    <input class=" btn btn-primary btn-md login-button" type="submit" value="Modifier" />
-                </div>
-                {{ form_rest(jobForm) }}
-                {{ form_end(jobForm) }}
-            </div>
-         </div>
+        </div>
     </div>
             
     <!-- Modal add a recommandation -->
-    <div id="addRecommandationModal" class="modal">
-         <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="margin-auto">Ajout d'une bonne adresse :)</h2>
+    <div id="addRecommandationModal" class="modal" role="dialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title">Ajout d'une bonne adresse :)</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+               <div class="modal-body">
+                   {{ form_start(recommandationForm, {'method': 'post', 'action': path('add_recommandation')}) }}
+                   {{ form_widget(recommandationForm, {'attr': {'class': 'form-group'}}) }}
+               </div>
+                <div class="modal-footer">
+                   <div class="form-group middle">
+                       <input class=" btn btn-primary" type="submit" value="Ajouter" />
+                   </div>
+                   {{ form_rest(recommandationForm) }}
+                   {{ form_end(recommandationForm) }}
+               </div>
             </div>
-            <div class="modal-body">
-                {{ form_start(recommandationForm, {'method': 'post', 'action': path('add_recommandation')}) }}
-                {{ form_widget(recommandationForm, {'attr': {'class': 'form-group'}}) }}
-                <div class="form-group text-center">
-                    <input class=" btn btn-primary btn-md login-button" type="submit" value="Modifier" />
-                </div>
-                {{ form_rest(recommandationForm) }}
-                {{ form_end(recommandationForm) }}
-            </div>
-         </div>
+        </div>
     </div>
             
     <!-- Modal delete a picture-->
-    <div id="deletePictureModal" class="modal">
-         <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="margin-auto">Suppression d'une photo</h2>
+    <div id="deletePictureModal" class="modal" role="dialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title">Suppression d'une photo</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+               <div class="modal-body">
+                   <p>Vous allez supprimer cette photo </p>
+                   <p>Etes-vous sur?</p>
+               </div>
+               <div class="modal-footer">
+                   <a href="" id="btnYes" class="btn btn-danger" data="">Oui</a>
+                   <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Non</a>
+               </div>
             </div>
-            <div class="modal-body">
-                <p>Vous allez supprimer cette photo </p>
-                <p>Etes-vous sur?</p>
-            </div>
-            <div class="modal-footer">
-                <a href="" id="btnYes" class="btn btn-danger" data="">Oui</a>
-                <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Non</a>
-            </div>
-         </div>
+        </div>
     </div>
     
-    <!-- Modal delete a song-->
-    <div id="deleteSongModal" class="modal">
-         <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="margin-auto">Suppression d'une musique</h2>
+    <!-- Modal delete an song-->
+    <div id="deleteSongModal" class="modal" role="dialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title">Suppression d'une musique</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+               <div class="modal-body">
+                   <p>Vous allez supprimer cette musique </p>
+                   <p>Etes-vous sur?</p>
+               </div>
+               <div class="modal-footer">
+                   <a href="" id="btnYes" class="btn btn-danger" data="">Oui</a>
+                   <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Non</a>
+               </div>
             </div>
-            <div class="modal-body">
-                <p>Vous allez supprimer cette musique </p>
-                <p>Etes-vous sur?</p>
-            </div>
-            <div class="modal-footer">
-                <a href="" id="btnYes2" class="btn btn-danger" data="">Oui</a>
-                <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Non</a>
-            </div>
-         </div>
+        </div>
     </div>
                                     
     <script>

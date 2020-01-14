@@ -228,79 +228,104 @@
           </div>
       </div>
       
-     <!-- Modal add an event-->
-    <div id="eventModal" class="modal">
-         <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="margin-auto">Un p'tit nouvel event</h2>
+    <!-- Modal add an event -->
+    <div id="addEventModal" class="modal" role="dialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title">Ajout d'un P'tit Evènement</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+               <div class="modal-body">
+                   {{ form_start(eventForm, {'method': 'post', 'action': path('add_event')}) }}
+                   {{ form_widget(eventForm, {'attr': {'class': 'form-group'}}) }}
+               </div>
+                <div class="modal-footer">
+                   <div class="form-group middle">
+                       <input class=" btn btn-primary" type="submit" value="Ajouter" />
+                   </div>
+                   {{ form_rest(eventForm) }}
+                   {{ form_end(eventForm) }}
+               </div>
             </div>
-            <div class="modal-body">
-                {{ form_start(eventForm, {'method': 'post', 'action': path('main_app')}) }}
-                {{ form_widget(eventForm, {'attr': {'class': 'form-group'}}) }}
-                <div class="form-group text-center">
-                    <input class=" btn btn-primary btn-md login-button" type="submit" value="Ajouter" />
-                </div>
-                {{ form_rest(eventForm) }}
-                {{ form_end(eventForm) }}
-            </div>
-         </div>
+        </div>
     </div>
             
     <!-- Modal add an album -->
-    <div id="albumModal" class="modal">
-         <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="margin-auto">Un p'tit nouvel album</h2>
+    <div id="addAlbumModal" class="modal" role="dialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title">Ajout d'un P'tit Album</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+               <div class="modal-body">
+                   {{ form_start(albumForm, {'method': 'post', 'action': path('add_album')}) }}
+                   {{ form_widget(albumForm, {'attr': {'class': 'form-group'}}) }}
+               </div>
+                <div class="modal-footer">
+                   <div class="form-group middle">
+                       <input class=" btn btn-primary" type="submit" value="Ajouter" />
+                   </div>
+                   {{ form_rest(albumForm) }}
+                   {{ form_end(albumForm) }}
+               </div>
             </div>
-            <div class="modal-body">
-                {{ form_start(albumForm, {'method': 'post', 'action': path('add_album')}) }}
-                {{ form_widget(albumForm, {'attr': {'class': 'form-group'}}) }}
-                <div class="form-group text-center">
-                    <input class=" btn btn-primary btn-md login-button" type="submit" value="Ajouter" />
-                </div>
-                {{ form_rest(albumForm) }}
-                {{ form_end(albumForm) }}
-            </div>
-         </div>
+        </div>
     </div>
             
     <!-- Modal add a picture -->
-    <div id="pictureModal" class="modal">
-         <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="margin-auto">Une p'tite nouvelle photo</h2>
+    <div id="addPictureModal" class="modal" role="dialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title">Ajout d'une P'tite Photo</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+               <div class="modal-body">
+                   {{ form_start(pictureForm, {'method': 'post', 'action': path('add_picture')}) }}
+                   {{ form_widget(pictureForm, {'attr': {'class': 'form-group'}}) }}
+               </div>
+                <div class="modal-footer">
+                   <div class="form-group middle">
+                       <input class=" btn btn-primary" type="submit" value="Ajouter" />
+                   </div>
+                   {{ form_rest(pictureForm) }}
+                   {{ form_end(pictureForm) }}
+               </div>
             </div>
-            <div class="modal-body">
-                {{ form_start(pictureForm, {'method': 'post', 'action': path('add_picture')}) }}
-                {{ form_widget(pictureForm, {'attr': {'class': 'form-group'}}) }}
-                <div class="form-group text-center">
-                    <input class=" btn btn-primary btn-md login-button" type="submit" value="Ajouter" />
-                </div>
-                {{ form_rest(pictureForm) }}
-                {{ form_end(pictureForm) }}
-            </div>
-         </div>
+        </div>
     </div>
             
-    <!-- Modal upload a song-->
-    <div id="songModal" class="modal">
-         <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="margin-auto">Un p'tit nouveau morceau</h2>
+    <!-- Modal add a song -->
+    <div id="addSongModal" class="modal" role="dialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title">Ajout d'une P'tite Musique</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+               <div class="modal-body">
+                   {{ form_start(songForm, {'method': 'post', 'action': path('add_song')}) }}
+                   {{ form_widget(songForm, {'attr': {'class': 'form-group'}}) }}
+               </div>
+                <div class="modal-footer">
+                   <div class="form-group middle">
+                       <input class=" btn btn-primary" type="submit" value="Ajouter" />
+                   </div>
+                   {{ form_rest(songForm) }}
+                   {{ form_end(songForm) }}
+               </div>
             </div>
-            <div class="modal-body">
-                {{ form_start(songForm, {'method': 'post', 'action': path('add_song')}) }}
-                {{ form_row(songForm.file, {'attr': {'class': 'form-group'}}) }}
-                <p class="text-center">OU</p>
-                <hr>
-                {{ form_row(songForm.url, {'attr': {'class': 'form-group'}}) }}
-                <div class="form-group text-center">
-                    <input class=" btn btn-primary btn-md login-button" type="submit" value="Ajouter" />
-                </div>
-                {{ form_rest(songForm) }}
-                {{ form_end(songForm) }}
-            </div>
-         </div>
+        </div>
     </div>
       
        <script>
@@ -315,29 +340,29 @@
                 $('.fc-scroller').addClass("home_fc-scroller");
                 
                 //modal actions
-                var modal = document.getElementById("eventModal");
-                var modal2 = document.getElementById("albumModal");
-                var modal3 = document.getElementById("pictureModal");
-                var modal4 = document.getElementById("songModal");
+                var modal = document.getElementById("addEventModal");
+                var modal2 = document.getElementById("addAlbumModal");
+                var modal3 = document.getElementById("addPictureModal");
+                var modal4 = document.getElementById("addSongModal");
                 
                 $('.add-event').on('click', function(e) {
                     e.preventDefault();
-                    $('#eventModal').modal('show');
+                    $('#addEventModal').modal('show');
                 });
                     
                 $('.add-album').on('click', function(e) {
                     e.preventDefault();
-                    $('#albumModal').modal('show');
+                    $('#addAlbumModal').modal('show');
                 });
 
                 $('.add-picture').on('click', function(e) {
                     e.preventDefault();
-                    $('#pictureModal').modal('show');
+                    $('#addPictureModal').modal('show');
                 });
 
                 $('.add-song').on('click', function(e) {
                     e.preventDefault();
-                    $('#songModal').modal('show');
+                    $('#addSongModal').modal('show');
                 });
            });
            // When the user clicks anywhere outside of the modal, close it

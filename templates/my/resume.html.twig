@@ -85,84 +85,96 @@
         </div>
     </div>
         
-    <!-- Modal add an event-->
-    <div id="addModal" class="modal">
-         <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="margin-auto">Création d'un évènement</h2>
+   <!-- Modal add an event -->
+    <div id="addEventModal" class="modal" role="dialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title">Ajout d'un P'tit Evènement</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+               <div class="modal-body">
+                   {{ form_start(eventForm, {'method': 'post', 'action': path('add_event')}) }}
+                   {{ form_widget(eventForm, {'attr': {'class': 'form-group'}}) }}
+               </div>
+                <div class="modal-footer">
+                   <div class="form-group middle">
+                       <input class=" btn btn-primary" type="submit" value="Ajouter" />
+                   </div>
+                   {{ form_rest(eventForm) }}
+                   {{ form_end(eventForm) }}
+               </div>
             </div>
-            <div class="modal-body">
-                {{ form_start(form, {'method': 'post', 'action': path('add_event')}) }}
-                {{ form_widget(form, {'attr': {'class': 'form-group'}}) }}
-                <div class="form-group text-center">
-                    <input class=" btn btn-primary btn-md login-button" type="submit" value="Créer" />
-                </div>
-                {{ form_rest(form) }}
-                {{ form_end(form) }}
-            </div>
-         </div>
+        </div>
     </div>
             
     <!-- Modal delete an event-->
-    <div id="deleteModal" class="modal">
-         <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="margin-auto">Suppression d'un évènement</h2>
+    <div id="deleteModal" class="modal" role="dialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title">Suppression d'un event</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+               <div class="modal-body">
+                   <p>Vous allez supprimer cette evènenement </p>
+                   <p>Etes-vous sur?</p>
+               </div>
+               <div class="modal-footer">
+                   <a href="" id="btnYes" class="btn btn-danger" data="">Oui</a>
+                   <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Non</a>
+               </div>
             </div>
-            <div class="modal-body">
-                <p>Vous allez supprimer cet evènement </p>
-                <p>Etes-vous sur?</p>
-            </div>
-            <div class="modal-footer">
-                <a href="" id="btnYes" class="btn btn-danger" data="">Oui</a>
-                <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Non</a>
-            </div>
-         </div>
+        </div>
     </div>
             
-            <script>
-                $(document).ready(function (){
-                    var modal = document.getElementById("addModal");
-                    var modal2 = document.getElementById("deleteModal");
-                                        
-                    $('.add-event').on('click', function(e) {
-                        e.preventDefault();
-                        $('#addModal').modal('show');
-                    });
+    <script>
+        $(document).ready(function (){
+            var modal = document.getElementById("addEventModal");
+            var modal2 = document.getElementById("deleteModal");
 
-                    $('.delete-event').on('click', function(e) {
-                        e.preventDefault();
-                        var href = $(this).attr("href");
-                        var id = $(this).attr("id");
-                        $('#btnYes').attr("href",href);
-                        $('#btnYes').attr("data",id);
-                        $('#deleteModal').modal('show');
-                    });
-                    //delete an event and the correponding bloc
-                    $('#btnYes').on('click', function (e) {
-                        //e.preventDefault();
-                        //var notifUrl = $(this).attr('href');
-                        //var div = $(this).attr('data');
-                        //var divNum = div.replace('delete_event','');
-                        //$.ajax({url: notifUrl,
-                         //   success: function(result){
-                          //      $('#event'+ divNum).remove();
-                           // }});
-                    });
-                    
-                // When the user clicks anywhere outside of the modal, close it
-                window.onclick = function(event) {
-                  if (event.target == modal) {
-                    modal.style.display = "none";
-                  }
-                  if (event.target == modal) {
-                    modal2.style.display = "none";
-                  }
-                };
-                
+            $('.add-event').on('click', function(e) {
+                e.preventDefault();
+                $('#addEventModal').modal('show');
             });
 
-        </script>
+            $('.delete-event').on('click', function(e) {
+                e.preventDefault();
+                var href = $(this).attr("href");
+                var id = $(this).attr("id");
+                $('#btnYes').attr("href",href);
+                $('#btnYes').attr("data",id);
+                $('#deleteModal').modal('show');
+            });
+            //delete an event and the correponding bloc
+            $('#btnYes').on('click', function (e) {
+                //e.preventDefault();
+                //var notifUrl = $(this).attr('href');
+                //var div = $(this).attr('data');
+                //var divNum = div.replace('delete_event','');
+                //$.ajax({url: notifUrl,
+                 //   success: function(result){
+                  //      $('#event'+ divNum).remove();
+                   // }});
+            });
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
+          }
+          if (event.target == modal) {
+            modal2.style.display = "none";
+          }
+        };
+
+    });
+
+</script>
 
 {% endblock %}
 

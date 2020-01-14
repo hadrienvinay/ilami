@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="profile-img" style="text-align: center;">
-                    <img src="http://www.aal-europe.eu/wp-content/uploads/2013/04/events_medium.jpg" alt="" style="width: 70%;height: 100%;">
+                    <img src="{{ asset('build/images/dashboard/event.jpg') }}" alt="{{ event.name }}" style="width: 70%;height: 100%;">
                 </div>
             </div>
             <div class="col-md-6">
@@ -21,8 +21,25 @@
                         {{ event.description }}
                     </h6>
                     <div class="">
-                        <a {% if app.user in event.participants %} href="#"  class="btn btn-primary" {% else %}href="{{ path('add_participant',{id: event.id}) }}" class="btn btn-outline-primary" {% endif %}>Participe</a>
-                        <a {% if app.user in event.participants %} href="{{ path('cancel_participant',{id: event.id}) }}" class="btn btn-outline-secondary" {% else %}href="#" class="btn btn-secondary" {% endif %}>Ne Participe Pas</a>
+                        {% if event.startDate > date() %}
+                            <a {% if app.user in event.participants %} href="#"  class="btn-sm btn-primary" {% else %}href="{{ path('add_participant',{id: event.id}) }}" class="btn-sm btn-outline-primary" {% endif %}>
+                                <span class="fa fa-check-circle-o"></span>
+                                Participe
+                            </a>
+                            <a {% if app.user in event.participants %} href="{{ path('cancel_participant',{id: event.id}) }}" class="btn-sm btn-outline-secondary" {% else %}href="#" class="btn-sm btn-secondary" {% endif %}>
+                                <span class="fa fa-frown-o"></span>
+                                Ne Participe Pas
+                            </a>
+                        {% else %}
+                            <a href="#" {% if app.user in event.participants %} class="btn-sm btn-primary" {% else %}class="btn-sm btn-outline-primary" {% endif %}>
+                                <span class="fa fa-check-circle-o"></span>
+                                Vous avez participé
+                            </a>
+                            <a  href="#" {% if app.user in event.participants %}class="btn-sm btn-outline-secondary" {% else %}href="#" class="btn-sm btn-secondary" {% endif %}>
+                                <span class="fa fa-frown-o"></span>
+                                Vous n'avez pas participé
+                            </a>
+                        {% endif %}
                     </div>
                     <br>
                     <ul class="nav nav-tabs" id="myTab" role="tablist" >
@@ -38,12 +55,12 @@
             <div class="col-md-2">
                 {% if event.creator.id == app.user.id %}
                     <a href="{{path('modify_event',{'id' : event.id }) }}" class="btn-sm btn-outline-primary update-event">
-                    <i class="fa fa-edit" aria-hidden="true"></i>
+                    <i class="fa fa-edit upadte-event" aria-hidden="true"></i>
                         Modifier event
                     </a>
                     <br>
                     <a href="{{path('delete_event',{'id' : event.id }) }}" class="btn-sm btn-outline-danger delete-event">
-                    <i class="fa fa-trash" aria-hidden="true"></i>
+                    <i class="fa fa-trash delete-event" aria-hidden="true"></i>
                         Supprimer event
                     </a>
                 {% endif %}
@@ -128,56 +145,75 @@
            
                         
     <!-- Modal update an event -->
-    <div id="updateModal" class="modal">
-         <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="margin-auto">Modification de l'event</h2>
+    <div id="updateModal" class="modal" role="dialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title">Modification de l'event</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+               <div class="modal-body">
+                   {{ form_start(eventForm, {'method': 'post', 'action': path('event',{'id': event.id})}) }}
+                   {{ form_widget(eventForm, {'attr': {'class': 'form-group'}}) }}
+               </div>
+               <div class="modal-footer">
+                   <div class="form-group middle">
+                       <input class=" btn btn-primary" type="submit" value="Modifier" />
+                   </div>
+                   {{ form_rest(eventForm) }}
+                   {{ form_end(eventForm) }}
+               </div>
             </div>
-            <div class="modal-body">
-                {{ form_start(eventForm, {'method': 'post', 'action': path('event',{'id': event.id})}) }}
-                {{ form_widget(eventForm, {'attr': {'class': 'form-group'}}) }}
-                <div class="form-group text-center">
-                    <input class=" btn btn-primary btn-md login-button" type="submit" value="Modifier" />
-                </div>
-                {{ form_rest(eventForm) }}
-                {{ form_end(eventForm) }}
-            </div>
-         </div>
+        </div>
     </div>
             
     <!-- Modal add a picture -->
-    <div id="addPictureModal" class="modal">
-         <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="margin-auto">Ajout d'une P'tite Photo</h2>
+    <div id="addPictureModal" class="modal" role="dialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title">Ajout d'une P'tite Photo</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+               <div class="modal-body">
+                   {{ form_start(pictureForm, {'method': 'post', 'action': path('add_picture')}) }}
+                   {{ form_widget(pictureForm, {'attr': {'class': 'form-group'}}) }}
+               </div>
+                <div class="modal-footer">
+                   <div class="form-group middle">
+                       <input class=" btn btn-primary" type="submit" value="Modifier" />
+                   </div>
+                   {{ form_rest(pictureForm) }}
+                   {{ form_end(pictureForm) }}
+               </div>
             </div>
-            <div class="modal-body">
-                {{ form_start(pictureForm, {'method': 'post', 'action': path('add_picture')}) }}
-                {{ form_widget(pictureForm, {'attr': {'class': 'form-group'}}) }}
-                <div class="form-group text-center">
-                    <input class=" btn btn-primary btn-md login-button" type="submit" value="Modifier" />
-                </div>
-                {{ form_rest(pictureForm) }}
-                {{ form_end(pictureForm) }}
-            </div>
-         </div>
+        </div>
     </div>
     
     <!-- Modal delete an event-->
-    <div id="deleteModal" class="modal">
-         <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="margin-auto">Suppression d'un event</h2>
+    <div id="deleteModal" class="modal" role="dialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title">Suppression d'un event</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+               <div class="modal-body">
+                   <p>Vous allez supprimer cette evènenement </p>
+                   <p>Etes-vous sur?</p>
+               </div>
+               <div class="modal-footer">
+                   <a href="" id="btnYes" class="btn btn-danger" data="">Oui</a>
+                   <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Non</a>
+               </div>
             </div>
-            <div class="modal-body">
-                <p>Vous allez supprimer cette evènenement </p>
-                <p>Etes-vous sur?</p>
-            </div>
-            <div class="modal-footer">
-                <a href="" id="btnYes" class="btn btn-danger" data="">Oui</a>
-                <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Non</a>
-            </div>
-         </div>
+        </div>
     </div>
             
     <script>
@@ -212,7 +248,7 @@
                 modal2.style.display = "none";
               }
               if (event.target == modal3) {
-                modal2.style.display = "none";
+                modal3.style.display = "none";
               }
             };
             
@@ -227,8 +263,13 @@
          
       var map;
       function initMap() {
-        var lat= {{ event.latitude }};
-        var long = {{ event.longitude }};
+        if ({{ event.latitude != null }})
+            var lat= {{ event.latitude }};
+        else var lat = 0;
+        if ({{ event.longitude != null }})
+            var long = {{ event.longitude }};
+        else var long =0;
+        
         map = new google.maps.Map(document.getElementById('map'), {
            center: {lat: lat, lng: long},
            zoom: 15

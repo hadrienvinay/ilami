@@ -38,9 +38,9 @@ class ResumeController extends Controller
             $event->setLatitude($user->getLatitude());   
             $event->setLongitude($user->getLongitude());
             $event->setName("Soirée chez ".$user->getUsername());
-            $form = $this->get('form.factory')->create(EventType::class, $event);
+            $eventForm = $this->get('form.factory')->create(EventType::class, $event);
 
-            if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            if ($request->isMethod('POST') && $eventForm->handleRequest($request)->isValid()) {
                 //set lat and long
                 if($event->getAddress() != $user->getAddress()){
                     $pos = $geocoder->convertAddress($event->getAddress());
@@ -74,7 +74,7 @@ class ResumeController extends Controller
             return $this->render('my/resume.html.twig', array(
                 'users' => $users,
                 'events' => $events,
-                'form' => $form->createView(),
+                'eventForm' => $eventForm->createView(),
                 'notificationList' => $notificationList,
             ));
         }

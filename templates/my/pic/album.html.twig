@@ -37,44 +37,56 @@
     </div>
         
     <!-- Modal add a picture -->
-    <div id="addPictureModal" class="modal">
-         <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="margin-auto">Ajout d'une P'tite Photo</h2>
+    <div id="addPictureModal" class="modal" role="dialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title">Ajout d'une P'tite Photo</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+               <div class="modal-body">
+                   {{ form_start(pictureForm, {'method': 'post', 'action': path('add_picture')}) }}
+                   {{ form_widget(pictureForm, {'attr': {'class': 'form-group'}}) }}
+               </div>
+                <div class="modal-footer">
+                   <div class="form-group middle">
+                       <input class=" btn btn-primary" type="submit" value="Modifier" />
+                   </div>
+                   {{ form_rest(pictureForm) }}
+                   {{ form_end(pictureForm) }}
+               </div>
             </div>
-            <div class="modal-body">
-                {{ form_start(pictureForm, {'method': 'post', 'action': path('add_picture')}) }}
-                {{ form_widget(pictureForm, {'attr': {'class': 'form-group'}}) }}
-                <div class="form-group text-center">
-                    <input class=" btn btn-primary btn-md login-button" type="submit" value="Ajouter" />
-                </div>
-                {{ form_rest(pictureForm) }}
-                {{ form_end(pictureForm) }}
-            </div>
-         </div>
+        </div>
     </div>
             
     <!-- Modal delete a picture-->
-    <div id="deleteModal" class="modal">
-         <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="margin-auto">Suppression d'une photo</h2>
+    <div id="deletePictureModal" class="modal" role="dialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title">Suppression d'une photo</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+               <div class="modal-body">
+                   <p>Vous allez supprimer cette photo </p>
+                   <p>Etes-vous sur?</p>
+               </div>
+               <div class="modal-footer">
+                   <a href="" id="btnYes" class="btn btn-danger" data="">Oui</a>
+                   <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Non</a>
+               </div>
             </div>
-            <div class="modal-body">
-                <p>Vous allez supprimer cette photo </p>
-                <p>Etes-vous sur?</p>
-            </div>
-            <div class="modal-footer">
-                <a href="" id="btnYes" class="btn btn-danger" data="">Oui</a>
-                <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Non</a>
-            </div>
-         </div>
+        </div>
     </div>
 
     <script>
         $(document).ready(function() {
             var modal = document.getElementById("addPictureModal");
-            var modal2 = document.getElementById("deleteModal");
+            var modal2 = document.getElementById("deletePictureModal");
 
             $('.add-picture').on('click', function(e) {
                 e.preventDefault();
@@ -87,7 +99,7 @@
                 var id = $(this).attr("id");
                 $('#btnYes').attr("href",href);
                 $('#btnYes').attr("data",id);
-                $('#deleteModal').modal('show');
+                $('#deletePictureModal').modal('show');
             });
             // When the user clicks anywhere outside of the modal, close it
             window.onclick = function(event) {
