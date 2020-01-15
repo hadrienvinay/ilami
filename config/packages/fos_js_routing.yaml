@@ -1,2 +1,2 @@
 fos_js_routing:
-    routes_to_expose: [ add_event,profile ]
+    routes_to_expose: [ add_event,profile,album,event ]

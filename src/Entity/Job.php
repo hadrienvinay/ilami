@@ -55,7 +55,7 @@ class Job
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedDate; 
-       
+    
     /**
      * @ORM\Column(type="datetime")
      */
@@ -66,6 +66,7 @@ class Job
         return $this->id;
     }
 
+    
     /**
      * @return mixed
      */
@@ -88,14 +89,6 @@ class Job
     public function getDate()
     {
         return $this->date;
-    }
-
-    /**
-     * @param mixed $date
-     */
-    public function setDate($date): void
-    {
-        $this->date = $date;
     }
 
     public function getAddress(): ?string

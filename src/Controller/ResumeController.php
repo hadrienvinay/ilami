@@ -37,39 +37,10 @@ class ResumeController extends Controller
             $event->setAddress($user->getAddress());
             $event->setLatitude($user->getLatitude());   
             $event->setLongitude($user->getLongitude());
+            $event->setStartDate(new \DateTime());
+            $event->setEndDate(new \DateTime());
             $event->setName("Soirée chez ".$user->getUsername());
             $eventForm = $this->get('form.factory')->create(EventType::class, $event);
-
-            if ($request->isMethod('POST') && $eventForm->handleRequest($request)->isValid()) {
-                //set lat and long
-                if($event->getAddress() != $user->getAddress()){
-                    $pos = $geocoder->convertAddress($event->getAddress());
-                    $event->setLatitude($pos[0]);
-                    $event->setLongitude($pos[1]);
-                }
-                $event->setCreatedDate(new \DateTime);
-                $event->setCreator($user);
-                $event->addParticipant($user);
-                $em->persist($event);
-                $em->flush();
-
-                $manager = $this->get('mgilet.notification');
-                $notif=$manager->createNotification($this->generateSubject($event),$event->getName(),'event/'.$event->getId());
-                // you can add a notification to a list of entities
-                // the third parameter ``$flush`` allows you to directly flush the entities
-                $users = $em->getRepository('App:User')->findAll();
-                foreach ($users as $to_notify)
-                {
-                    if ($to_notify != $this->getUser())
-                    {
-                        $manager->addNotification(array($to_notify), $notif, true);
-                    }
-                }
-
-                $request->getSession()->getFlashBag()->add('success', 'Evènement créé avec succès !');
-                return $this->redirectToRoute('resume');
-            }
-            
             
             return $this->render('my/resume.html.twig', array(
                 'users' => $users,

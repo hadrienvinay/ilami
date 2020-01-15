@@ -16,17 +16,13 @@ use App\Form\EventType;
 use App\Form\AlbumType;
 use App\Form\PictureType;
 use App\Form\SongType;
-use YoutubeDl\YoutubeDl;
-use YoutubeDl\Exception\CopyrightException;
-use YoutubeDl\Exception\NotFoundException;
-use YoutubeDl\Exception\PrivateVideoException;
 
 class MainController extends Controller
-{   
+{       
     /**
      * @return Response
      */
-    public function index(Request $request, GeocoderService $geocoder)
+    public function index(Request $request)
     {
         $user=$this->getUser();
         $date = date('Y-m-d');
@@ -49,7 +45,6 @@ class MainController extends Controller
 
             //retreive all updates
             $infos = array();
-            //$infos = array_fill("first","test","https://google.fr");
             foreach($users as $userInfo){
                 if($userInfo->getUpdatedDate() != null){
                     $new = array("name" => $userInfo->getUsername(),"date"=>$userInfo->getUpdatedDate(),"description"=>"a mis à jour son profil","link"=>"profile","link_attr"=>$userInfo->getId());
@@ -82,6 +77,8 @@ class MainController extends Controller
             //add event form
             $event = new Event();
             $event->setAddress($user->getAddress());
+            $event->setStartDate(new \DateTime());
+            $event->setEndDate(new \DateTime());
             $event->setLatitude($user->getLatitude());   
             $event->setLongitude($user->getLongitude());
             $event->setName("Soirée chez ".$user->getUsername());
@@ -96,30 +93,6 @@ class MainController extends Controller
             $song = new Song();
             $songForm = $this->get('form.factory')->create(SongType::class, $song);
             
-            //Event Form
-            if($request->isMethod('POST') && $eventForm->handleRequest($request)->isValid()){
-                if($event->getAddress() != $user->getAddress()){
-                    $pos = $geocoder->convertAddress($event->getAddress());
-                    $event->setLatitude($pos[0]);
-                    $event->setLongitude($pos[1]);
-                }
-                $event->setCreatedDate(new \DateTime);
-                $event->setCreator($user);
-                $event->addParticipant($user);
-                $em->persist($event);
-                $em->flush();
-                $manager = $this->get('mgilet.notification');
-                $notif=$manager->createNotification($this->get('eventController')->generateSubject($event),$event->getName(),'event/'.$event->getId());
-                foreach ($users as $to_notify)
-                {
-                    if ($to_notify != $this->getUser())
-                    {
-                        $manager->addNotification(array($to_notify), $notif, true);
-                    }
-                }
-                $request->getSession()->getFlashBag()->add('success', 'Evènement créé avec succès !');
-                return $this->redirectToRoute('main_app');
-            }
             return $this->render('main/body.html.twig', array(
                 'user' => $user,
                 'events' => $events,
@@ -183,7 +156,7 @@ class MainController extends Controller
 
         foreach ($users as $user)
         {
-            $names[] = array('value'=>$user->getUsername(),'label'=>$user->getId());
+            $names[] = array('value'=>$user->getUsername(),'label'=>$user->getId(),'category'=>'user');
         }
         
         $events = $em->getRepository('App:Event')->createQueryBuilder('c')
@@ -194,7 +167,18 @@ class MainController extends Controller
         
         foreach ($events as $event)
         {
-            $names[] = array('value'=>$event->getName(),'label'=>$event->getId());
+            $names[] = array('value'=>$event->getName(),'label'=>$event->getId(),'category'=>'event');
+        }
+        
+        $albums = $em->getRepository('App:Album')->createQueryBuilder('c')
+           ->where('c.name LIKE :name')
+           ->setParameter('name', '%'.$term.'%')
+           ->getQuery()
+           ->getResult();
+        
+        foreach ($albums as $album)
+        {
+            $names[] = array('value'=>$album->getName(),'label'=>$album->getId(),'category'=>'album');
         }
         
         $response = new JsonResponse();

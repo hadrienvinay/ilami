@@ -18,10 +18,17 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class EventController extends Controller
 {
+    private $geocoder;
+
+    public function __construct(GeocoderService $geocoder)
+    {
+        $this->geocoder = $geocoder;
+    }
+    
     /**
      * @return Response
      */
-    public function event($id, Request $request, GeocoderService $geocoder)
+    public function event($id, Request $request)
     {
         //check if user is connected
         $user=$this->getUser();
@@ -51,11 +58,11 @@ class EventController extends Controller
                     throw new AccessDeniedException('Tu peux pas modifier un event qui n\'est pas le tien narvalo !');
                 }
                 if($event->getAddress() != $prevAddress){
-                    $pos = $geocoder->convertAddress($event->getAddress());
+                    $pos = $this->geocoder->convertAddress($event->getAddress());
                     $event->setLatitude($pos[0]);
                     $event->setLongitude($pos[1]);
                 }
-                $event->setUpdatedDate(new \DateTime);
+                $event->setUpdatedDate(new \DateTime());
                 $em->persist($event);
                 $em->flush();
 
@@ -80,7 +87,7 @@ class EventController extends Controller
     /**
      * @return Response
      */
-    public function addevent(Request $request, $start, $end, GeocoderService $geocoder)
+    public function addevent(Request $request, $start, $end)
     {
         //check if user is connected
         $user=$this->getUser();
@@ -92,16 +99,19 @@ class EventController extends Controller
             $notifiableEntityRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableEntity');
             $notifiable = $notifiableEntityRepo->findOneby(array("identifier" => $user));
             $notificationList = $notifiableRepo->findAllForNotifiableId($notifiable);
-            
+                        
+            $em = $this->getDoctrine()->getManager();
+
             date_default_timezone_set("Europe/Paris");
+            
             $event = new Event();
-            //default: user address 
             $event->setAddress($user->getAddress());
             $event->setLatitude($user->getLatitude());   
             $event->setLongitude($user->getLongitude());
+            $event->setStartDate(new \DateTime());
+            $event->setEndDate(new \DateTime());
             $event->setName("Soirée chez ".$user->getUsername());
 
-            $em = $this->getDoctrine()->getManager();
 
             if (!is_null($start) and !is_null($end))
             {
@@ -114,11 +124,11 @@ class EventController extends Controller
             if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
                 //set lat and long
                 if($event->getAddress() != $user->getAddress()){
-                    $pos = $geocoder->convertAddress($event->getAddress());
+                    $pos = $this->geocoder->convertAddress($event->getAddress());
                     $event->setLatitude($pos[0]);
                     $event->setLongitude($pos[1]);
                 }
-                $event->setCreatedDate(new \DateTime);
+                $event->setCreatedDate(new \DateTime());
                 $event->setCreator($user);
                 $event->addParticipant($user);
                 $em->persist($event);
@@ -177,11 +187,11 @@ class EventController extends Controller
             $form = $this->get('form.factory')->create(EventType::class, $event);
             if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
                 if ($prevAddress != $event->getAddress()){
-                    $pos = $geocoder->convertAddress($event->getAddress());
+                    $pos = $this->geocoder->convertAddress($event->getAddress());
                     $event->setLatitude($pos[0]);
                     $event->setLongitude($pos[1]);
                 }
-                $event->setUpdatedDate(new \DateTime);
+                $event->setUpdatedDate(new \DateTime());
                 $em->persist($event);
                 $em->flush();
 
@@ -219,7 +229,6 @@ class EventController extends Controller
             $event->addParticipant($user);
             //$user->setEvents($event);
             $em->persist($event);
-            $em->persist($user);
             $em->flush();
 
             $request->getSession()->getFlashBag()->add('success', 'Participation confirmée avec succès !');

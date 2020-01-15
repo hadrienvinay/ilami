@@ -15,19 +15,19 @@ class GeocoderService
     {
         $pos = array();
          // Get latitude and longitude of the event address
-            if(!empty($address)){
-                $query = sprintf($this->geocoder, urlencode(utf8_encode($address)));
-                $result = json_decode(file_get_contents($query, false, stream_context_create($this->arrContextOptions)));
+        if(!empty($address)){
+            $query = sprintf($this->geocoder, urlencode(utf8_encode($address)));
+            $result = json_decode(file_get_contents($query, false, stream_context_create($this->arrContextOptions)));
 
-                if (empty($result->results)) {
-                    return [0,0];
-                } else {
-                    $json = $result->results[0];
-                    $pos[0] = (float)$json->geometry->location->lat;
-                    $pos[1] = (float)$json->geometry->location->lng;
-                    return $pos;
-                }
+            if (empty($result->results)) {
+                return [0,0];
+            } else {
+                $json = $result->results[0];
+                $pos[0] = (float)$json->geometry->location->lat;
+                $pos[1] = (float)$json->geometry->location->lng;
+                return $pos;
             }
+        }
     }
 }
 

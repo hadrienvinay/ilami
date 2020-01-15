@@ -31,6 +31,8 @@
                                     </a>
                                 </small>
                                 <div class="dropdown-divider"></div>
+                            {% else %}
+                                <div class="text-center"><i>Aucune notification :'(</i></div>
                             {% endif %}
                             {% for item in notificationList | slice(0,8) %}
                                 <a class="dropdown-item notif-content" {% if not item.seen %}style="background-color:#5eb5e0;" data="{{ mgilet_notification_generate_path('notification_mark_as_seen', item.notifiableEntity, item.notification) }}" {% else %} data="" {% endif %} href="{{ path('main_app') }}{{ item.notification.link }}">
@@ -114,15 +116,34 @@
             minLength: 1,
             autoFocus: true,
             select: function( event, ui ) {
-                var my_route = Routing.generate('profile',{id: ui.item.label});
+                var my_route;
+                if(ui.item.category == 'user')
+                    my_route = Routing.generate('profile',{id: ui.item.label});
+                else if(ui.item.category == 'event')
+                    my_route = Routing.generate('event',{id: ui.item.label});
+                else if(ui.item.category == 'album')
+                    my_route = Routing.generate('album',{id: ui.item.label});
+                
                 window.location.replace(my_route);
             }
             
         })
         .autocomplete("instance")._renderItem = function( ul, item ) {
-            return $("<li>")
-              .append("<div>" + "<img src='{{asset('build/images/profile/')}}"+ item.value + ".jpg' style='width: 10%;height: 100%;border-radius: 10%;'>" + " " + item.value + "</div>")
-              .appendTo(ul);
+            if(item.category == 'user'){
+                return $("<li>")
+                  .append("<div>" + "<img src='{{asset('build/images/profile/')}}"+ item.value + ".jpg' style='width: 10%;height: 100%;border-radius: 10%;'>" + " " + item.value + "</div>")
+                  .appendTo(ul);
+            }
+            if(item.category == 'event'){
+                return $("<li>")
+                  .append("<div>" + "<img src='{{asset('build/images/dashboard/event.jpg')}}' style='width: 10%;height: 100%;border-radius: 10%;'>" + " " + item.value + "</div>")
+                  .appendTo(ul);
+            }
+            if(item.category == 'album'){
+                return $("<li>")
+                  .append("<div>" + "<img src='{{asset('build/images/gallery/default.png')}}' style='width: 10%;height: 100%;border-radius: 10%;'>" + " " + item.value + "</div>")
+                  .appendTo(ul);
+            }
         };
         
       

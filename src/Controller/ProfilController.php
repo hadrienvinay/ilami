@@ -13,7 +13,7 @@ use App\Entity\Recommandation;
 use App\Entity\Job;
 use App\Entity\Song;
 use App\Entity\Picture;
-
+use FOS\UserBundle\Form\Type\ChangePasswordFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,10 +28,17 @@ use Symfony\Component\HttpFoundation\File\File;
 
 class ProfilController extends Controller
 {
+    private $geocoder;
+
+    public function __construct(GeocoderService $geocoder)
+    {
+        $this->geocoder = $geocoder;
+    }
+    
     /**
      * @return Response
      */
-    public function profil(Request $request, $id, GeocoderService $geocoder)
+    public function profil(Request $request, $id)
     {
         //check if user is connected
         $user=$this->getUser();
@@ -59,7 +66,7 @@ class ProfilController extends Controller
                     throw new AccessDeniedException('Tu peux pas modifier un autre profil que le tien narvaloo !');
                 }
                 if ($prevAddress != $user->getAddress()){
-                    $pos = $geocoder->convertAddress($user->getAddress());
+                    $pos = $this->geocoder->convertAddress($user->getAddress());
                     $user->setLatitude($pos[0]);
                     $user->setLongitude($pos[1]);
                 }
@@ -77,17 +84,16 @@ class ProfilController extends Controller
             //song form
             $song = new Song();
             $songForm = $this->get('form.factory')->create(SongType::class, $song);
-            
             //Job form
             $job = $user->getJob();
-            if(!$job){
-                $job = new Job();
-            }
+            if(!$job){$job = new Job();}
             $jobForm = $this->get('form.factory')->create(JobType::class, $job);
-            
             //recommandation form
             $recommandation = new Recommandation();
             $recommandationform = $this->get('form.factory')->create(RecommandationType::class, $recommandation);
+            //change password form
+            $passwordForm = $this->get('form.factory')->create(ChangePasswordFormType::class);
+            $passwordForm->setData($user);
             
             return $this->render('my/profil.html.twig', array(
                 'user' => $user,
@@ -96,6 +102,7 @@ class ProfilController extends Controller
                 'pictureForm' => $pictureForm->createView(),
                 'songForm' => $songForm->createView(),
                 'recommandationForm' => $recommandationform->createView(),
+                'passwordForm' => $passwordForm->createView(),
                 'notificationList' => $notificationList
             ));
         }
@@ -104,7 +111,7 @@ class ProfilController extends Controller
     /**
      * @return Response
      */
-    public function modifyProfil(Request $request, $id, GeocoderService $geocoder)
+    public function modifyProfil(Request $request, $id)
     {
         //check if user is connected
         $user=$this->getUser();
@@ -128,7 +135,7 @@ class ProfilController extends Controller
             $form = $this->get('form.factory')->create(UserType::class, $user);
             if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
                 if ($prevAddress != $user->getAddress()){
-                    $pos = $geocoder->convertAddress($user->getAddress());
+                    $pos = $this->geocoder->convertAddress($user->getAddress());
                     $user->setLatitude($pos[0]);
                     $user->setLongitude($pos[1]);
                 }
@@ -152,7 +159,7 @@ class ProfilController extends Controller
     /**
      * @return Response
      */
-    public function addRecommandation(Request $request, GeocoderService $geocoder)
+    public function addRecommandation(Request $request)
     {
         //check if user is connected
         $user=$this->getUser();
@@ -171,7 +178,7 @@ class ProfilController extends Controller
             
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
-                $pos = $geocoder->convertAddress($recommandation->getAddress());
+                $pos = $this->geocoder->convertAddress($recommandation->getAddress());
                 $recommandation->setLatitude($pos[0]);
                 $recommandation->setLongitude($pos[1]);
                 $recommandation->setUser($user);
@@ -195,7 +202,7 @@ class ProfilController extends Controller
      /**
      * @return Response
      */
-    public function addJob(Request $request, GeocoderService $geocoder)
+    public function addJob(Request $request)
     {
         //check if user is connected
         $user=$this->getUser();
@@ -217,7 +224,11 @@ class ProfilController extends Controller
             
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
+                $pos = $this->geocoder->convertAddress($job->getAddress());
+                $job->setLatitude($pos[0]);
+                $job->setLongitude($pos[1]);
                 $job->setUser($user);
+                
                 $em->persist($job);
                 $user->setJob($job);
                 $em->persist($user);

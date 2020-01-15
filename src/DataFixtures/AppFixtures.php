@@ -8,8 +8,11 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Entity\User;
 use App\Entity\Event;
 use App\Entity\Album;
+use App\Entity\Picture;
 use App\Entity\Recommandation;
 use App\Entity\Job;
+use App\Entity\Song;
+
 
 
 class AppFixtures extends Fixture
@@ -38,16 +41,16 @@ class AppFixtures extends Fixture
         $user0->setTeam('Imalipusram');
         $user0->setStatus('RIP le Chômage');
         $user0->setAddress('118 rue de Paris, Boulogne-Billancourt, 92100');
-        $user0->setLongitude(2.238590);
-        $user0->setLatitude(48.841520);
-        $user0->setUpdatedDate(new \DateTime());
+        $user0->setLongitude('2.238590');
+        $user0->setLatitude('48.841520');
+        $user0->setUpdatedDate(new \DateTime);
         $manager->persist($user0);
         
         $user1 = new User();
         $user1->setEnabled(true);
         $user1->setName('Urzua');
         $user1->setPrename('Andrès');
-        $user1->setUsername('chewi');
+        $user1->setUsername('andres');
         $password = $this->encoder->encodePassword($user1, 'pass');
         $user1->setPassword($password);
         $user1->setEmail('andres.urzua@yahoo.fr');
@@ -56,8 +59,8 @@ class AppFixtures extends Fixture
         $user1->setTeam('Imalipusram');
         $user1->setStatus('Me gusta las chilaquiles !');
         $user1->setAddress('42 Boulevard Ney, Paris');
-        $user1->setLongitude(2.366030);
-        $user1->setLatitude(48.898770);
+        $user1->setLongitude('2.366030');
+        $user1->setLatitude('48.898770');
         $user1->setUpdatedDate(new \DateTime());
         $manager->persist($user1);
         
@@ -65,7 +68,7 @@ class AppFixtures extends Fixture
         $user2->setEnabled(true);
         $user2->setName('Falcon');
         $user2->setPrename('Arthur');
-        $user2->setUsername('vagabond');
+        $user2->setUsername('arthur');
         $password = $this->encoder->encodePassword($user2, 'pass');
         $user2->setPassword($password);
         $user2->setEmail('arthur.falcon@gmail.fr');
@@ -74,8 +77,8 @@ class AppFixtures extends Fixture
         $user2->setTeam('Imalipusram');
         $user2->setStatus('Ca vagabonde en masse');
         $user2->setAddress('8 Rue Cluseret, Suresnes');
-        $user2->setLongitude(2.220930);
-        $user2->setLatitude(48.867940);
+        $user2->setLongitude('2.220930');
+        $user2->setLatitude('48.867940');
         $user2->setUpdatedDate(new \DateTime());
         $manager->persist($user2);
         
@@ -83,17 +86,17 @@ class AppFixtures extends Fixture
         $user3->setEnabled(true);
         $user3->setName('Falcon');
         $user3->setPrename('Basile');
-        $user3->setUsername('jazzy');
+        $user3->setUsername('basile');
         $password = $this->encoder->encodePassword($user3, 'pass');
         $user3->setPassword($password);
         $user3->setEmail('basile.falcon@yahoo.fr');
-        $user2->setBirthdate(new \DateTime('1996-08-14'));
+        $user3->setBirthdate(new \DateTime('1996-08-14'));
         $user3->setPhone('0634059509');
         $user3->setTeam('Imalipusram');
         $user3->setStatus('Et tu roules un dragon!');
         $user3->setAddress('11 Rue Madame de Sévigné, 54000, Laval');
-        $user3->setLongitude(-0.784130);
-        $user3->setLatitude(48.072040);
+        $user3->setLongitude('-0.784130');
+        $user3->setLatitude('48.072040');
         $user3->setUpdatedDate(new \DateTime());
         $manager->persist($user3);
         
@@ -101,7 +104,7 @@ class AppFixtures extends Fixture
         $user4->setEnabled(true);
         $user4->setName('Eschasseriau');
         $user4->setPrename('Laura');
-        $user4->setUsername('laulau');
+        $user4->setUsername('laura');
         $password = $this->encoder->encodePassword($user4, 'pass');
         $user4->setPassword($password);
         $user4->setEmail('laura.eschasseriau@yahoo.fr');
@@ -110,8 +113,8 @@ class AppFixtures extends Fixture
         $user4->setTeam('Imalipusram');
         $user4->setStatus('Me gusta las chilaquiles !');
         $user4->setAddress('65 Rue Jean de la Fontaine, 75016 Paris, France');
-        $user4->setLongitude(2.267400);
-        $user4->setLatitude(48.849320);
+        $user4->setLongitude('2.267400');
+        $user4->setLatitude('48.849320');
         $user4->setUpdatedDate(new \DateTime());
         $manager->persist($user4);
         
@@ -119,7 +122,7 @@ class AppFixtures extends Fixture
         $user5->setEnabled(true);
         $user5->setName('Pechere');
         $user5->setPrename('Flavien');
-        $user5->setUsername('flavb');
+        $user5->setUsername('flavien');
         $password = $this->encoder->encodePassword($user5, 'pass');
         $user5->setPassword($password);
         $user5->setEmail('flav_p@hotmail.fr');
@@ -127,9 +130,9 @@ class AppFixtures extends Fixture
         $user5->setPhone('0651766869');
         $user5->setTeam('Imalipusram');
         $user5->setStatus('J\'ai vu ses lolos !');
-        $user4->setAddress('65 Rue Jean de la Fontaine, 75016 Paris, France');
-        $user5->setLongitude(2.267400);
-        $user5->setLatitude(48.849320);
+        $user5->setAddress('65 Rue Jean de la Fontaine, 75016 Paris, France');
+        $user5->setLongitude('2.267400');
+        $user5->setLatitude('48.849320');
         $user5->setUpdatedDate(new \DateTime());
         $manager->persist($user5);
         
@@ -137,7 +140,7 @@ class AppFixtures extends Fixture
         $user6->setEnabled(true);
         $user6->setName('Delval');
         $user6->setPrename('Léo');
-        $user6->setUsername('lélé');
+        $user6->setUsername('leo');
         $password = $this->encoder->encodePassword($user6, 'pass');
         $user6->setPassword($password);
         $user6->setEmail('leo.delval@yahoo.fr');
@@ -146,8 +149,8 @@ class AppFixtures extends Fixture
         $user6->setTeam('Imalipusram');
         $user6->setStatus('Viens içi que j\'te Calisse lo');
         $user6->setAddress('Montréal, QC, Canada');
-        $user6->setLongitude(-73.553360);
-        $user6->setLatitude(45.509060);
+        $user6->setLongitude('-73.553360');
+        $user6->setLatitude('45.509060');
         $user6->setUpdatedDate(new \DateTime());
         $manager->persist($user6);
         
@@ -155,7 +158,7 @@ class AppFixtures extends Fixture
         $user7->setEnabled(true);
         $user7->setName('Sadone');
         $user7->setPrename('Alexandre');
-        $user7->setUsername('mcmayo');
+        $user7->setUsername('alexandre');
         $password = $this->encoder->encodePassword($user7, 'pass');
         $user7->setPassword($password);
         $user7->setEmail('alex.sadone@yahoo.fr');
@@ -164,8 +167,8 @@ class AppFixtures extends Fixture
         $user7->setTeam('Imalipusram');
         $user7->setStatus('I fuking love Kentish Toooown !');
         $user7->setAddress('Cherbury Street, London Borough of Hackney, England, United Kingdom');
-        $user7->setLongitude(0.087640);
-        $user7->setLatitude(51.507940);
+        $user7->setLongitude('0.087640');
+        $user7->setLatitude('51.507940');
         $user7->setUpdatedDate(new \DateTime());
         $manager->persist($user7);
         
@@ -173,7 +176,7 @@ class AppFixtures extends Fixture
         $user8->setEnabled(true);
         $user8->setName('Delaporte');
         $user8->setPrename('Grégoire');
-        $user8->setUsername('chewi');
+        $user8->setUsername('gregoire');
         $password = $this->encoder->encodePassword($user8, 'pass');
         $user8->setPassword($password);
         $user8->setEmail('greg.delaporte@yahoo.fr');
@@ -181,9 +184,9 @@ class AppFixtures extends Fixture
         $user8->setPhone('0671989345');
         $user8->setTeam('Imalipusram');
         $user8->setStatus('Peak(y) Coders Nation');
-        $user7->setAddress('Cherbury Street, London Borough of Hackney, England, United Kingdom');
-        $user8->setLongitude(0.087640);
-        $user8->setLatitude(51.507940);
+        $user8->setAddress('Cherbury Street, London Borough of Hackney, England, United Kingdom');
+        $user8->setLongitude('0.087640');
+        $user8->setLatitude('51.507940');
         $user8->setUpdatedDate(new \DateTime());
         $manager->persist($user8);
         
@@ -191,7 +194,7 @@ class AppFixtures extends Fixture
         $user9->setEnabled(true);
         $user9->setName('Lefort');
         $user9->setPrename('Marine');
-        $user9->setUsername('mareine');
+        $user9->setUsername('marine');
         $password = $this->encoder->encodePassword($user9, 'pass');
         $user9->setPassword($password);
         $user9->setEmail('marine.lft@yahoo.fr');
@@ -200,8 +203,8 @@ class AppFixtures extends Fixture
         $user9->setTeam('Imalipusram');
         $user9->setStatus('Vegan Fox :o');
         $user9->setAddress('7 Avenue Poniatowski, Maisons-Laffitte');
-        $user9->setLongitude(2.140300);
-        $user9->setLatitude(48.956920);
+        $user9->setLongitude('2.140300');
+        $user9->setLatitude('48.956920');
         $user9->setUpdatedDate(new \DateTime());
         $manager->persist($user9);
         
@@ -209,7 +212,7 @@ class AppFixtures extends Fixture
         $user10->setEnabled(true);
         $user10->setName('Folly');
         $user10->setPrename('Roch');
-        $user10->setUsername('rocho');
+        $user10->setUsername('roch');
         $password = $this->encoder->encodePassword($user10, 'pass');
         $user10->setPassword($password);
         $user10->setEmail('roch.folly@yahoo.fr');
@@ -218,8 +221,8 @@ class AppFixtures extends Fixture
         $user10->setTeam('Imalipusram');
         $user10->setStatus('Boston viee');
         $user10->setAddress('Boston, MA, United States of America');
-        $user10->setLongitude(-71.058630);
-        $user10->setLatitude(42.358990);
+        $user10->setLongitude('-71.058630');
+        $user10->setLatitude('42.358990');
         $user10->setUpdatedDate(new \DateTime());
         $manager->persist($user10);
         
@@ -227,7 +230,7 @@ class AppFixtures extends Fixture
         $user11->setEnabled(true);
         $user11->setName('Tannous');
         $user11->setPrename('Christopher');
-        $user11->setUsername('chris');
+        $user11->setUsername('christopher');
         $password = $this->encoder->encodePassword($user11, 'pass');
         $user11->setPassword($password);
         $user11->setEmail('chris.tannous@yahoo.fr');
@@ -236,8 +239,8 @@ class AppFixtures extends Fixture
         $user11->setTeam('Imalipusram');
         $user11->setStatus('Allez laaaaaaa');
         $user11->setAddress('10 Rue de Lourmel, Paris');
-        $user11->setLongitude(2.291770);
-        $user11->setLatitude(48.850090);
+        $user11->setLongitude('2.291770');
+        $user11->setLatitude('48.850090');
         $user11->setUpdatedDate(new \DateTime());
         $manager->persist($user11);
         
@@ -245,7 +248,7 @@ class AppFixtures extends Fixture
         $user12->setEnabled(true);
         $user12->setName('Goguel');
         $user12->setPrename('Arnaud');
-        $user12->setUsername('nonow');
+        $user12->setUsername('arnaud');
         $password = $this->encoder->encodePassword($user12, 'pass');
         $user12->setPassword($password);
         $user12->setEmail('arnaud.goguel@yahoo.fr');
@@ -254,8 +257,8 @@ class AppFixtures extends Fixture
         $user12->setTeam('Imalipusram');
         $user12->setStatus('Viens toucher mon p\'tit boule');
         $user12->setAddress('11 Rue Bargue, 75015 Paris');
-        $user12->setLongitude(2.299560);
-        $user12->setLatitude(48.841999);
+        $user12->setLongitude('2.299560');
+        $user12->setLatitude('48.841999');
         $user12->setUpdatedDate(new \DateTime());
         $manager->persist($user12);
         
@@ -263,7 +266,7 @@ class AppFixtures extends Fixture
         $user13->setEnabled(true);
         $user13->setName('Hure');
         $user13->setPrename('Gaultier');
-        $user13->setUsername('zaïzaï');
+        $user13->setUsername('gaultier');
         $password = $this->encoder->encodePassword($user13, 'pass');
         $user13->setPassword($password);
         $user13->setEmail('gaultier.hure@yahoo.fr');
@@ -272,8 +275,8 @@ class AppFixtures extends Fixture
         $user13->setTeam('Imalipusram');
         $user13->setStatus('Touche pas ma Bernie');
         $user13->setAddress('16 Rue de ville d\'Avray, 92310 Sèvres');
-        $user13->setLongitude(2.207390);
-        $user13->setLatitude(48.824820);
+        $user13->setLongitude('2.207390');
+        $user13->setLatitude('48.824820');
         $user13->setUpdatedDate(new \DateTime());
         $manager->persist($user13);
         
@@ -281,7 +284,7 @@ class AppFixtures extends Fixture
         $user14->setEnabled(true);
         $user14->setName('Dufort');
         $user14->setPrename('Alberic');
-        $user14->setUsername('chewi');
+        $user14->setUsername('alberic');
         $password = $this->encoder->encodePassword($user14, 'pass');
         $user14->setPassword($password);
         $user14->setEmail('alberic.dufort@yahoo.fr');
@@ -290,8 +293,8 @@ class AppFixtures extends Fixture
         $user14->setTeam('Imalipusram');
         $user14->setStatus('Team Poulet Coco <3');
         $user14->setAddress('28-30 Rue Claude Terrasse, 75016 Paris, France');
-        $user14->setLongitude(2.261580);
-        $user14->setLatitude(48.838250);
+        $user14->setLongitude('2.261580');
+        $user14->setLatitude('48.838250');
         $user14->setUpdatedDate(new \DateTime());
         $manager->persist($user14);
         
@@ -299,7 +302,7 @@ class AppFixtures extends Fixture
         $user15->setEnabled(true);
         $user15->setName('Betouche');
         $user15->setPrename('Menad');
-        $user15->setUsername('chewi');
+        $user15->setUsername('menad');
         $password = $this->encoder->encodePassword($user15, 'pass');
         $user15->setPassword($password);
         $user15->setEmail('menad.betouche@yahoo.fr');
@@ -308,8 +311,8 @@ class AppFixtures extends Fixture
         $user15->setTeam('Imalipusram');
         $user15->setStatus('T\'as pas vu mes pecs ?');
         $user15->setAddress('42 Boulevard Ney, Paris');
-        $user15->setLongitude(2.366050);
-        $user15->setLatitude(48.898770);
+        $user15->setLongitude('2.366050');
+        $user15->setLatitude('48.898770');
         $user15->setUpdatedDate(new \DateTime());
         $manager->persist($user15);
         
@@ -317,7 +320,7 @@ class AppFixtures extends Fixture
         $user16->setEnabled(true);
         $user16->setName('Mirey');
         $user16->setPrename('Pauline');
-        $user16->setUsername('chewi');
+        $user16->setUsername('pauline');
         $password = $this->encoder->encodePassword($user16, 'pass');
         $user16->setPassword($password);
         $user16->setEmail('pauline.mirey@yahoo.fr');
@@ -326,8 +329,8 @@ class AppFixtures extends Fixture
         $user16->setTeam('Imalipusram');
         $user16->setStatus('TPMT (Touche Pas Mon Thomaas)');
         $user16->setAddress('42 Boulevard Ney, Paris');
-        $user16->setLongitude(2.366070);
-        $user16->setLatitude(48.898770);
+        $user16->setLongitude('2.366070');
+        $user16->setLatitude('48.898770');
         $user16->setUpdatedDate(new \DateTime());
         $manager->persist($user16);
         
@@ -335,7 +338,7 @@ class AppFixtures extends Fixture
         $user17->setEnabled(true);
         $user17->setName('Aulanier');
         $user17->setPrename('Tanguy');
-        $user17->setUsername('gitan');
+        $user17->setUsername('tanguy');
         $password = $this->encoder->encodePassword($user17, 'pass');
         $user17->setPassword($password);
         $user17->setEmail('tanguy.aulanier@yahoo.fr');
@@ -344,8 +347,8 @@ class AppFixtures extends Fixture
         $user17->setTeam('Imalipusram');
         $user17->setStatus('Me gusta las chilaquiles !');
         $user17->setAddress('42 Boulevard Ney, Paris');
-        $user17->setLongitude(2.366030);
-        $user17->setLatitude(48.898770);
+        $user17->setLongitude('2.366030');
+        $user17->setLatitude('48.898770');
         $user17->setUpdatedDate(new \DateTime());
         $manager->persist($user17);
         
@@ -353,7 +356,7 @@ class AppFixtures extends Fixture
         $user18->setEnabled(true);
         $user18->setName('Pivette');
         $user18->setPrename('Guillaume');
-        $user18->setUsername('piv');
+        $user18->setUsername('pivette');
         $password = $this->encoder->encodePassword($user18, 'pass');
         $user18->setPassword($password);
         $user18->setEmail('guillaume.pivette@yahoo.fr');
@@ -362,8 +365,8 @@ class AppFixtures extends Fixture
         $user18->setTeam('Imalipusram');
         $user18->setStatus('Vous ne passerez paaaas !');
         $user18->setAddress('157-161 Boulevard Charles de Gaulle, 92700 Colombes');
-        $user18->setLongitude(2.226150);
-        $user18->setLatitude(48.916060);
+        $user18->setLongitude('2.226150');
+        $user18->setLatitude('48.916060');
         $user18->setUpdatedDate(new \DateTime());
         $manager->persist($user18);
         
@@ -371,7 +374,7 @@ class AppFixtures extends Fixture
         $user19->setEnabled(true);
         $user19->setName('Tournade');
         $user19->setPrename('Aliénor');
-        $user19->setUsername('lili');
+        $user19->setUsername('alienor');
         $password = $this->encoder->encodePassword($user19, 'pass');
         $user19->setPassword($password);
         $user19->setEmail('alienor.tournade@yahoo.fr');
@@ -380,14 +383,13 @@ class AppFixtures extends Fixture
         $user19->setTeam('Imalipusram');
         $user19->setStatus('Pot Pot?');
         $user19->setAddress('24 Rue de Chatou, 92700 Colombes, France');
-        $user19->setLongitude(2.240900);
-        $user19->setLatitude(48.915020);
+        $user19->setLongitude('2.240900');
+        $user19->setLatitude('48.915020');
         $user19->setUpdatedDate(new \DateTime());
         $manager->persist($user19);
         $manager->flush();
 
                
-
         //Event Fixtures
         $event0 = new Event();
         $event0->setName('Cristal');
@@ -397,20 +399,20 @@ class AppFixtures extends Fixture
         $event0->setCreatedDate(new \DateTime());
         $event0->setDescription('P\'tit Cristal zoo');
         $event0->setCreator($user0);
-        $event0->setLatitude(48.851100);
-        $event0->setLongitude(2.301080);
+        $event0->setLatitude('48.851100');
+        $event0->setLongitude('2.301080');
         $manager->persist($event0);
                      
         $event1 = new Event();
         $event1->setName('Cervezaaa');
         $event1->setAddress('12 Avenue de Suffren, Paris, 75015');
         $event1->setStartDate(new \DateTime());
-        $event1->setEndDate((new \DateTime())->add(new DateInterval('PT4H30M')));
+        $event1->setEndDate((new \DateTime())->add(new \DateInterval('PT4H30M')));
         $event1->setCreatedDate(new \DateTime());
         $event1->setDescription('P\'tite bière zoo');
         $event1->setCreator($user0);
-        $event1->setLatitude(48.851100);
-        $event1->setLongitude(2.301080);
+        $event1->setLatitude('48.851100');
+        $event1->setLongitude('2.301080');
         $manager->persist($event1);
         
         $event2 = new Event();
@@ -421,8 +423,8 @@ class AppFixtures extends Fixture
         $event2->setCreatedDate(new \DateTime());
         $event2->setDescription('P\'tite RDD zoo');
         $event2->setCreator($user0);
-        $event2->setLatitude(48.848660);
-        $event2->setLongitude(2.350300);
+        $event2->setLatitude('48.848660');
+        $event2->setLongitude('2.350300');
         $manager->persist($event2);
         
         $event3 = new Event();
@@ -433,8 +435,8 @@ class AppFixtures extends Fixture
         $event3->setCreatedDate(new \DateTime());
         $event3->setDescription('P\'tit Gala des 100 ans de l\'ECE zoo');
         $event3->setCreator($user0);
-        $event3->setLatitude(48.848660);
-        $event3->setLongitude(2.350500);
+        $event3->setLatitude('48.848660');
+        $event3->setLongitude('2.350500');
         $manager->persist($event3);
         
         $event4 = new Event();
@@ -444,9 +446,9 @@ class AppFixtures extends Fixture
         $event4->setEndDate(new \DateTime('2020-03-15 07:10:00'));
         $event4->setCreatedDate(new \DateTime());
         $event4->setDescription('Premier Grand Prix de l\'année !\nAnd Away we gooo!! Qualif : 14/03 à 06h00 - Course à 05h10 zzzz');
-        $event1->setCreator($user0);
-        $event4->setLatitude(-37.851110);
-        $event4->setLongitude(144.978380);
+        $event4->setCreator($user0);
+        $event4->setLatitude('-37.851110');
+        $event4->setLongitude('144.978380');
         $manager->persist($event4);
         
         //GP n°1
@@ -458,8 +460,8 @@ class AppFixtures extends Fixture
         $event5->setCreatedDate(new \DateTime());
         $event5->setDescription('Premier Grand Prix de l\'année !\nAnd Away we gooo!! Qualif : 14/03 à 07h00 - Course à 06h10 zzzz');
         $event5->setCreator($user0);
-        $event5->setLatitude(-37.851110);
-        $event5->setLongitude(144.978380);
+        $event5->setLatitude('-37.851110');
+        $event5->setLongitude('144.978380');
         $manager->persist($event5);
         
         $event6 = new Event();
@@ -470,8 +472,8 @@ class AppFixtures extends Fixture
         $event6->setCreatedDate(new \DateTime());
         $event6->setDescription('Deuxième Grand Prix de l\'année !\nAnd Away we gooo!! Qualif : 21/03 à 16h00 - Course à 16h10');
         $event6->setCreator($user0);
-        $event6->setLatitude(26.020910);
-        $event6->setLongitude(50.490780);
+        $event6->setLatitude('26.020910');
+        $event6->setLongitude('50.490780');
         $manager->persist($event6);
         
         $event16 = new Event();
@@ -482,8 +484,8 @@ class AppFixtures extends Fixture
         $event16->setCreatedDate(new \DateTime());
         $event16->setDescription('Troisième Grand Prix de l\'année !\nAnd Away we gooo!! Qualif : 04/04 à 09h00 - Course à 09h10');
         $event16->setCreator($user0);
-        $event16->setLatitude(21.006830);
-        $event16->setLongitude(105.766570);
+        $event16->setLatitude('21.006830');
+        $event16->setLongitude('105.766570');
         $manager->persist($event16);
         
         $event7 = new Event();
@@ -494,8 +496,8 @@ class AppFixtures extends Fixture
         $event7->setCreatedDate(new \DateTime());
         $event7->setDescription('Quatrième Grand Prix de l\'année !\nAnd Away we gooo!! Qualif : 18/04 à 08h00 - Course à 08h10');
         $event7->setCreator($user0);
-        $event7->setLatitude(23.467940);
-        $event7->setLongitude(120.433960);
+        $event7->setLatitude('23.467940');
+        $event7->setLongitude('120.433960');
         $manager->persist($event7);
         
         $event17 = new Event();
@@ -506,8 +508,8 @@ class AppFixtures extends Fixture
         $event17->setCreatedDate(new \DateTime());
         $event17->setDescription('Cinquième Grand Prix de l\'année !\nAnd Away we gooo!! Qualif : 02/05 à 17h00 - Course à 16h10');
         $event17->setCreator($user0);
-        $event17->setLatitude(52.371850);
-        $event17->setLongitude(4.530260);
+        $event17->setLatitude('52.371850');
+        $event17->setLongitude('4.530260');
         $manager->persist($event17);
 
         $event9 = new Event();
@@ -518,8 +520,8 @@ class AppFixtures extends Fixture
         $event9->setCreatedDate(new \DateTime());
         $event9->setDescription('Sixième Grand Prix de l\'année !\nAnd Away we gooo!! Qualif : 09/05 à 15h00 - Course à 15h10');
         $event9->setCreator($user0);
-        $event9->setLatitude(41.551460);
-        $event9->setLongitude(2.248460);
+        $event9->setLatitude('41.551460');
+        $event9->setLongitude('2.248460');
         $manager->persist($event9);
         
         $event10 = new Event();
@@ -530,8 +532,8 @@ class AppFixtures extends Fixture
         $event10->setCreatedDate(new \DateTime());
         $event10->setDescription('Septième Grand Prix de l\'année !\nAnd Away we gooo!! Qualif : 23/05 à 15h00 - Course à 15h10');
         $event10->setCreator($user0);
-        $event10->setLatitude(43.734580);
-        $event10->setLongitude(7.422330);
+        $event10->setLatitude('43.734580');
+        $event10->setLongitude('7.422330');
         $manager->persist($event10);
         
         $event8 = new Event();
@@ -542,8 +544,8 @@ class AppFixtures extends Fixture
         $event8->setCreatedDate(new \DateTime());
         $event8->setDescription('Huitième Grand Prix de l\'année !\nAnd Away we gooo!! Qualif : 06/06 à 15h00 - Course à 14h10');
         $event8->setCreator($user0);
-        $event8->setLatitude(40.3725);
-        $event8->setLongitude(49.853333);
+        $event8->setLatitude('40.3725');
+        $event8->setLongitude('49.853333');
         $manager->persist($event8);
         
         $event11 = new Event();
@@ -554,8 +556,8 @@ class AppFixtures extends Fixture
         $event11->setCreatedDate(new \DateTime());
         $event11->setDescription('Neuvième Grand Prix de l\'année !\nAnd Away we gooo!! Qualif : 13/06 à 20h00 - Course à 20h10');
         $event11->setCreator($user0);
-        $event11->setLatitude(45.545240);
-        $event11->setLongitude(-75.411080);
+        $event11->setLatitude('45.545240');
+        $event11->setLongitude('-75.411080');
         $manager->persist($event11);
         
         $event12 = new Event();
@@ -566,20 +568,20 @@ class AppFixtures extends Fixture
         $event12->setCreatedDate(new \DateTime());
         $event12->setDescription('Dixième Grand Prix de l\'année !\nAnd Away we gooo!! Qualif : 27/06 à 15h00 - Course à 15h10');
         $event12->setCreator($user0);
-        $event12->setLatitude(43.202460);
-        $event12->setLongitude(5.777210);
+        $event12->setLatitude('43.202460');
+        $event12->setLongitude('5.777210');
         $manager->persist($event12);
         
         $event13 = new Event();
         $event13->setName('Austrian Grand Prix');
         $event13->setAddress('Circuit de Spielberg');
-        $event13->setStartDate(new \DateTime('2020-07/03 11:00:00'));
+        $event13->setStartDate(new \DateTime('2020-07-03 11:00:00'));
         $event13->setEndDate(new \DateTime('2020-07-05 17:10:00'));
         $event13->setCreatedDate(new \DateTime());
         $event13->setDescription('Onzième Grand Prix de l\'année !\nAnd Away we gooo!! Qualif : 04/07 à 15h00 - Course à 15h10');
         $event13->setCreator($user0);
-        $event13->setLatitude(47.207120);
-        $event13->setLongitude(14.796850);
+        $event13->setLatitude('47.207120');
+        $event13->setLongitude('14.796850');
         $manager->persist($event13);
         
         $event14 = new Event();
@@ -590,8 +592,8 @@ class AppFixtures extends Fixture
         $event14->setCreatedDate(new \DateTime());
         $event14->setDescription('Douzième Grand Prix de l\'année !\nAnd Away we gooo!! Qualif : 18/07 à 15h00 - Course à 15h10');
         $event14->setCreator($user0);
-        $event14->setLatitude(53.502610);
-        $event14->setLongitude(-1.276870);
+        $event14->setLatitude('53.502610');
+        $event14->setLongitude('-1.276870');
         $manager->persist($event14);
         
         $event15 = new Event();
@@ -602,33 +604,33 @@ class AppFixtures extends Fixture
         $event15->setCreatedDate(new \DateTime());
         $event15->setDescription('Treizième Grand Prix de l\'année !\nAnd Away we gooo!! Qualif : 01/08 à 15h00 - Course à 15h10');
         $event15->setCreator($user0);
-        $event15->setLatitude(47.596900);
-        $event15->setLongitude(19.248010);
+        $event15->setLatitude('47.596900');
+        $event15->setLongitude('19.248010');
         $manager->persist($event15);
         
-        $event16 = new Event();
-        $event16->setName('Belgian Grand Prix');
-        $event16->setAddress('Circuit de Spa-Francorchamps');
-        $event16->setStartDate(new \DateTime('2020-08-28 11:00:00'));
-        $event16->setEndDate(new \DateTime('2020-08-30 17:10:00'));
-        $event16->setCreatedDate(new \DateTime());
-        $event16->setDescription('Quatorzième Grand Prix de l\'année !\nAnd Away we gooo!! Qualif : 29/08 à 15h00 - Course à 15h10');
-        $event16->setCreator($user0);
-        $event16->setLatitude(50.394180);
-        $event16->setLongitude(5.929000);
-        $manager->persist($event16);
+        $event160 = new Event();
+        $event160->setName('Belgian Grand Prix');
+        $event160->setAddress('Circuit de Spa-Francorchamps');
+        $event160->setStartDate(new \DateTime('2020-08-28 11:00:00'));
+        $event160->setEndDate(new \DateTime('2020-08-30 17:10:00'));
+        $event160->setCreatedDate(new \DateTime());
+        $event160->setDescription('Quatorzième Grand Prix de l\'année !\nAnd Away we gooo!! Qualif : 29/08 à 15h00 - Course à 15h10');
+        $event160->setCreator($user0);
+        $event160->setLatitude('50.394180');
+        $event160->setLongitude('5.929000');
+        $manager->persist($event160);
         
-        $event17 = new Event();
-        $event17->setName('Italian Grand Prix');
-        $event17->setAddress('Circuit Internationnal de Monza');
-        $event17->setStartDate(new \DateTime('2020-09-04 11:00:00'));
-        $event17->setEndDate(new \DateTime('2020-09-06 17:10:00'));
-        $event17->setCreatedDate(new \DateTime());
-        $event17->setDescription('Quinzième Grand Prix de l\'année !\nAnd Away we gooo!! Qualif : 05/09 à 15h00 - Course à 15h10');
-        $event17->setCreator($user0);
-        $event17->setLatitude(45.572490);
-        $event17->setLongitude(9.283500);
-        $manager->persist($event17);
+        $event170 = new Event();
+        $event170->setName('Italian Grand Prix');
+        $event170->setAddress('Circuit Internationnal de Monza');
+        $event170->setStartDate(new \DateTime('2020-09-04 11:00:00'));
+        $event170->setEndDate(new \DateTime('2020-09-06 17:10:00'));
+        $event170->setCreatedDate(new \DateTime());
+        $event170->setDescription('Quinzième Grand Prix de l\'année !\nAnd Away we gooo!! Qualif : 05/09 à 15h00 - Course à 15h10');
+        $event170->setCreator($user0);
+        $event170->setLatitude('45.572490');
+        $event170->setLongitude('9.283500');
+        $manager->persist($event170);
         
         $event18 = new Event();
         $event18->setName('Singapore Grand Prix');
@@ -638,8 +640,8 @@ class AppFixtures extends Fixture
         $event18->setCreatedDate(new \DateTime());
         $event18->setDescription('Seizième Grand Prix de l\'année !\nAnd Away we gooo!! Qualif : 19/09 à 15h00 - Course à 14h10');
         $event18->setCreator($user0);
-        $event18->setLatitude(1.300310);
-        $event18->setLongitude(103.864330);
+        $event18->setLatitude('1.300310');
+        $event18->setLongitude('103.864330');
         $manager->persist($event18);
         
         $event19 = new Event();
@@ -650,8 +652,8 @@ class AppFixtures extends Fixture
         $event19->setCreatedDate(new \DateTime());
         $event19->setDescription('Dix-Septième Grand Prix de l\'année !\nAnd Away we gooo!! Qualif : 26/09 à 14h00 - Course à 13h10');
         $event19->setCreator($user0);
-        $event19->setLatitude(43.425670);
-        $event19->setLongitude(40.003720);
+        $event19->setLatitude('43.425670');
+        $event19->setLongitude('40.003720');
         $manager->persist($event19);
         
         $event20 = new Event();
@@ -662,8 +664,8 @@ class AppFixtures extends Fixture
         $event20->setCreatedDate(new \DateTime());
         $event20->setDescription('Dix-Huitième Grand Prix de l\'année !\nAnd Away we gooo!! Qualif : 10/10 à 08h00 - Course à 05h10');
         $event20->setCreator($user0);
-        $event20->setLatitude(34.854057);
-        $event20->setLongitude(136.570367);
+        $event20->setLatitude('34.854057');
+        $event20->setLongitude('136.570367');
         $manager->persist($event20);
         
         $event21 = new Event();
@@ -674,8 +676,8 @@ class AppFixtures extends Fixture
         $event21->setCreatedDate(new \DateTime());
         $event21->setDescription('Dix-Neuvième Grand Prix de l\'année !\nAnd Away we gooo!! Qualif : 24/10 à 11h00 - Course à 19h10');
         $event21->setCreator($user0);
-        $event21->setLatitude(30.135800);
-        $event21->setLongitude(-97.646200);
+        $event21->setLatitude('30.135800');
+        $event21->setLongitude('-97.646200');
         $manager->persist($event21);
         
         $event22 = new Event();
@@ -686,8 +688,8 @@ class AppFixtures extends Fixture
         $event22->setCreatedDate(new \DateTime());
         $event22->setDescription('Vingtième Grand Prix de l\'année !\nAnd Away we gooo!! Qualif : 31/10 à 20h00 - Course à 20h10');
         $event22->setCreator($user0);
-        $event22->setLatitude(19.407200);
-        $event22->setLongitude(-99.106190);
+        $event22->setLatitude('19.407200');
+        $event22->setLongitude('-99.106190');
         $manager->persist($event22);
         
         $event23 = new Event();
@@ -698,8 +700,8 @@ class AppFixtures extends Fixture
         $event23->setCreatedDate(new \DateTime());
         $event23->setDescription('Vingt-et-unième Grand Prix de l\'année !\nAnd Away we gooo!! Qualif : 14/11 à 19h00 - Course à 18h10');
         $event23->setCreator($user0);
-        $event23->setLatitude(-23.703760);
-        $event23->setLongitude(-46.700920);
+        $event23->setLatitude('-23.703760');
+        $event23->setLongitude('-46.700920');
         $manager->persist($event23);
         
         $event24 = new Event();
@@ -710,8 +712,8 @@ class AppFixtures extends Fixture
         $event24->setCreatedDate(new \DateTime());
         $event24->setDescription('Vingt-Deuxième Grand Prix de l\'année !\nAnd Away we gooo!! Qualif : 28/11 à 14h00 - Course à 14h10');
         $event24->setCreator($user0);
-        $event24->setLatitude(32.797250);
-        $event24->setLongitude(35.103060);
+        $event24->setLatitude('32.797250');
+        $event24->setLongitude('35.103060');
         $manager->persist($event24);
         
         $event25 = new Event();
@@ -720,10 +722,10 @@ class AppFixtures extends Fixture
         $event25->setStartDate(new \DateTime('2020-03-26 10:00:00'));
         $event25->setEndDate((new \DateTime('2020-03-29 10:00:00')));
         $event25->setCreatedDate(new \DateTime());
-        $event25->setDescription('P\'tite pik pik zooo\n Préparez vos fois comme d\'abb');
+        $event25->setDescription('P\'tite pik pik zooo\n Préparez vos foies comme d\'abb');
         $event25->setCreator($user0);
-        $event25->setLatitude(48.851100);
-        $event25->setLongitude(2.301080);
+        $event25->setLatitude('48.851100');
+        $event25->setLongitude('2.301080');
         $manager->persist($event25);
         
         
@@ -731,34 +733,114 @@ class AppFixtures extends Fixture
         $job0 = new Job();
         $job0->setAddress('118 rue de Paris, Boulogne-Billancourt, 92100');
         $job0->setCompanyName('Catan');
+        $job0->setDescription('Catan vie');
         $job0->setStartDate(new \DateTime());
-        $job0->setLatitude(2.238590);
-        $job0->setLongitude(48.841520);
+        $job0->setLatitude('2.238590');
+        $job0->setLongitude('48.841520');
         $job0->setUser($user0);
+        $user0->setJob($job0);
         $manager->persist($job0);
         
         $job1 = new Job();
         $job1->setAddress('EY, Tour First, Place des Saisons, Paris');
         $job1->setCompanyName('EY');
+        $job1->setDescription('EY vie');
         $job1->setStartDate(new \DateTime());
-        $job1->setLatitude(2.252560);
-        $job1->setLongitude(48.889920);
+        $job1->setLatitude('2.252560');
+        $job1->setLongitude('48.889920');
         $job1->setUser($user5);
+        $user5->setJob($job1);
         $manager->persist($job1);
-
-
+        
         
         //Recommandation Fixtures
         $recommandation0= new Recommandation();
         $recommandation0->setName('Cristal');
         $recommandation0->setType('bar');
         $recommandation0->setUser($user0);
-        $recommandation0->setAddress('12 Avenue de Suffren, Paris, 75015');
+        $recommandation0->setAddress('163 Avenue de Suffren, 75015 Paris');
+        $recommandation0->setLatitude("48.845900");
+        $recommandation0->setLongitude("2.309620");
         $manager->persist($recommandation0);
         
+        $recommandation1= new Recommandation();
+        $recommandation1->setName('Flam\'s');
+        $recommandation1->setType('restaurant');
+        $recommandation1->setUser($user0);
+        $recommandation1->setAddress('Montparnasse, Paris, 75015');
+        $recommandation1->setLatitude("48.837273");
+        $recommandation1->setLongitude("2.335387");
+        $manager->persist($recommandation1);
+        
+        $recommandation2= new Recommandation();
+        $recommandation2->setName('Cheese Naan');
+        $recommandation2->setType('restaurant');
+        $recommandation2->setUser($user0);
+        $recommandation2->setAddress('90 Rue des Entrepreneurs, 75015 Paris');
+        $recommandation2->setLatitude("48.844110");
+        $recommandation2->setLongitude("2.291730");
+        $manager->persist($recommandation2);
+        
+        //Album Fixtures
+        $album0 = new Album();
+        $album0->setCreator($user0);
+        $album0->setName('2020');
+        $album0->setUpdatedDate(new \DateTime);
+        $album0->setPresentationPicture("default.png");
+        $manager->persist($album0);
+        
+        $album1 = new Album();
+        $album1->setCreator($user0);
+        $album1->setName('Lisbonne');
+        $album1->setUpdatedDate(new \DateTime);
+        $album1->setPresentationPicture("default.png");
+        $manager->persist($album1);
+        
+        $album2 = new Album();
+        $album2->setCreator($user0);
+        $album2->setName('Pik Pik');
+        $album2->setUpdatedDate(new \DateTime);
+        $album2->setPresentationPicture("default.png");
+        $manager->persist($album2);
+        
+        //Pictures Fixtures
+        for($i=0;$i<31;$i++){
+            $picture = new Picture();
+            $picture->setAlbum($album1);
+            $picture->setCreatedDate(new \DateTime);
+            $picture->setDescription('Photo '.$i);
+            $picture->setPublisher($user0);
+            $picture->setFileName("IMG_".($i+1182).".jpg");
+            $manager->persist($picture);
+        }
+        
+        for($i=0;$i<12;$i++){
+            $picture = new Picture();
+            $picture->setAlbum($album2);
+            $picture->setCreatedDate(new \DateTime);
+            $picture->setDescription('Photo '.($i+31));
+            $picture->setPublisher($user0);
+            $picture->setFileName("IMG_0".($i+137).".jpg");
+            $manager->persist($picture);
+        }
+        
+        $titles=["Vald - Offshore feat Suikon Blaz AD","Vald - Petite Chatte","Vald - Possede","Vald - Primitif","Vald - Primitif","Vald - Reflexions basses","Vald - Residus","Vald - Rituel feat SIRIUS","Vald - Rocking Chair","Vald - Seum","Vald - Trophee"];
+        
+        for($i=0;$i<10;$i++){
+           $song = new Song();
+           $song->setArtist('Vald');
+           $song->setAlbum('XEU');
+           $song->setUploader($user0);
+           $song->setCreatedDate(new \DateTime);
+           $song->setFileName($titles[$i].'.mp3');
+           $manager->persist($song);
+        }
+
+        
         //persist all users and entities remaining
-        $manager->persist($user0);
-        $manager->persist($user5);
+        $manager->persist($user0);        
+        $manager->persist($user5);      
+       
         //flush database
         $manager->flush();
     }

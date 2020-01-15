@@ -53,14 +53,6 @@ resume:
 map:
     path: /map
     controller: App\Controller\MapController::map
-       
-map_job:
-    path: /map_job
-    controller: App\Controller\MapController::mapJob
-    
-map_event:
-    path: /map_event
-    controller: App\Controller\MapController::mapEvent
 
 #######################
 #    Event routes     #

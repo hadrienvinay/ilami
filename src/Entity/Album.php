@@ -26,7 +26,7 @@ class Album
     
      /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="albumCreated")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=true,onDelete="CASCADE")
      */
     private $creator;
     

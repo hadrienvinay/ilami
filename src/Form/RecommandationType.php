@@ -25,7 +25,7 @@ class RecommandationType extends AbstractType
             )
             ->add('type',ChoiceType::class, array(
                     'attr'=>array('placeholder'=> 'Nom', 'class'=> 'form-control'),
-                    'choices' => array('Bar' => 'bar', 'Night Club' => 'club', 'restaurant' => 'restaurant'),
+                    'choices' => array('Bar' => 'bar', 'Boite' => 'club', 'Restaurant' => 'restaurant'),
                     'label' => 'Type')
             )
         ;

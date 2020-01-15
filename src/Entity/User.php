@@ -41,31 +41,31 @@ class User extends BaseUser implements NotifiableInterface
     private $job;
     
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Event", mappedBy="creator")
+     * @ORM\OneToMany(targetEntity="App\Entity\Event", mappedBy="creator", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $eventCreated;
     
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Song", mappedBy="uploader")
+     * @ORM\OneToMany(targetEntity="App\Entity\Song", mappedBy="uploader", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $songs;
     
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Album", mappedBy="creator")
+     * @ORM\OneToMany(targetEntity="App\Entity\Album", mappedBy="creator", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $albumCreated;
     
     /**
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="App\Entity\Event", inversedBy="participants")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Event", inversedBy="participants", cascade={"persist", "remove"})
      */
     private $events;
     
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Recommandation", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Recommandation", mappedBy="user", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $recommandations;
@@ -85,10 +85,6 @@ class User extends BaseUser implements NotifiableInterface
      */
     private $birthDate;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $nickname;
     
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
@@ -127,10 +123,11 @@ class User extends BaseUser implements NotifiableInterface
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $updatedDate; 
+    private $updatedDate;
     
      public function __construct()
     {
+        $this->roles = array();
         $this->events = new ArrayCollection();
         $this->pictures = new ArrayCollection();
         $this->eventCreated = new ArrayCollection();
@@ -138,7 +135,6 @@ class User extends BaseUser implements NotifiableInterface
         $this->recommandations = new ArrayCollection();
         $this->songs = new ArrayCollection();
     }
-    
     
     public function getId(): ?int
     {
@@ -329,18 +325,6 @@ class User extends BaseUser implements NotifiableInterface
     public function setBirthDate(\DateTimeInterface $birthDate): self
     {
         $this->birthDate = $birthDate;
-
-        return $this;
-    }
-
-    public function getNickname(): ?string
-    {
-        return $this->nickname;
-    }
-
-    public function setNickname(?string $nickname): self
-    {
-        $this->nickname = $nickname;
 
         return $this;
     }

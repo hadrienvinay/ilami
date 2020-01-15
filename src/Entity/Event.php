@@ -32,7 +32,7 @@ class Event
     
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="eventCreated")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=true,onDelete="CASCADE")
      */
     private $creator;
     

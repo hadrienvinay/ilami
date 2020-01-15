@@ -149,8 +149,6 @@ class GalleryController extends Controller
             if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 
                 $file = $form['files']->getData();
-                dump($file);
-                dump($form);
 
                 if($file){
                     //foreach ($fileNames as $file){                

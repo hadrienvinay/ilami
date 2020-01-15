@@ -203,3 +203,8 @@ div#carrousel{
 .ui-autocomplete {
      z-index: 10000 !important;
 }
+
+/* google autocomplete */
+.pac-container{
+    z-index: 100000 !important;
+}

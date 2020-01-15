@@ -15,7 +15,7 @@
                 <div class="">
                     <img src="{{asset('build/images/imali.png')}}" style="width: 80px; float: left; margin-left:15%;" title="logo" alt="Marsupilami">
                     <img src="{{asset('build/images/imali2.png')}}" style="width: 80px; float: right; margin-right: 15%;" title="logo" alt="Marsupilami">
-                    <h1 class="text-center">Bienvenue {{ app.user.username }} sur le site d'Imaliii</h1>
+                    <h1 class="text-center">Bienvenue {{ app.user.username }} sur le site d'Imaliii ❤️</h1>
 
                 </div>
                 <br>
@@ -124,7 +124,7 @@
             <h6 class="border-bottom border-gray pb-2 mb-0">Les p'tits mises à jour</h6>
             {% for info in infos|sort((a, b) => b.date <=> a.date) %}
                 <div class="media text-muted pt-3">
-                    <img class="mr-2 rounded" src="{{asset('build/images/profile/' ~ info.name ~ '.jpg')}}" alt="{{ user.username }}" style="width: 5%;height: 100%;border-radius: 10%;">
+                    <img class="mr-2 rounded" src="{{asset('build/images/profile/' ~ info.name ~ '.jpg')}}" alt="{{ info.name }}" style="width: 5%;height: 100%;border-radius: 10%;">
                     <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
                         <a {% if info.link_attr is defined %}href="{{ path(info.link,{id: info.link_attr}) }}"{% else %}href="{{ path(info.link) }}"{% endif %}>
                             <strong class="d-block text-gray-dark">{{ info.name }} </strong>
@@ -330,10 +330,13 @@
       
        <script>
            $(document).ready(function(){
+                //Autocomplete
+                initializeAutocomplete('event_address');
+                
+                //Carrousel
                 $("#myCarousel").carousel();
-
+                      
                 $('#click').click(function(e){
-                  //Some code
                   e.preventDefault();
                   alert('Click Click !');
                  });
@@ -365,6 +368,7 @@
                     $('#addSongModal').modal('show');
                 });
            });
+           
            // When the user clicks anywhere outside of the modal, close it
             window.onclick = function(event) {
               if (event.target == modal) {
@@ -381,7 +385,7 @@
               }
             };
            
-           
+           //calendar js
            document.addEventListener('DOMContentLoaded', function() {
                var calendarEl = document.getElementById('calendar');
 
@@ -401,22 +405,45 @@
                        {% for user in users %}
                        {
                            title: 'Anniversaire {{ user.prename }}',
-                           start: '2019-{{ user.birthdate|date('m-d') }}',
+                           start: '2020-{{ user.birthdate|date('m-d') }}',
                            allDay : true,
                            backgroundColor: 'red'
 
                        },
                        {
                            title: 'Anniversaire {{ user.prename }}',
-                           start: '2020-{{ user.birthdate|date('m-d') }}',
+                           start: '2021-{{ user.birthdate|date('m-d') }}',
                            allDay : true,
                            backgroundColor: 'red'
                        },
                        {% endfor %}
                    ]
                });
-
                calendar.render();
            });
+           
+            //Autocomplete 
+            function initializeAutocomplete(id){
+                var element = document.getElementById(id);  
+                if (element) { 
+                    var autocomplete = new google.maps.places.Autocomplete(element, { types: ['geocode'] });
+                    google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
+                }
+            }
+           function onPlaceChanged() {
+                var place = this.getPlace();
+                console.log(place);  // Uncomment this line to view the full object returned by Google API.
+                for (var i in place.address_components) {
+                  var component = place.address_components[i];    
+                  for (var j in component.types) {
+                    var type_element = document.getElementById(component.types[j]);      
+                    if (type_element) {
+                      type_element.value = component.long_name;
+                    }    
+                  }  
+                }
+            }
        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyA0wuGfkqLD67jR6NfcC8mm4EuUROGis_I"
+    async defer></script>
   {% endblock %}

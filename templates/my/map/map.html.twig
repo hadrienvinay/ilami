@@ -23,6 +23,9 @@
             <li class="nav-item">
                 <a class="nav-link" id="job-tab" data-toggle="tab" href="#job" role="tab" aria-controls="job" aria-selected="false">Les P'tits Jobs</a>
             </li> 
+            <li class="nav-item">
+                <a class="nav-link" id="recommandation-tab" data-toggle="tab" href="#recommandation" role="tab" aria-controls="recommandation" aria-selected="false">Les P'tites Recommandations</a>
+            </li> 
         </ul> 
         <div class="tab-content map-tab" id="myTabContent">
             <div class="tab-pane fade show active" id="map" role="tabpanel" aria-labelledby="map-tab">
@@ -34,11 +37,14 @@
             <div class="tab-pane fade" id="job" role="tabpanel" aria-labelledby="job-tab">
                 <div id="map3" style="height:500px; width:100%"></div>
             </div>
+            <div class="tab-pane fade" id="recommandation" role="tabpanel" aria-labelledby="recommandation-tab">
+                <div id="map4" style="height:500px; width:100%"></div>
+            </div>
         </div>
     </div>
 
     <script>
-        var map1,map2,map3;
+        var map1,map2,map3,map4;
         function initMap() {
           map1 = new google.maps.Map(document.getElementById('map1'), {
             center: {lat: 48.8415, lng: 2.2386},
@@ -52,21 +58,30 @@
             center: {lat: 48.8415, lng: 2.2386},
             zoom: 12
           });
+          map4 = new google.maps.Map(document.getElementById('map4'), {
+            center: {lat: 48.8415, lng: 2.2386},
+            zoom: 12
+          });
         var infoWindow = new google.maps.InfoWindow();
         var infoWindow2 = new google.maps.InfoWindow();
         var infoWindow3 = new google.maps.InfoWindow();
+        var infoWindow4 = new google.maps.InfoWindow();
+
         var i=0;
         //Users pos
         var allPos= {{ allPos|json_encode|raw }};
         var allName = {{ userName|json_encode|raw }};
-        //Event pos
+        //Events pos
         var allPos2= {{ allPos2|json_encode|raw }};
         var allName2 = {{ allName2|json_encode|raw }};
-        //Job pos
+        //Jobs pos
         var allPos3 = {{ allPos3|json_encode|raw }};
         var allName3 = {{ allName3|json_encode|raw }};
-        var allNameJob3 = {{ userName3|json_encode|raw }};
-
+        var allName3 = {{ userName3|json_encode|raw }};
+        //Recommandations pos
+        var allPos4= {{ allPos4|json_encode|raw }};
+        var allName4 = {{ allName4|json_encode|raw }};
+        
         for(i=0;i<allPos[0].length;i++ ){
                var newPos = {lat: parseFloat(allPos[0][i]), lng: parseFloat(allPos[1][i]) };
                var imagePerso ='../../build/images/profile/mini/'+allName[i]+'.png';
@@ -100,11 +115,25 @@
                   position: newPos,
                   map: map3,
                   icon: imagePerso,
-                  infoWindowContent: allNameJob3[i]
+                  infoWindowContent: allName3[i]
               });
               google.maps.event.addListener(markerDepart, 'click', function() {
                   infoWindow3.setContent(this.infoWindowContent);
                   infoWindow3.open(map3,this);
+              });
+          }
+          for(i=0;i<allPos4[0].length;i++ ){
+              var newPos = {lat: parseFloat(allPos4[0][i]), lng: parseFloat(allPos4[1][i]) };
+              var imagePerso ='../../build/images/dashboard/recommandation.jpg';
+              var markerDepart = new google.maps.Marker({
+                  position: newPos,
+                  map: map4,
+                  icon: imagePerso,
+                  infoWindowContent: allName4[i]
+              });
+              google.maps.event.addListener(markerDepart, 'click', function() {
+                  infoWindow3.setContent(this.infoWindowContent);
+                  infoWindow3.open(map4,this);
               });
           }
           
