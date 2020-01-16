@@ -51,32 +51,6 @@ class GalleryController extends Controller
     }
 
      /**
-     * @return Response
-     */
-    public function showAlbums()
-    {
-        //check if user is connected
-        $user = $this->getUser();
-        if(!$user) {
-            return $this->redirectToRoute('fos_user_security_login');
-        }
-        else{
-            $notifiableRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableNotification');
-            $notifiableEntityRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableEntity');
-            $notifiable = $notifiableEntityRepo->findOneby(array("identifier" => $user));
-            $notificationList = $notifiableRepo->findAllForNotifiableId($notifiable);
-            
-            $em = $this->getDoctrine()->getManager();
-            $albums = $em->getRepository('App:Album')->findAll();
-
-            return $this->render('my/pic/albums.html.twig', array(
-                'albums' => $albums,
-                'notificationList' => $notificationList
-            ));
-        }
-    }
-    
-     /**
      * @param $id
      * @return Response
      */

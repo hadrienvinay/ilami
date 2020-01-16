@@ -40,7 +40,7 @@ class MapController extends Controller
             }
             //Events Pos
             $events = $em->getRepository('App:Event')->findAll();
-            //select all lat and long of users address
+            //select all lat and long of event address
             $allPos2 = array(array(NULL));
             $allName2 = array(NULL);
             $i = 0;
@@ -58,7 +58,7 @@ class MapController extends Controller
             $allName3 = array(NULL);
             $i = 0;
             foreach($users as $user){
-                if(!empty($user->getJob() and $user->getJob()->getAddress())){
+                if(!empty($user->getJob())){
                     $allPos3[0][$i] = $user->getJob()->getLatitude();
                     $allPos3[1][$i] = $user->getJob()->getLongitude();
                     $allName3[$i] = $user->getUsername();
@@ -66,6 +66,7 @@ class MapController extends Controller
                     $i++;
                 }
             }
+            
             //Recommandation Pos
             $recommandations = $em->getRepository('App:Recommandation')->findAll();
 

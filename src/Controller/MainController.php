@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\GeocoderService;
 use App\Entity\Event;
 use App\Entity\Album;
 use App\Entity\Picture;
@@ -22,7 +21,7 @@ class MainController extends Controller
     /**
      * @return Response
      */
-    public function index(Request $request)
+    public function index()
     {
         $user=$this->getUser();
         $date = date('Y-m-d');

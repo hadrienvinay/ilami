@@ -18,9 +18,9 @@
                         </a>
                     </li>
                     <li id="notif" class="nav-item dropdown" data-toggle="tooltip" data-placement="bottom" title="Notifications">
-                        <a class="nav-link dropdown" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                        <a class="nav-link dropdown" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #fff;"> 
                             {% if mgilet_notification_unseen_count(app.user) > 0 %}<span class="notification">{{ mgilet_notification_unseen_count(app.user) }}</span> {% endif %}
-                            <i class="fa fa-bell" area-hidden="true"></i>
+                            🔔
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdown01" style="min-width: 333px;">
                             {% if notificationList|length > 0 %}
@@ -55,31 +55,31 @@
                         </div>
                     </li>
                     <li id="menu-dropdown" class="nav-item dropdown"  data-toggle="tooltip" data-placement="bottom" title="Rubriques">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <span class="fa fa-list-alt"></span>
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #fff;">
+                            🗂️
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{ path('resume') }}">
-                            <span class="fa fa-newspaper-o"></span> What's up
+                            🥂 What's up
                         </a>
                         <a class="dropdown-item" href="{{ path('gallery') }}">
-                            <span class="fa fa-photo"></span> Gallerie Photo
+                            🏖️ Gallerie Photo
                         </a>    
                         <a class="dropdown-item" href="{{ path('calendar') }}">
-                            <span class="fa fa-calendar"></span> Calendrier
+                            📆 Calendrier
                         </a>
                         <a class="dropdown-item" href="{{ path('radio') }}">
-                            <span class="fa fa-music"></span> Radio
+                           💃 Radio
                         </a>
                         <a class="dropdown-item" href="{{ path('map') }}">
-                            <span class="fa fa-map-o"></span> Map
+                            🗺️ Map
                         </a>
                         <a class="dropdown-item" href="{{ path('catan') }}">
-                            <span class="fa fa-gamepad"></span> Catan
+                            🐑 Catan
                         </a>
-                        {% if app.user.id == 4 %}             
+                        {% if app.user.username == "suri" %}             
                             <a class="dropdown-item" href="{{ path('timetable') }}">
-                                <span class="fa fa-clock-o"></span> TimeTable
+                                🚌 TimeTable
                             </a>  
                         {% endif %}
                         <div class="dropdown-divider"></div>
@@ -101,7 +101,7 @@
         <form class="form-inline" style="margin-right:8%;">
            <input id="search" class="form-control mr-sm-2" placeholder="Rechercher" aria-label="Search">
            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"  data-toggle="tooltip" data-placement="bottom" title="Rechercher">
-               <span class="fa fa-search"></span>
+               🔍
            </button>
         </form>
     </div>
@@ -109,7 +109,6 @@
             
 <script>
     $(document).ready(function(){
-
         //Autocomplete
         $("#search").autocomplete({
             source: "{{ path('autocomplete_search') }}",

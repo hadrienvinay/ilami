@@ -38,6 +38,7 @@ class AppFixtures extends Fixture
         $user0->setEmail('hadrien.vinay@yahoo.fr');
         $user0->setBirthdate(new \DateTime('1996-08-24'));
         $user0->setPhone('0643079512');
+        $user0->setSexe('M');
         $user0->setTeam('Imalipusram');
         $user0->setStatus('RIP le Chômage');
         $user0->setAddress('118 rue de Paris, Boulogne-Billancourt, 92100');
@@ -56,6 +57,7 @@ class AppFixtures extends Fixture
         $user1->setEmail('andres.urzua@yahoo.fr');
         $user1->setBirthdate(new \DateTime('1997-01-27'));
         $user1->setPhone('0752138587');
+        $user1->setSexe('M');
         $user1->setTeam('Imalipusram');
         $user1->setStatus('Me gusta las chilaquiles !');
         $user1->setAddress('42 Boulevard Ney, Paris');
@@ -74,6 +76,7 @@ class AppFixtures extends Fixture
         $user2->setEmail('arthur.falcon@gmail.fr');
         $user2->setBirthdate(new \DateTime('1996-08-14'));
         $user2->setPhone('0665056896');
+        $user2->setSexe('M');
         $user2->setTeam('Imalipusram');
         $user2->setStatus('Ca vagabonde en masse');
         $user2->setAddress('8 Rue Cluseret, Suresnes');
@@ -92,6 +95,7 @@ class AppFixtures extends Fixture
         $user3->setEmail('basile.falcon@yahoo.fr');
         $user3->setBirthdate(new \DateTime('1996-08-14'));
         $user3->setPhone('0634059509');
+        $user3->setSexe('M');
         $user3->setTeam('Imalipusram');
         $user3->setStatus('Et tu roules un dragon!');
         $user3->setAddress('11 Rue Madame de Sévigné, 54000, Laval');
@@ -110,6 +114,7 @@ class AppFixtures extends Fixture
         $user4->setEmail('laura.eschasseriau@yahoo.fr');
         $user4->setBirthdate(new \DateTime('1994-09-08'));
         $user4->setPhone('0629857463');
+        $user4->setSexe('F');
         $user4->setTeam('Imalipusram');
         $user4->setStatus('Me gusta las chilaquiles !');
         $user4->setAddress('65 Rue Jean de la Fontaine, 75016 Paris, France');
@@ -128,6 +133,7 @@ class AppFixtures extends Fixture
         $user5->setEmail('flav_p@hotmail.fr');
         $user5->setBirthdate(new \DateTime('1995-07-23'));
         $user5->setPhone('0651766869');
+        $user5->setSexe('M');
         $user5->setTeam('Imalipusram');
         $user5->setStatus('J\'ai vu ses lolos !');
         $user5->setAddress('65 Rue Jean de la Fontaine, 75016 Paris, France');
@@ -146,6 +152,7 @@ class AppFixtures extends Fixture
         $user6->setEmail('leo.delval@yahoo.fr');
         $user6->setBirthdate(new \DateTime('1996-12-16'));
         $user6->setPhone('0634671603');
+        $user6->setSexe('M');
         $user6->setTeam('Imalipusram');
         $user6->setStatus('Viens içi que j\'te Calisse lo');
         $user6->setAddress('Montréal, QC, Canada');
@@ -164,6 +171,7 @@ class AppFixtures extends Fixture
         $user7->setEmail('alex.sadone@yahoo.fr');
         $user7->setBirthdate(new \DateTime('1996-11-30'));
         $user7->setPhone('0651033349');
+        $user7->setSexe('M');
         $user7->setTeam('Imalipusram');
         $user7->setStatus('I fuking love Kentish Toooown !');
         $user7->setAddress('Cherbury Street, London Borough of Hackney, England, United Kingdom');
@@ -182,6 +190,7 @@ class AppFixtures extends Fixture
         $user8->setEmail('greg.delaporte@yahoo.fr');
         $user8->setBirthdate(new \DateTime('1995-09-30'));
         $user8->setPhone('0671989345');
+        $user8->setSexe('M');
         $user8->setTeam('Imalipusram');
         $user8->setStatus('Peak(y) Coders Nation');
         $user8->setAddress('Cherbury Street, London Borough of Hackney, England, United Kingdom');
@@ -200,6 +209,7 @@ class AppFixtures extends Fixture
         $user9->setEmail('marine.lft@yahoo.fr');
         $user9->setBirthdate(new \DateTime('1995-04-15'));
         $user9->setPhone('0752138587');
+        $user9->setSexe('F');
         $user9->setTeam('Imalipusram');
         $user9->setStatus('Vegan Fox :o');
         $user9->setAddress('7 Avenue Poniatowski, Maisons-Laffitte');
@@ -218,6 +228,7 @@ class AppFixtures extends Fixture
         $user10->setEmail('roch.folly@yahoo.fr');
         $user10->setBirthdate(new \DateTime('1997-08-25'));
         $user10->setPhone('0752138587');
+        $user10->setSexe('M');
         $user10->setTeam('Imalipusram');
         $user10->setStatus('Boston viee');
         $user10->setAddress('Boston, MA, United States of America');
@@ -236,6 +247,7 @@ class AppFixtures extends Fixture
         $user11->setEmail('chris.tannous@yahoo.fr');
         $user11->setBirthdate(new \DateTime('1996-08-28'));
         $user11->setPhone('0627757307');
+        $user11->setSexe('M');
         $user11->setTeam('Imalipusram');
         $user11->setStatus('Allez laaaaaaa');
         $user11->setAddress('10 Rue de Lourmel, Paris');
@@ -254,6 +266,7 @@ class AppFixtures extends Fixture
         $user12->setEmail('arnaud.goguel@yahoo.fr');
         $user12->setBirthdate(new \DateTime('1995-10-17'));
         $user12->setPhone('0622101672');
+        $user12->setSexe('M');
         $user12->setTeam('Imalipusram');
         $user12->setStatus('Viens toucher mon p\'tit boule');
         $user12->setAddress('11 Rue Bargue, 75015 Paris');
@@ -272,6 +285,7 @@ class AppFixtures extends Fixture
         $user13->setEmail('gaultier.hure@yahoo.fr');
         $user13->setBirthdate(new \DateTime('1995-07-12'));
         $user13->setPhone('0681750984');
+        $user13->setSexe('M');
         $user13->setTeam('Imalipusram');
         $user13->setStatus('Touche pas ma Bernie');
         $user13->setAddress('16 Rue de ville d\'Avray, 92310 Sèvres');
@@ -290,6 +304,7 @@ class AppFixtures extends Fixture
         $user14->setEmail('alberic.dufort@yahoo.fr');
         $user14->setBirthdate(new \DateTime('1996-04-29'));
         $user14->setPhone('0686406414');
+        $user14->setSexe('M');
         $user14->setTeam('Imalipusram');
         $user14->setStatus('Team Poulet Coco <3');
         $user14->setAddress('28-30 Rue Claude Terrasse, 75016 Paris, France');
@@ -326,6 +341,7 @@ class AppFixtures extends Fixture
         $user16->setEmail('pauline.mirey@yahoo.fr');
         $user16->setBirthdate(new \DateTime('1996-10-08'));
         $user16->setPhone('0752138587');
+        $user16->setSexe('M');
         $user16->setTeam('Imalipusram');
         $user16->setStatus('TPMT (Touche Pas Mon Thomaas)');
         $user16->setAddress('42 Boulevard Ney, Paris');
@@ -344,6 +360,7 @@ class AppFixtures extends Fixture
         $user17->setEmail('tanguy.aulanier@yahoo.fr');
         $user17->setBirthdate(new \DateTime('1996-12-27'));
         $user17->setPhone('0752138587');
+        $user17->setSexe('M');
         $user17->setTeam('Imalipusram');
         $user17->setStatus('Me gusta las chilaquiles !');
         $user17->setAddress('42 Boulevard Ney, Paris');
@@ -362,6 +379,7 @@ class AppFixtures extends Fixture
         $user18->setEmail('guillaume.pivette@yahoo.fr');
         $user18->setBirthdate(new \DateTime('1999-02-20'));
         $user18->setPhone('0641676954');
+        $user18->setSexe('M');
         $user18->setTeam('Imalipusram');
         $user18->setStatus('Vous ne passerez paaaas !');
         $user18->setAddress('157-161 Boulevard Charles de Gaulle, 92700 Colombes');
@@ -380,6 +398,7 @@ class AppFixtures extends Fixture
         $user19->setEmail('alienor.tournade@yahoo.fr');
         $user19->setBirthdate(new \DateTime('1996-01-04'));
         $user19->setPhone('0752138587');
+        $user19->setSexe('F');
         $user19->setTeam('Imalipusram');
         $user19->setStatus('Pot Pot?');
         $user19->setAddress('24 Rue de Chatou, 92700 Colombes, France');
@@ -735,8 +754,8 @@ class AppFixtures extends Fixture
         $job0->setCompanyName('Catan');
         $job0->setDescription('Catan vie');
         $job0->setStartDate(new \DateTime());
-        $job0->setLatitude('2.238590');
-        $job0->setLongitude('48.841520');
+        $job0->setLatitude('48.841520');
+        $job0->setLongitude('2.238590');
         $job0->setUser($user0);
         $user0->setJob($job0);
         $manager->persist($job0);
@@ -746,8 +765,8 @@ class AppFixtures extends Fixture
         $job1->setCompanyName('EY');
         $job1->setDescription('EY vie');
         $job1->setStartDate(new \DateTime());
-        $job1->setLatitude('2.252560');
-        $job1->setLongitude('48.889920');
+        $job1->setLatitude('48.889920');
+        $job1->setLongitude('2.252560');
         $job1->setUser($user5);
         $user5->setJob($job1);
         $manager->persist($job1);

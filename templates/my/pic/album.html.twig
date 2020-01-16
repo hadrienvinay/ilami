@@ -13,7 +13,7 @@
         </small> 
         <small class="d-block text-right mt-3">
             <i class="fa fa-download" aria-hidden="true"></i>
-            <a class="add-picture" href="{{ path('add_picture',{'id' : album.id}) }}">Ajouter une photo</a>
+            <a class="btn-sm btn-outline-success no-decoration add-picture" href="{{ path('add_picture',{'id' : album.id}) }}">Ajouter une photo</a>
         </small>
         {% if album.pictures is empty %}
             <i> Aucune photos</i>

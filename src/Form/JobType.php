@@ -26,7 +26,7 @@ class JobType extends AbstractType
             )
             ->add('startdate', DateTimeType::class, array(
                     'attr'=>array('class'=> 'form-group'),
-                    'label' => 'Début de l évènement')
+                    'label' => 'Début du job')
             )
             ->add('description', TextType::class, array(
                     'attr'=>array('placeholder'=> 'Description','class'=> 'form-control'),

@@ -35,8 +35,7 @@ class User extends BaseUser implements NotifiableInterface
     private $pictures;
     
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Job", inversedBy="user")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\OneToOne(targetEntity="App\Entity\Job", inversedBy="user", cascade={"persist", "remove"})
      */
     private $job;
     
@@ -84,12 +83,16 @@ class User extends BaseUser implements NotifiableInterface
      * @ORM\Column(type="date")
      */
     private $birthDate;
-
     
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
      */
     private $phone;
+    
+    /**
+     * @ORM\Column(type="string", length=1, nullable=true)
+     */
+    private $sexe;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -305,7 +308,18 @@ class User extends BaseUser implements NotifiableInterface
         return $this;
     }
     
-        public function getPhone(): ?string
+        public function getSexe(): ?string
+    {
+        return $this->sexe;
+    }
+
+    public function setSexe(string $sexe): self
+    {
+        $this->sexe = $sexe;
+
+        return $this;
+    }
+            public function getPhone(): ?string
     {
         return $this->phone;
     }

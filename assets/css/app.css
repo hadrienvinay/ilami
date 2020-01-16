@@ -2,6 +2,21 @@ body {
     background-color: lightgray;
 }
 
+.footer{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    background-color: #343a40!important;
+}
+
+@media screen and (max-height: 600px) {
+    .footer{
+        position: initial;
+    }
+}
+
 .middle{
     margin: auto;
 }
@@ -37,6 +52,10 @@ div.gallery img {
 div.desc {
   padding: 15px;
   text-align: center;
+}
+
+.no-decoration{
+    text-decoration: none !important;
 }
 
 .dot{

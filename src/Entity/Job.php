@@ -17,8 +17,7 @@ class Job
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User", mappedBy="job")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\OneToOne(targetEntity="App\Entity\User", mappedBy="job", orphanRemoval=true)
      */
     private $user;
 

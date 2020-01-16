@@ -12,22 +12,23 @@
 {% block body %}
     <br>
     <div class="container" style="padding: 3%;margin-top: 3%;margin-bottom: 3%;border-radius: 0.5rem;background: #fff;">
-        <h1 class="text-center">Imali Maps</h1>
+        <h1 class="text-center">P'tites Maps 🗺️</h1>
         <ul class="nav nav-tabs" id="myTab" role="tablist" >
             <li class="nav-item">
                 <a class="nav-link active" id="map-tab" data-toggle="tab" href="#map" role="tab" aria-controls="map" aria-selected="true">La P'tite Map</a>
-            </li> 
+            </li>
             <li class="nav-item">
                 <a class="nav-link" id="event-tab" data-toggle="tab" href="#event" role="tab" aria-controls="event" aria-selected="false">Les P'tits Events</a>
-            </li> 
+            </li>
             <li class="nav-item">
                 <a class="nav-link" id="job-tab" data-toggle="tab" href="#job" role="tab" aria-controls="job" aria-selected="false">Les P'tits Jobs</a>
-            </li> 
+            </li>
             <li class="nav-item">
                 <a class="nav-link" id="recommandation-tab" data-toggle="tab" href="#recommandation" role="tab" aria-controls="recommandation" aria-selected="false">Les P'tites Recommandations</a>
-            </li> 
+            </li>
         </ul> 
         <div class="tab-content map-tab" id="myTabContent">
+            <br>
             <div class="tab-pane fade show active" id="map" role="tabpanel" aria-labelledby="map-tab">
                 <div id="map1" style="height:500px; width:100%"></div>
             </div>
@@ -77,10 +78,11 @@
         //Jobs pos
         var allPos3 = {{ allPos3|json_encode|raw }};
         var allName3 = {{ allName3|json_encode|raw }};
-        var allName3 = {{ userName3|json_encode|raw }};
+        var allInfo3 = {{ userName3|json_encode|raw }};
         //Recommandations pos
         var allPos4= {{ allPos4|json_encode|raw }};
         var allName4 = {{ allName4|json_encode|raw }};
+        console.log(allPos3);
         
         for(i=0;i<allPos[0].length;i++ ){
                var newPos = {lat: parseFloat(allPos[0][i]), lng: parseFloat(allPos[1][i]) };
@@ -115,7 +117,7 @@
                   position: newPos,
                   map: map3,
                   icon: imagePerso,
-                  infoWindowContent: allName3[i]
+                  infoWindowContent: allInfo3[i]
               });
               google.maps.event.addListener(markerDepart, 'click', function() {
                   infoWindow3.setContent(this.infoWindowContent);

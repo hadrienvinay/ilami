@@ -7,12 +7,14 @@ use App\Form\RecommandationType;
 use App\Form\JobType;
 use App\Form\PictureType;
 use App\Form\SongType;
+use App\Form\EventType;
 use App\Service\GeocoderService;
 use App\Entity\ProfilePicture;
 use App\Entity\Recommandation;
 use App\Entity\Job;
 use App\Entity\Song;
 use App\Entity\Picture;
+use App\Entity\Event;
 use FOS\UserBundle\Form\Type\ChangePasswordFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,9 +24,6 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\File;
-
-
 
 class ProfilController extends Controller
 {
@@ -74,7 +73,7 @@ class ProfilController extends Controller
                 $em->persist($user);
                 $em->flush();
 
-                $request->getSession()->getFlashBag()->add('notice', 'Profil modifié avec succès !');
+                $request->getSession()->getFlashBag()->add('success', 'Profil modifié avec succès !');
                 return $this->redirectToRoute('profile',array('id'=>$user->getId()));
             }
             
@@ -87,10 +86,20 @@ class ProfilController extends Controller
             //Job form
             $job = $user->getJob();
             if(!$job){$job = new Job();}
+            $job->setStartDate(new \DateTime());
             $jobForm = $this->get('form.factory')->create(JobType::class, $job);
             //recommandation form
             $recommandation = new Recommandation();
             $recommandationform = $this->get('form.factory')->create(RecommandationType::class, $recommandation);
+            //Event Form
+            $event = new Event();
+            $event->setAddress($user->getAddress());
+            $event->setLatitude($user->getLatitude());   
+            $event->setLongitude($user->getLongitude());
+            $event->setStartDate(new \DateTime());
+            $event->setEndDate(new \DateTime());
+            $event->setName("Soirée chez ".$user->getUsername());
+            $eventForm = $this->get('form.factory')->create(EventType::class, $event);
             //change password form
             $passwordForm = $this->get('form.factory')->create(ChangePasswordFormType::class);
             $passwordForm->setData($user);
@@ -102,6 +111,7 @@ class ProfilController extends Controller
                 'pictureForm' => $pictureForm->createView(),
                 'songForm' => $songForm->createView(),
                 'recommandationForm' => $recommandationform->createView(),
+                'eventForm' => $eventForm->createView(),
                 'passwordForm' => $passwordForm->createView(),
                 'notificationList' => $notificationList
             ));
@@ -143,7 +153,7 @@ class ProfilController extends Controller
                 $em->persist($user);
                 $em->flush();
 
-                $request->getSession()->getFlashBag()->add('notice', 'Profil modifié avec succès !');
+                $request->getSession()->getFlashBag()->add('success', 'Profil modifié avec succès !');
 
                 return $this->redirectToRoute('profile',array('id'=>$user->getId()));
             }
@@ -308,7 +318,7 @@ class ProfilController extends Controller
                 $em->persist($user);
                 $em->flush();
 
-                $request->getSession()->getFlashBag()->add('notice', 'Photo modifiée avec succès !');
+                $request->getSession()->getFlashBag()->add('success', 'Photo modifiée avec succès !');
 
                 return $this->render('my/profil.html.twig', array(
                     'user' => $user
