@@ -14,7 +14,11 @@
             <div class="col-md-8">
                 <div class="profile-head">
                     <div class="" style="float:right;">
+                        <a {% if user.username == "alienor" %}href="{{path('profile',{'id' : (user.id-19)}) }}" {% else %} href="{{path('profile',{'id' : (user.id+1)}) }}"{% endif %} class="btn-sm btn-outline-success no-decoration">
+                                Suivant 👉
+                        </a>
                         {% if app.user.id == user.id %}
+                            <br>
                             <a href="{{path('modify_profile',{'id' : user.id}) }}" class="btn-sm btn-outline-primary no-decoration update-profil">
                                 <i class="fa fa-edit" aria-hidden="true"></i>
                                 Modifier mon profil
@@ -59,7 +63,6 @@
                     </ul>
                 </div>
             </div>
-            
         </div>
         <div class="row">
             <div class="col-md-4">
@@ -229,7 +232,7 @@
                             <div class="media text-muted pt-3">
                                 <img alt="Musique" class="mr-2 rounded" style="width: 32px; height: 32px;" src="{{ asset('build/images/musique/soundcloud.png') }}">
                                 <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                                    <audio id="audioPlayer{{loop.index}}" controls="controls" style="float: right;margin-right: 25%;">
+                                    <audio id="audioPlayer{{loop.index}}" class="audio-player" controls="controls">
                                         {#<source src="{{ song.fileName }}.ogg">#}
                                         <source src="{{ asset("build/downloads/"~song.fileName )}}">
                                     </audio> 
@@ -564,7 +567,7 @@
                 $('#btnYes3').attr("data",id);
                 $('#deleteEventModal').modal('show');
             });
-            
+                        
              // When the user clicks anywhere outside of the modal, close it
             window.onclick = function(event) {
               if (event.target == modal) {
@@ -602,6 +605,16 @@
             gallery : {
                    enabled : true
                 }
+            });
+            
+            $('.nav-link').on('click',function(e){
+                setTimeout(function(){
+                    if(document.body.scrollHeight < 601) {
+                        $(".footer").css("position","fixed");
+                    }else{
+                        $(".footer").css("position","");
+                    }
+                }, 400);
             });
             
          });

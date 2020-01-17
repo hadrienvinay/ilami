@@ -15,6 +15,7 @@
             {# Font Icons #} {# https://emojikeyboard.top/ #}
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">            
             {# Online css librairies for js functions #}
+            <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.1.0/main.min.css">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/list@4.3.0/main.min.css">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.3.0/main.min.css">
@@ -22,12 +23,13 @@
             <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.css" />
 
-            {# My css#}
+            {# My css
             <link rel="stylesheet" href="{{ asset('build/app.css') }}">
-
+            #}
+            {{ encore_entry_link_tags('app') }}
         {% endblock %}
     </head>
-    <body style="background-color: #5eb5e0;font-family: 'Montserrat', sans-serif;" {% if app.request.attributes.get('_route') == 'catan' %}onload='Ini()'{% endif %}>
+    <body {% if app.request.attributes.get('_route') == 'catan' %}onload='Ini()'{% endif %}>
 
     {% block header %}
         {% include "main/header.html.twig" %}
@@ -77,14 +79,16 @@
         <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.1.0/main.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/list@4.3.0/main.min.js"></script>
         
+        {# DataTables #}
+        <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+
         {# Fos Js Routing #}
         <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
         <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
         
         {# My JS#}
-        <script src={{ asset('build/app.js') }}></script>
-        <script src={{ asset('build/pagination.js') }}></script>
-        <script src={{ asset('build/FctIni.js') }}></script>
+        {{ encore_entry_script_tags('app') }}
+        {{ encore_entry_script_tags('FctIni') }}
     {% endblock %}
     </body>
 </html>

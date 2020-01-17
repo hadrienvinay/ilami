@@ -8,15 +8,21 @@
         <h1 class="text-center">P'tit Album : {{ album.name }}</h1>
         <br>
        <small class="d-block text-left mt-3">
+            <a href="{{ path('gallery') }}" class="btn-sm btn-outline-primary no-decoration">
             <i class="fa fa-angle-double-left" aria-hidden="true"></i>
-            <a href="{{ path('gallery') }}">Retour à la Gallerie</a>
+                Retour à la Gallerie
+            </a>
         </small> 
         <small class="d-block text-right mt-3">
+            <a class="btn-sm btn-outline-success no-decoration add-picture" href="{{ path('add_picture',{'id' : album.id}) }}">
             <i class="fa fa-download" aria-hidden="true"></i>
-            <a class="btn-sm btn-outline-success no-decoration add-picture" href="{{ path('add_picture',{'id' : album.id}) }}">Ajouter une photo</a>
+                Ajouter une photo
+            </a>
         </small>
         {% if album.pictures is empty %}
             <i> Aucune photos</i>
+        {% else %}
+            <br>
         {% endif %}
         <div class="portfolio-item row">
         {% for picture in album.pictures %}

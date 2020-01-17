@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Map{% endblock %}
+{% block title %}Map 🗽{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -15,30 +15,30 @@
         <h1 class="text-center">P'tites Maps 🗺️</h1>
         <ul class="nav nav-tabs" id="myTab" role="tablist" >
             <li class="nav-item">
-                <a class="nav-link active" id="map-tab" data-toggle="tab" href="#map" role="tab" aria-controls="map" aria-selected="true">La P'tite Map</a>
+                <a class="nav-link {%if active == 'map'%}active{% endif %}" id="map-tab" data-toggle="tab" href="#map" role="tab" aria-controls="map" aria-selected="true">La P'tite Map</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="event-tab" data-toggle="tab" href="#event" role="tab" aria-controls="event" aria-selected="false">Les P'tits Events</a>
+                <a class="nav-link {%if active == 'event'%}active{% endif %}" id="event-tab" data-toggle="tab" href="#event" role="tab" aria-controls="event" aria-selected="false">Les P'tits Events</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="job-tab" data-toggle="tab" href="#job" role="tab" aria-controls="job" aria-selected="false">Les P'tits Jobs</a>
+                <a class="nav-link {%if active == 'job'%}active{% endif %}" id="job-tab" data-toggle="tab" href="#job" role="tab" aria-controls="job" aria-selected="false">Les P'tits Jobs</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="recommandation-tab" data-toggle="tab" href="#recommandation" role="tab" aria-controls="recommandation" aria-selected="false">Les P'tites Recommandations</a>
+                <a class="nav-link {%if active == 'recommandation'%}active{% endif %}" id="recommandation-tab" data-toggle="tab" href="#recommandation" role="tab" aria-controls="recommandation" aria-selected="false">Les P'tites Recommandations</a>
             </li>
         </ul> 
         <div class="tab-content map-tab" id="myTabContent">
             <br>
-            <div class="tab-pane fade show active" id="map" role="tabpanel" aria-labelledby="map-tab">
+            <div class="tab-pane fade {%if active == 'map'%}show active{% endif %}" id="map" role=show"tabpanel" aria-labelledby="map-tab">
                 <div id="map1" style="height:500px; width:100%"></div>
             </div>
-            <div class="tab-pane fade" id="event" role="tabpanel" aria-labelledby="event-tab">
+            <div class="tab-pane fade {%if active == 'event'%} show active{% endif %}" id="event" role="tabpanel" aria-labelledby="event-tab">
                 <div id="map2" style="height:500px; width:100%"></div>
             </div>
-            <div class="tab-pane fade" id="job" role="tabpanel" aria-labelledby="job-tab">
+            <div class="tab-pane fade {%if active == 'job'%}show active{% endif %}" id="job" role="tabpanel" aria-labelledby="job-tab">
                 <div id="map3" style="height:500px; width:100%"></div>
             </div>
-            <div class="tab-pane fade" id="recommandation" role="tabpanel" aria-labelledby="recommandation-tab">
+            <div class="tab-pane fade {%if active == 'recommandation'%}show active{% endif %}" id="recommandation" role="tabpanel" aria-labelledby="recommandation-tab">
                 <div id="map4" style="height:500px; width:100%"></div>
             </div>
         </div>
@@ -52,15 +52,15 @@
             zoom: 12
           });
           map2 = new google.maps.Map(document.getElementById('map2'), {
-            center: {lat: 48.8415, lng: 2.2386},
+            center: {lat: 48.86, lng: 2.32},
             zoom: 12
           });
           map3 = new google.maps.Map(document.getElementById('map3'), {
-            center: {lat: 48.8415, lng: 2.2386},
+            center: {lat: 48.88, lng: 2.2386},
             zoom: 12
           });
           map4 = new google.maps.Map(document.getElementById('map4'), {
-            center: {lat: 48.8415, lng: 2.2386},
+            center: {lat: 48.86, lng: 2.32},
             zoom: 12
           });
         var infoWindow = new google.maps.InfoWindow();
@@ -82,11 +82,10 @@
         //Recommandations pos
         var allPos4= {{ allPos4|json_encode|raw }};
         var allName4 = {{ allName4|json_encode|raw }};
-        console.log(allPos3);
         
         for(i=0;i<allPos[0].length;i++ ){
                var newPos = {lat: parseFloat(allPos[0][i]), lng: parseFloat(allPos[1][i]) };
-               var imagePerso ='../../build/images/profile/mini/'+allName[i]+'.png';
+               var imagePerso = "{{asset('build/images/profile/mini/')}}"+allName[i]+".png";
                var markerDepart = new google.maps.Marker({
                    position: newPos,
                    map: map1,
@@ -100,9 +99,15 @@
            }
            for(i=0;i<allPos2[0].length;i++ ){
               var newPos = {lat: parseFloat(allPos2[0][i]), lng: parseFloat(allPos2[1][i]) };
+              if(allName2[i].search("Grand Prix") != -1){
+                var imagePerso ="{{asset('build/images/dashboard/formula1_mini.png')}}";
+              }
+              else imagePerso ="{{asset('build/images/dashboard/event.png')}}";
+
               var markerDepart = new google.maps.Marker({
                   position: newPos,
                   map: map2,
+                  icon: imagePerso,
                   infoWindowContent: allName2[i]
               });
               google.maps.event.addListener(markerDepart, 'click', function() {
@@ -112,7 +117,7 @@
           }
           for(i=0;i<allPos3[0].length;i++ ){
               var newPos = {lat: parseFloat(allPos3[0][i]), lng: parseFloat(allPos3[1][i]) };
-              var imagePerso ='../../build/images/profile/mini/'+allName3[i]+'.png';
+              var imagePerso = "{{asset('build/images/profile/mini/')}}"+allName3[i]+".png";
               var markerDepart = new google.maps.Marker({
                   position: newPos,
                   map: map3,
@@ -125,17 +130,24 @@
               });
           }
           for(i=0;i<allPos4[0].length;i++ ){
-              var newPos = {lat: parseFloat(allPos4[0][i]), lng: parseFloat(allPos4[1][i]) };
-              var imagePerso ='../../build/images/dashboard/recommandation.jpg';
-              var markerDepart = new google.maps.Marker({
-                  position: newPos,
-                  map: map4,
-                  icon: imagePerso,
-                  infoWindowContent: allName4[i]
+            var newPos = {lat: parseFloat(allPos4[0][i]), lng: parseFloat(allPos4[1][i]) };
+            if(allName4[i].search("restaurant") != -1){
+              var imagePerso = "{{asset('build/images/dashboard/restau.png')}}";
+            }
+            else if(allName4[i].search("bar") != -1){
+              var imagePerso = "{{asset('build/images/dashboard/bar.png')}}";
+            }
+            else var imagePerso = "{{asset('build/images/dashboard/boite.png')}}";
+
+            var markerDepart = new google.maps.Marker({
+                position: newPos,
+                map: map4,
+                icon: imagePerso,
+                infoWindowContent: allName4[i]
               });
               google.maps.event.addListener(markerDepart, 'click', function() {
-                  infoWindow3.setContent(this.infoWindowContent);
-                  infoWindow3.open(map4,this);
+                  infoWindow4.setContent(this.infoWindowContent);
+                  infoWindow4.open(map4,this);
               });
           }
           

@@ -5,13 +5,14 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 class MapController extends Controller
 {
     /**
      * @return Response
      */
-    public function map()
+    public function map(Request $request)
     {
         //check if user is connected
         $user = $this->getUser();
@@ -23,6 +24,12 @@ class MapController extends Controller
             $notifiableEntityRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableEntity');
             $notifiable = $notifiableEntityRepo->findOneby(array("identifier" => $user));
             $notificationList = $notifiableRepo->findAllForNotifiableId($notifiable);
+            
+            if($request->query->get('map')){
+                $active = $request->query->get('map');
+            }else {
+                $active = "map";
+            }
             
             $em = $this->getDoctrine()->getManager();
             $users = $em->getRepository('App:User')->findAll();
@@ -84,6 +91,7 @@ class MapController extends Controller
             
             return $this->render('my/map/map.html.twig', array(
                 'users' => $users,
+                'active' => $active,
                 'userName' => $userName,
                 'allPos' => $allPos,
                 'allName2' => $allName2,

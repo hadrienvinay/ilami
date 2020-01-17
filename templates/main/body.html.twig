@@ -35,32 +35,46 @@
                 </div>
                 <br>
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         <p class="lead text-center">P'tites statistiques 📊:</p>
                         <div class="row">
-                            <div class="col-md-6">
-                                <li style="display:block;">
-                                    Nombre d'utilisateurs 🐢: {{ nbUsers }}
+                            <div class="col-md-4 text-center">
+                                <li class="block">
+                                    <a class="btn btn-outline-success block no-decoration bottom" href="#"> 
+                                        Nombre d'utilisateurs 🐢: {{ users|length }}
+                                    </a>
                                 </li>
-                                <li style="display:block;">
-                                    Nombre d'évènements 🎖️: {{ nbEvents }}
+                                <li class="block">
+                                    <a class="btn btn-outline-success block no-decoration"  href="{{ path('resume') }}"> 
+                                        Nombre d'évènements 🎖️: {{ events|length }}
+                                    </a>
                                 </li>
                             </div>
-                            <div class="col-md-6">
-                                <li style="display:block;">
-                                    Nombre d'albums 🌍: {{ nbAlbums }}
+                            <div class="col-md-4 text-center">
+                                <li class="block">
+                                    <a class="btn btn-outline-primary block no-decoration bottom"  href="{{ path('gallery',{type: 'album'}) }}"> 
+                                        Nombre d'albums 🌄: {{ nbAlbums }}
+                                    </a>
                                 </li>
-                                <li style="display:block;">
-                                    Nombre de photos 🏕️: {{ nbPictures }}
+                                <li class="block">
+                                    <a class="btn btn-outline-primary block no-decoration"  href="{{ path('gallery') }}"> 
+                                        Nombre de photos 🏕️: {{ nbPictures }}
+                                    </a>
                                 </li>
-                                <li style="display:block;">
-                                    Nombre de musiques 🔊: {{ nbSongs }}
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <li class="block">
+                                    <a class="btn btn-outline-danger block no-decoration bottom"  href="{{ path('radio') }}"> 
+                                        Nombre de musiques 🔊: {{ nbSongs }}
+                                    </a>
+                                </li>
+                                <li class="block">
+                                    <a class="btn btn-outline-danger block no-decoration"  href="{{ path('map',{map: 'recommandation'}) }}"> 
+                                        Nombre de recommandations 🌍: {{ nbRecommandations }}
+                                    </a>
                                 </li>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <a id="click" href="" class="btn btn-primary">Click click click</a>
                     </div>
                 </div>
 
@@ -147,17 +161,17 @@
             </div>
           -->
           <div class="my-3 p-3 bg-white rounded box-shadow">
-            <h6 class="border-bottom border-gray pb-2 mb-0">Les p'tits mises à jour </h6>
+            <h6 class="border-bottom border-gray pb-2 mb-0">Les p'tits mises à jour 🛰️</h6>
             {% for info in infosPage|sort((a, b) => b.date <=> a.date) %}
-                <div class="media text-muted pt-3">
-                    <img class="mr-2 rounded" src="{{asset('build/images/profile/' ~ info.name ~ '.jpg')}}" alt="{{ info.name }}" style="width: 5%;height: 100%;border-radius: 10%;">
-                    <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                        <a {% if info.link_attr is defined %}href="{{ path(info.link,{id: info.link_attr}) }}"{% else %}href="{{ path(info.link) }}"{% endif %}>
+                <div class="pt-3">
+                    <a class="no-decoration media"{% if info.link_attr is defined %}href="{{ path(info.link,{id: info.link_attr}) }}"{% else %}href="{{ path(info.link) }}"{% endif %}>
+                        <img class="mr-2 rounded" src="{{asset('build/images/profile/' ~ info.name ~ '.jpg')}}" alt="{{ info.name }}" style="width: 5%;height: 100%;border-radius: 10%;">
+                        <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
                             <strong class="d-block text-gray-dark">{{ info.name }} </strong>
-                        </a>
-                        {{ info.description }}
-                        {{ info.date|time_diff }}
-                    </p>
+                            {{ info.description }}
+                            {{ info.date|time_diff }}
+                        </p>
+                    </a>
                 </div>
             {% endfor %}
             <br>
@@ -275,7 +289,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                <div class="modal-header">
-                   <h5 class="modal-title">Ajout d'un P'tit Evènement</h5>
+                   <h5 class="modal-title">Ajout d'un P'tit Evènement 🍺 🥨</h5>
                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                        <span aria-hidden="true">&times;</span>
                    </button>
@@ -300,7 +314,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                <div class="modal-header">
-                   <h5 class="modal-title">Ajout d'un P'tit Album</h5>
+                   <h5 class="modal-title">Ajout d'un P'tit Album 🌄</h5>
                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                        <span aria-hidden="true">&times;</span>
                    </button>
@@ -325,7 +339,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                <div class="modal-header">
-                   <h5 class="modal-title">Ajout d'une P'tite Photo</h5>
+                   <h5 class="modal-title">Ajout d'une P'tite Photo 🏖️</h5>
                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                        <span aria-hidden="true">&times;</span>
                    </button>
@@ -350,7 +364,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                <div class="modal-header">
-                   <h5 class="modal-title">Ajout d'une P'tite Musique</h5>
+                   <h5 class="modal-title">Ajout d'une P'tite Musique 🎧</h5>
                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                        <span aria-hidden="true">&times;</span>
                    </button>

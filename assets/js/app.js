@@ -11,5 +11,10 @@ require('../css/app.css');
 // Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
 // const $ = require('jquery');
 
-console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
 
+$(document).ready(function(){
+    console.log(document.body.scrollHeight);
+    if(document.body.scrollHeight < 601) {
+            $(".footer").css("position","fixed");
+        }
+});

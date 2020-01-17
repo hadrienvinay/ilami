@@ -9,10 +9,10 @@
         <div style="margin:1%;">
             <ul class="nav nav-tabs" id="myTab" role="tablist" >
                 <li class="nav-item">
-                    <a class="nav-link active" id="pictures-tab" data-toggle="tab" href="#pictures" role="tab" aria-controls="pictures" aria-selected="true">Les P'tites Photos</a>
+                    <a class="nav-link {% if active %}active{% endif %}" id="pictures-tab" data-toggle="tab" href="#pictures" role="tab" aria-controls="pictures" aria-selected="true">Les P'tites Photos</a>
                 </li> 
                 <li class="nav-item">
-                    <a class="nav-link" id="albums-tab" data-toggle="tab" href="#albums" role="tab" aria-controls="albums" aria-selected="false">Les P'tits Albums</a>
+                    <a class="nav-link {% if not(active) %}active{% endif %}" id="albums-tab" data-toggle="tab" href="#albums" role="tab" aria-controls="albums" aria-selected="false">Les P'tits Albums</a>
                 </li> 
                 <li class="nav-item">
                     <a class="nav-link" id="others-tab" data-toggle="tab" href="#others" role="tab" aria-controls="others" aria-selected="false">Autres</a>
@@ -20,10 +20,12 @@
             </ul> 
             
             <div class="tab-content gallery-tab" id="myTabContent">
-                <div class="tab-pane fade show active" id="pictures" role="tabpanel" aria-labelledby="pictures-tab">
+                <div class="tab-pane fade {% if active %}show active{% endif %}" id="pictures" role="tabpanel" aria-labelledby="pictures-tab">
                     <small class="d-block text-right mt-3">
-                        <i class="fa fa-download" aria-hidden="true"></i>
-                        <a class="btn-sm btn-outline-success no-decoration add-picture" href="{{ path('add_picture') }}">Ajouter une photo</a>
+                        <a class="btn-sm btn-outline-success no-decoration add-picture" href="{{ path('add_picture') }}">
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                            Ajouter une photo
+                        </a>
                     </small>
                     <br>
                     <div class="portfolio-item row">
@@ -47,10 +49,12 @@
                        {{ knp_pagination_render(picturesPage) }}
                    </div>    
                 </div>
-                <div class="tab-pane fade" id="albums" role="tabpanel" aria-labelledby="albums-tab">
+                <div class="tab-pane fade {% if not(active) %}show active{% endif %}" id="albums" role="tabpanel" aria-labelledby="albums-tab">
                     <small class="d-block text-right mt-3">
-                        <i class="fa fa-download" aria-hidden="true"></i>
-                        <a class="btn-sm btn-outline-success no-decoration add-album" href="{{ path('add_album') }}">Créer un album</a>
+                        <a class="btn-sm btn-outline-success no-decoration add-album" href="{{ path('add_album') }}">
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                            Créer un album
+                        </a>
                     </small>
                     <br>
                     <div class="portfolio-item row">

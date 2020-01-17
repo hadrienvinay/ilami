@@ -17,7 +17,15 @@
                             {{ app.user.username }}
                         </a>
                     </li>
-                    <li id="notif" class="nav-item dropdown" data-toggle="tooltip" data-placement="bottom" title="Notifications">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('admin') }}" data-toggle="tooltip" data-placement="bottom" title="Admin Dashboard" >
+                                Admin 
+                                <span style="color: #fff;">👻</span>
+                            </a>
+                        </li>  
+                    {% endif %}
+                    <li id="notif" class="nav-item dropdown" title="Notifications">
                         <a class="nav-link dropdown" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #fff;"> 
                             {% if mgilet_notification_unseen_count(app.user) > 0 %}<span class="notification">{{ mgilet_notification_unseen_count(app.user) }}</span> {% endif %}
                             🔔
@@ -54,38 +62,38 @@
                             {% endfor %}
                         </div>
                     </li>
-                    <li id="menu-dropdown" class="nav-item dropdown"  data-toggle="tooltip" data-placement="bottom" title="Rubriques">
+                    <li id="menu-dropdown" class="nav-item dropdown" title="Rubriques">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #fff;">
                             🗂️
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ path('resume') }}">
-                            🥂 What's up
-                        </a>
-                        <a class="dropdown-item" href="{{ path('gallery') }}">
-                            🏖️ Gallerie Photo
-                        </a>    
-                        <a class="dropdown-item" href="{{ path('calendar') }}">
-                            📆 Calendrier
-                        </a>
-                        <a class="dropdown-item" href="{{ path('radio') }}">
-                           💃 Radio
-                        </a>
-                        <a class="dropdown-item" href="{{ path('map') }}">
-                            🗺️ Map
-                        </a>
-                        <a class="dropdown-item" href="{{ path('catan') }}">
-                            🐑 Catan
-                        </a>
-                        {% if app.user.username == "suri" %}             
-                            <a class="dropdown-item" href="{{ path('timetable') }}">
-                                🚌 TimeTable
-                            </a>  
-                        {% endif %}
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ path('fos_user_security_logout') }}">
-                            <span class="fa fa-sign-out"></span> {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
-                        </a>
+                            <a class="dropdown-item" href="{{ path('resume') }}">
+                                🥂 What's up
+                            </a>
+                            <a class="dropdown-item" href="{{ path('gallery') }}">
+                                🏖️ Gallerie Photo
+                            </a>    
+                            <a class="dropdown-item" href="{{ path('calendar') }}">
+                                📆 Calendrier
+                            </a>
+                            <a class="dropdown-item" href="{{ path('radio') }}">
+                               💃 Radio
+                            </a>
+                            <a class="dropdown-item" href="{{ path('map') }}">
+                                🗺️ Map
+                            </a>
+                            <a class="dropdown-item" href="{{ path('catan') }}">
+                                🐑 Catan
+                            </a>
+                            {% if app.user.username == "suri" %}             
+                                <a class="dropdown-item" href="{{ path('timetable') }}">
+                                    🚌 TimeTable
+                                </a>  
+                            {% endif %}
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ path('fos_user_security_logout') }}">
+                                <span class="fa fa-sign-out"></span> {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                            </a>
                         </div>
                     </li>
 
@@ -97,13 +105,14 @@
                     </li>
                 {% endif %}
             </ul>
+            <form class="form-inline" style="margin-right:8%;">
+                <input id="search" class="form-control mr-sm-2" placeholder="Rechercher" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit"  data-toggle="tooltip" data-placement="bottom" title="Rechercher">
+                    🔍
+                </button>
+            </form>
         </div>
-        <form class="form-inline" style="margin-right:8%;">
-           <input id="search" class="form-control mr-sm-2" placeholder="Rechercher" aria-label="Search">
-           <button class="btn btn-outline-success my-2 my-sm-0" type="submit"  data-toggle="tooltip" data-placement="bottom" title="Rechercher">
-               🔍
-           </button>
-        </form>
+       
     </div>
 </nav>
             
@@ -147,11 +156,8 @@
         
       
         $('[data-toggle="tooltip"]').tooltip();  
-        
-        $('#notif').on('click', function () {
-            $(this).tooltip('hide');
-        });
-        
+        //$('[data-toggle="tooltip"]').tooltip({ trigger: "hover" });  
+
         $('.notif-content').click(function(){
             var url = $(this).attr("data");
             if(url !== ""){

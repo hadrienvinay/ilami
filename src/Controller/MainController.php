@@ -39,10 +39,8 @@ class MainController extends Controller
             $em = $this->getDoctrine()->getManager();
             $eventsRepo = $em->getRepository('App:Event');
             $events = $eventsRepo->findByDate($date);
-            $nbEvents = $eventsRepo->countAll();
             $usersRepo = $em->getRepository('App:User');
             $users = $usersRepo->findAll();
-            $nbUsers = $usersRepo->countAll();
             $albumsRepo = $em->getRepository('App:Album');
             $albums = $albumsRepo->findAll();
             $nbAlbums = $albumsRepo->countAll();
@@ -52,7 +50,10 @@ class MainController extends Controller
             $songsRepo = $em->getRepository('App:Song');
             $songs = $songsRepo->findAll();
             $nbSongs = $songsRepo->countAll();
+            $recommandationRepo = $em->getRepository('App:Recommandation');
+            $nbRecommandations = $recommandationRepo->countAll();
 
+            
             //retreive all updates
             $infos = array();
             foreach($users as $userInfo){
@@ -114,11 +115,10 @@ class MainController extends Controller
                 'events' => $events,
                 'users' => $users,
                 'infosPage' => $infosPage,
-                'nbUsers' => $nbUsers,
-                'nbEvents' => $nbEvents,
                 'nbAlbums' => $nbAlbums,
                 'nbPictures' => $nbPictures,
                 'nbSongs' => $nbSongs,
+                'nbRecommandations' => $nbRecommandations,
                 'eventForm' => $eventForm->createView(),
                 'albumForm' => $albumForm->createView(),
                 'pictureForm' => $pictureForm->createView(),

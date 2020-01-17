@@ -21,9 +21,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Knp\Component\Pager\PaginatorInterface;
 
 class ProfilController extends Controller
@@ -138,8 +135,8 @@ class ProfilController extends Controller
             $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository('App:User')->find($id);
             $prevAddress = $user->getAddress();
-
-            if($user != $this->getUser()){
+            if($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){}
+            else if($user != $this->getUser()){
                 throw new AccessDeniedException('Tu peux pas modifier un autre profil que le tien narvaloo !');
             }
 

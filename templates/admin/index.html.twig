@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin 🔐{% endblock %}
+
+{% block body %}
+    <br>
+    <div class="container" style="padding: 3%;margin-top: 3%;margin-bottom: 3%;border-radius: 0.5rem;background: #fff;">   
+        <h1 class="text-center">Admin 🕶️</h1>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="myTable" width="100%" class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" role="grid" aria-describedby="dataTables-example_info" style="width: 100%;">
+                        <thead>
+                            <tr role="row">
+                                <th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 140px;">Nom</th>
+                                <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" >Prénom</th>
+                                <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" >Type</th>
+                                <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" >Dernière connexion</th>
+                                <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">Stats</th>
+                                <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in users %}
+                            <tr class="gradeA odd" role="row">
+                                <td class="sorting_1">{{ user.name }}</td>
+                                <td>{{ user.prename }}</td>
+                                <td> {% for role in user.roles %}{{ role }} {% endfor %}</td>
+                                <td>{{ user.lastlogin| date('d M H \\h i ') }}</td>
+                                <td>🤹‍♀️️:{{ user.eventCreated|length }} - 🏖️:{{ user.pictures|length }} - 🎵:{{ user.songs|length }}</td>
+                                <td>
+                                    <a class="btn btn-sm btn-primary" href="{{ path('profile',{'id' : user.id}) }}">Voir</a>
+                                    <a class="btn btn-sm btn-success" href="{{ path('modify_profile',{'id' : user.id}) }}">Modifier</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+                                    
+    <script>
+        $(document).ready( function () {
+
+            //edit english datatables translate and clickable
+            $('#myTable').DataTable( {
+                "language": {
+                    "lengthMenu": "Montrer _MENU_ utilisateurs par page",
+                    "zeroRecords": "Aucun utilisateur trouvé",
+                    "info": "Affiche la page _PAGE_ sur _PAGES_",
+                    "infoEmpty": "Aucune données disponibles",
+                    "infoFiltered": "(filtr&eacute; parmis _MAX_ &eacute;l&eacute;ments au total)",
+                    "search":"Rechercher&nbsp;:",
+                    "paginate": {
+                        "sFirst":      "Premier",
+                        "sPrevious":   "Pr&eacute;c&eacute;dent",
+                        "sNext":       "Suivant",
+                        "sLast":       "Dernier"
+                    },
+                }
+        });
+
+        //$('#myTable_length').replaceWith('<div class="dataTables_length" id="myTable_length"><label>Montrer <select name="myTable_length" aria-controls="myTable" class=""><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entrées</label></div>');
+        //$(".dataTables_filter >label").text('Rechercher:');
+        //$('#myTable_previous').text('Précédent');
+        //$('#myTable_next').text('Suivant');
+    });
+    </script>
+{% endblock %}

@@ -9,6 +9,13 @@ rules:
 autocomplete_search:
     path: /autocomplete
     controller: App\Controller\MainController:autocompleteSearch
+    
+#######################
+#    Profil routes    #
+#######################
+admin:
+    path: /admin
+    controller: App\Controller\AdminController:index
 
 #######################
 #    Profil routes    #

@@ -18,7 +18,15 @@ class RecommandationRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Recommandation::class);
     }
-
+    
+    public function countAll(){
+        return $this->createQueryBuilder('e')
+            ->select('count(e.id)')
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+    }
+    
     // /**
     //  * @return Recommandation[] Returns an array of Recommandation objects
     //  */

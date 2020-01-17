@@ -323,6 +323,7 @@ class AppFixtures extends Fixture
         $user15->setEmail('menad.betouche@yahoo.fr');
         $user15->setBirthdate(new \DateTime('1996-06-20'));
         $user15->setPhone('0752138587');
+        $user15->setSexe('M');
         $user15->setTeam('Imalipusram');
         $user15->setStatus('T\'as pas vu mes pecs ?');
         $user15->setAddress('42 Boulevard Ney, Paris');
@@ -341,7 +342,7 @@ class AppFixtures extends Fixture
         $user16->setEmail('pauline.mirey@yahoo.fr');
         $user16->setBirthdate(new \DateTime('1996-10-08'));
         $user16->setPhone('0752138587');
-        $user16->setSexe('M');
+        $user16->setSexe('F');
         $user16->setTeam('Imalipusram');
         $user16->setStatus('TPMT (Touche Pas Mon Thomaas)');
         $user16->setAddress('42 Boulevard Ney, Paris');

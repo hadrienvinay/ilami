@@ -32,6 +32,11 @@ class GalleryController extends Controller
             $notifiable = $notifiableEntityRepo->findOneby(array("identifier" => $user));
             $notificationList = $notifiableRepo->findAllForNotifiableId($notifiable);
             
+            if($request->query->get('type')=="album"){
+                $active = 0;
+            }else {
+                $active = 1;
+            }
             $em = $this->getDoctrine()->getManager();
             $pictures = $em->getRepository('App:Picture')->findAll();
             $albums = $em->getRepository('App:Album')->findAll();
@@ -52,6 +57,7 @@ class GalleryController extends Controller
             return $this->render('my/pic/gallery.html.twig', array(
                 'picturesPage' => $picturesPage,
                 'albums' => $albums,
+                'active' => $active,
                 'pictureForm' => $pictureForm->createView(),
                 'albumForm' => $albumForm->createView(),
                 'notificationList' => $notificationList
