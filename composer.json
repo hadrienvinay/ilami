@@ -9,6 +9,7 @@
         "friendsofsymfony/user-bundle": "~2.0",
         "geocoder-php/google-maps-provider": "^4.4",
         "guzzlehttp/guzzle": "^6.5",
+        "knplabs/knp-paginator-bundle": "^5.1",
         "mgilet/notification-bundle": "^3.1",
         "norkunas/youtube-dl-php": "^1.4",
         "php-http/guzzle6-adapter": "^2.0",

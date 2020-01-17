@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Profil - {{ user.prename }} {{ user.name }}{% endblock %}
+{% block title %}Profil - {{ user.prename }} {{ user.name }} 😄{% endblock %}
 
 {% block body %}
 <br>
@@ -26,7 +26,7 @@
                             </a>
                         {% endif %}
                     </div>
-                    <h3 class="text-center">
+                    <h3 class="text-center col-md-8">
                         {{ user.prename }} {{ user.name }} {% if user.sexe=="M" %}💁‍♂️{% else %}💁{% endif %}
                     </h3>
                     <h6>

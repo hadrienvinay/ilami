@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Résumé{% endblock %}
+{% block title %}Résumé 🌌{% endblock %}
 
 {% block body %}
     <br>
@@ -46,7 +46,7 @@
             {% if compt == 0 %}
                 <div class="media text-muted pt-3">
                     <p class="middle">
-                        Aucun évènement aujourd'hui :/
+                        Aucun évènement aujourd'hui 😥
                     </p>
                 </div>
             {% else %} 
@@ -54,7 +54,7 @@
             {% endif %}
             <br>
             <h6 class="border-bottom border-gray pb-2 mb-0">Les p'tits évènements à venir</h6>
-            {% for event in events|sort((a, b) => a.startdate <=> b.startdate)%}
+            {% for event in events|slice(0,20)|sort((a, b) => a.startdate <=> b.startdate)%}
                 {% if event.startdate|date('Y-m-d') > "now"|date('Y-m-d') %}
                     <div class="media text-muted pt-3">
                         {% if "Grand Prix" in event.name %}
@@ -86,7 +86,7 @@
             <br>
 
             <h6 class="border-bottom border-gray pb-2 mb-0">Les p'tits évènements passés</h6>
-            {% for event in events|sort((a, b) => b.startdate <=> a.startdate)%}
+            {% for event in events|slice(0,20)|sort((a, b) => b.startdate <=> a.startdate)%}
                 {% if event.startdate|date('Y-m-d') < "now"|date('Y-m-d') %}
                     {% if "Grand Prix" not in event.name %}
                         <div class="media text-muted pt-3">

@@ -18,6 +18,14 @@ class SongRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Song::class);
     }
+    
+    public function countAll(){
+        return $this->createQueryBuilder('e')
+            ->select('count(e.id)')
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+    }
 
     // /**
     //  * @return Song[] Returns an array of Song objects

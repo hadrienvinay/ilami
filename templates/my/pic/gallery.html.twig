@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Gallerie {% endblock %}
+{% block title %}Gallerie 🏞️{% endblock %}
 
 {% block body %}
     <br>
@@ -27,7 +27,7 @@
                     </small>
                     <br>
                     <div class="portfolio-item row">
-                        {% for picture in pictures %}
+                        {% for picture in picturesPage %}
                             <div class="item selfie col-lg-3 col-md-4 col-6 col-sm">
                                   <a class="fancylight popup-btn" href="{{ asset('build/images/gallery/' ~ picture.fileName )}}">
                                     <img src="{{asset('build/images/gallery/' ~ picture.fileName )}}" alt="{{ picture.description }}" class="img-fluid">
@@ -41,7 +41,11 @@
                             </div>
                         {% endfor %}
                         <div class="clearfix"></div>
-                    </div>   
+                    </div>
+                    <br>
+                    <div class="navigation"> 
+                       {{ knp_pagination_render(picturesPage) }}
+                   </div>    
                 </div>
                 <div class="tab-pane fade" id="albums" role="tabpanel" aria-labelledby="albums-tab">
                     <small class="d-block text-right mt-3">

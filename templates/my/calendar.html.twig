@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Calendrier{% endblock %}
+{% block title %}Calendrier 🗓️{% endblock %}
 
 {% block body %}
     <br>
@@ -10,21 +10,26 @@
         <div id='calendar'></div>
         
     </div>
-            <!-- Modal confirm cancel an order-->
-    <div id="myModal" class="modal">
-         <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="margin-auto">Création d'un évènement</h2>
+    <!-- Modal confirm cancel an order-->
+    <div id="myModal"  class="modal" role="dialog" tabindex="-1" aria-hidden="true">
+         <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ajout d'un P'tit Evènement</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Vous allez créer un evènement </p>
+                    <p>Etes-vous sur?</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="" id="btnYes" class="btn btn-danger" data="">Oui</a>
+                    <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Non</a>
+                </div>
             </div>
-            <div class="modal-body">
-                <p>Vous allez créer un evènement </p>
-                <p>Etes-vous sur?</p>
-            </div>
-            <div class="modal-footer">
-                <a href="" id="btnYes" class="btn btn-primary" data="">Oui</a>
-                <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-secondary">Non</a>
-            </div>
-         </div>
+        </div>
     </div>
    
     <script>

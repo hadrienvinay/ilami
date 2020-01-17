@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Imalipusram{% endblock %}</title>
+        <title>{% block title %}Imalipusram 🦘{% endblock %}</title>
         {% block stylesheets %}
             {# Website Icon #}
             <link rel="icon" href="{{asset('build/images/imali.png')}}">
@@ -12,7 +12,7 @@
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
             {# Boostrap#}
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-            {# Font Icons #}
+            {# Font Icons #} {# https://emojikeyboard.top/ #}
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">            
             {# Online css librairies for js functions #}
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.1.0/main.min.css">
@@ -80,6 +80,11 @@
         {# Fos Js Routing #}
         <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
         <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+        
+        {# My JS#}
+        <script src={{ asset('build/app.js') }}></script>
+        <script src={{ asset('build/pagination.js') }}></script>
+        <script src={{ asset('build/FctIni.js') }}></script>
     {% endblock %}
     </body>
 </html>

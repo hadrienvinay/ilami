@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface;
 use App\Entity\Event;
 use App\Entity\Album;
 use App\Entity\Picture;
@@ -17,11 +18,11 @@ use App\Form\PictureType;
 use App\Form\SongType;
 
 class MainController extends Controller
-{       
+{
     /**
      * @return Response
      */
-    public function index()
+    public function index(Request $request, PaginatorInterface $paginator)
     {
         $user=$this->getUser();
         $date = date('Y-m-d');
@@ -36,11 +37,21 @@ class MainController extends Controller
             $notificationList = $notifiableRepo->findAllForNotifiableId($notifiable);
       
             $em = $this->getDoctrine()->getManager();
-            $events = $em->getRepository('App:Event')->findByDate($date);
-            $users = $em->getRepository('App:User')->findAll();
-            $albums = $em->getRepository('App:Album')->findAll();
-            $pictures = $em->getRepository('App:Picture')->findAll();
-            $songs = $em->getRepository('App:Song')->findAll();
+            $eventsRepo = $em->getRepository('App:Event');
+            $events = $eventsRepo->findByDate($date);
+            $nbEvents = $eventsRepo->countAll();
+            $usersRepo = $em->getRepository('App:User');
+            $users = $usersRepo->findAll();
+            $nbUsers = $usersRepo->countAll();
+            $albumsRepo = $em->getRepository('App:Album');
+            $albums = $albumsRepo->findAll();
+            $nbAlbums = $albumsRepo->countAll();
+            $picturesRepo = $em->getRepository('App:Picture');
+            $pictures = $picturesRepo->findAll();
+            $nbPictures = $picturesRepo->countAll();
+            $songsRepo = $em->getRepository('App:Song');
+            $songs = $songsRepo->findAll();
+            $nbSongs = $songsRepo->countAll();
 
             //retreive all updates
             $infos = array();
@@ -73,6 +84,12 @@ class MainController extends Controller
                     array_push($infos,$new);
             }
             
+            $infosPage = $paginator->paginate(
+                $infos, // Requête contenant les données à paginer (ici nos articles)
+                $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+                20 // Nombre de résultats par page
+            );
+            
             //add event form
             $event = new Event();
             $event->setAddress($user->getAddress());
@@ -96,7 +113,12 @@ class MainController extends Controller
                 'user' => $user,
                 'events' => $events,
                 'users' => $users,
-                'infos' => $infos,
+                'infosPage' => $infosPage,
+                'nbUsers' => $nbUsers,
+                'nbEvents' => $nbEvents,
+                'nbAlbums' => $nbAlbums,
+                'nbPictures' => $nbPictures,
+                'nbSongs' => $nbSongs,
                 'eventForm' => $eventForm->createView(),
                 'albumForm' => $albumForm->createView(),
                 'pictureForm' => $pictureForm->createView(),

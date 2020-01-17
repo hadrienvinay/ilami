@@ -18,6 +18,14 @@ class PictureRepository extends ServiceEntityRepository
         parent::__construct($registry, Picture::class);
     }
 
+    public function countAll(){
+        return $this->createQueryBuilder('e')
+            ->select('count(e.id)')
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+    }
+    
     // /**
     //  * @return Picture[] Returns an array of Picture objects
     //  */

@@ -11,6 +11,12 @@ body {
     background-color: #343a40!important;
 }
 
+.navigation{
+    margin-left: auto;
+    margin-right: auto;
+    display: table;
+}
+
 @media screen and (max-height: 600px) {
     .footer{
         position: initial;

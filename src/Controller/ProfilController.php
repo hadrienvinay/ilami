@@ -24,6 +24,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Knp\Component\Pager\PaginatorInterface;
 
 class ProfilController extends Controller
 {
@@ -257,80 +258,5 @@ class ProfilController extends Controller
         }
     }
 
-
-    /** NOT WORKING  -- TO SET UP
-     * @param Request $request
-     * @param $id
-     * @return Response
-     * @throws \Exception
-     */
-    public function modifyProfilePicture(Request $request, $id)
-    {
-  
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('App:User')->find($id);
-
-        if($user != $this->getUser()){
-            throw new AccessDeniedException('Tu peux pas modifier une autre photo de profil que le tien narvalooo !');
-        }
-
-        $profilePic = new ProfilePicture();
-        $em = $this->getDoctrine()->getManager();
-        $form = $this->get('form.factory')->createBuilder(FormType::class, $profilePic)
-            ->add('path',   FileType::class, array(
-                'required' => true,
-                'constraints' => [
-                    new \Symfony\Component\Validator\Constraints\File([
-                        'maxSize' => '1024k',
-                        'mimeTypes' => [
-                            'image/*',
-                        ],
-                        'mimeTypesMessage' => 'Please upload a valid PDF document',
-                    ])
-                ],
-            ))
-            ->getForm();
-        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-
-            $file = $form['path']->getData();
-            if ($file) {
-
-                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    $file->move(
-                        $this->getParameter('profile_pic_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-
-                $profilePic->setName($newFilename);
-                $profilePic->setDate(new \DateTime());
-                $profilePic->setUser($user);
-                $user->setProfilePicture($profilePic);
-                $em->persist($profilePic);
-                $em->persist($user);
-                $em->flush();
-
-                $request->getSession()->getFlashBag()->add('success', 'Photo modifiée avec succès !');
-
-                return $this->render('my/profil.html.twig', array(
-                    'user' => $user
-                ));
-            }
-        }
-
-        return $this->render('modify/profilPicture.html.twig', array(
-            'user' => $user,
-            'form' => $form->createView()
-        ));
-
-    }
 
 }

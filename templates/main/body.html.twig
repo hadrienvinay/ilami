@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Home 🏡{% endblock %}
 
 {% block body %}
     <!-- Page Content -->
@@ -9,32 +9,62 @@
         </div>
         <div class="" style="flex: 0 0 75%;max-width: 75%;">
           <!-- Jumbotron Header -->
-          <header class="" style="padding: 3%;margin-top: 3%;margin-bottom: 3%;border-radius: 0.5rem;background: #fff;">
-              <div class="">
-                  <img src="{{asset('build/images/imali.png')}}" style="width: 80px; float: left; margin-left:15%;" title="logo" alt="Marsupilami">
-                  <img src="{{asset('build/images/imali2.png')}}" style="width: 80px; float: right; margin-right: 15%;" title="logo" alt="Marsupilami">
-                  <h1 class="text-center">Bienvenue {{ app.user.username }} sur le site d'Imaliii ❤️</h1>
-              </div>
-              <br>
-              <div class="row">
-                  <div class="col-md-6">
-                      <p class="lead text-center">P'tits évènements qui arrivent 🍻:</p>
-                      <div id='calendar'></div>
-                  </div>
-                  <div class="col-md-6">
-                      {#<img src="{{asset('build/images/background.jpg')}}" class="center rounded" title="logo" alt="Background Image">#}
-                      <div id="carrousel">
-                          <figure>
-                              <img src="{{asset('build/images/dashboard/background1.jpg')}}" class="center rounded" title="back1" alt="Background Image1">
-                              <img src="{{asset('build/images/dashboard/background2.jpg')}}" class="center rounded" title="back2" alt="Background Image2">
-                              <img src="{{asset('build/images/dashboard/background3.jpg')}}" class="center rounded" title="back3" alt="Background Image3">
-                              <img src="{{asset('build/images/dashboard/background4.jpg')}}" class="center rounded" title="back4" alt="Background Image4">
-                          </figure>
-                      </div>
-                  </div>
-              </div>
-              <a id="click" href="" class="btn btn-primary">Click click click</a>
-          </header>
+            <header class="" style="padding: 3%;margin-top: 3%;margin-bottom: 3%;border-radius: 0.5rem;background: #fff;">
+                <div class="">
+                    <img src="{{asset('build/images/imali.png')}}" style="width: 80px; float: left; margin-left:15%;" title="logo" alt="Marsupilami">
+                    <img src="{{asset('build/images/imali2.png')}}" style="width: 80px; float: right; margin-right: 15%;" title="logo" alt="Marsupilami">
+                    <h1 class="text-center">Bienvenue {{ app.user.username }} sur le site d'Imaliii ❤️</h1>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="lead text-center">P'tits évènements qui arrivent 🍻:</p>
+                        <div id="calendar"></div>
+                    </div>
+                    <div class="col-md-6">
+                        {#<img src="{{asset('build/images/background.jpg')}}" class="center rounded" title="logo" alt="Background Image">#}
+                        <div id="carrousel">
+                            <figure>
+                                <img src="{{asset('build/images/dashboard/background1.jpg')}}" class="center rounded" title="back1" alt="Background Image1">
+                                <img src="{{asset('build/images/dashboard/background2.jpg')}}" class="center rounded" title="back2" alt="Background Image2">
+                                <img src="{{asset('build/images/dashboard/background3.jpg')}}" class="center rounded" title="back3" alt="Background Image3">
+                                <img src="{{asset('build/images/dashboard/background4.jpg')}}" class="center rounded" title="back4" alt="Background Image4">
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-8">
+                        <p class="lead text-center">P'tites statistiques 📊:</p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <li style="display:block;">
+                                    Nombre d'utilisateurs 🐢: {{ nbUsers }}
+                                </li>
+                                <li style="display:block;">
+                                    Nombre d'évènements 🎖️: {{ nbEvents }}
+                                </li>
+                            </div>
+                            <div class="col-md-6">
+                                <li style="display:block;">
+                                    Nombre d'albums 🌍: {{ nbAlbums }}
+                                </li>
+                                <li style="display:block;">
+                                    Nombre de photos 🏕️: {{ nbPictures }}
+                                </li>
+                                <li style="display:block;">
+                                    Nombre de musiques 🔊: {{ nbSongs }}
+                                </li>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <a id="click" href="" class="btn btn-primary">Click click click</a>
+                    </div>
+                </div>
+
+            </header>
 
             <!-- Page Features -->
             <!--
@@ -117,19 +147,23 @@
             </div>
           -->
           <div class="my-3 p-3 bg-white rounded box-shadow">
-          <h6 class="border-bottom border-gray pb-2 mb-0">Les p'tits mises à jour </h6>
-          {% for info in infos|sort((a, b) => b.date <=> a.date) %}
-              <div class="media text-muted pt-3">
-                  <img class="mr-2 rounded" src="{{asset('build/images/profile/' ~ info.name ~ '.jpg')}}" alt="{{ info.name }}" style="width: 5%;height: 100%;border-radius: 10%;">
-                  <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                      <a {% if info.link_attr is defined %}href="{{ path(info.link,{id: info.link_attr}) }}"{% else %}href="{{ path(info.link) }}"{% endif %}>
-                          <strong class="d-block text-gray-dark">{{ info.name }} </strong>
-                      </a>
-                      {{ info.description }}
-                      {{ info.date|time_diff }}
-                  </p>
-              </div>
-          {% endfor %}
+            <h6 class="border-bottom border-gray pb-2 mb-0">Les p'tits mises à jour </h6>
+            {% for info in infosPage|sort((a, b) => b.date <=> a.date) %}
+                <div class="media text-muted pt-3">
+                    <img class="mr-2 rounded" src="{{asset('build/images/profile/' ~ info.name ~ '.jpg')}}" alt="{{ info.name }}" style="width: 5%;height: 100%;border-radius: 10%;">
+                    <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                        <a {% if info.link_attr is defined %}href="{{ path(info.link,{id: info.link_attr}) }}"{% else %}href="{{ path(info.link) }}"{% endif %}>
+                            <strong class="d-block text-gray-dark">{{ info.name }} </strong>
+                        </a>
+                        {{ info.description }}
+                        {{ info.date|time_diff }}
+                    </p>
+                </div>
+            {% endfor %}
+            <br>
+            <div class="navigation"> 
+                {{ knp_pagination_render(infosPage) }}
+            </div>
           </div>
 
         </div>

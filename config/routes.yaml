@@ -21,10 +21,6 @@ modify_profile:
     path: /modify/profil/{id}
     controller: App\Controller\ProfilController::modifyProfil
 
-modify_profile_pic:
-    path: /modify/profil/pic/{id}
-    controller: App\Controller\ProfilController::modifyProfilePicture
-     
 add_recommandation:
   path: /add/recommandation
   controller: App\Controller\ProfilController:addRecommandation

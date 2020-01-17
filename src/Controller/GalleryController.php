@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface;
+
 
 
 class GalleryController extends Controller
@@ -17,7 +19,7 @@ class GalleryController extends Controller
     /**
      * @return Response
      */
-    public function gallery()
+    public function gallery(Request $request, PaginatorInterface $paginator)
     {
         //check if user is connected
         $user = $this->getUser();
@@ -34,14 +36,21 @@ class GalleryController extends Controller
             $pictures = $em->getRepository('App:Picture')->findAll();
             $albums = $em->getRepository('App:Album')->findAll();
 
+            $picturesPage = $paginator->paginate(
+                $pictures, // Requête contenant les données à paginer (ici nos articles)
+                $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+                40 // Nombre de résultats par page
+            );
+
             //picture form
             $picture = new Picture();
             $pictureForm = $this->get('form.factory')->create(PictureType::class, $picture);
             //album form
             $album = new Album();
             $albumForm = $this->get('form.factory')->create(AlbumType::class, $album);
+            
             return $this->render('my/pic/gallery.html.twig', array(
-                'pictures' => $pictures,
+                'picturesPage' => $picturesPage,
                 'albums' => $albums,
                 'pictureForm' => $pictureForm->createView(),
                 'albumForm' => $albumForm->createView(),
@@ -54,7 +63,7 @@ class GalleryController extends Controller
      * @param $id
      * @return Response
      */
-    public function showAlbum($id)
+    public function showAlbum($id,Request $request, PaginatorInterface $paginator)
     {
         //check if user is connected
         $user = $this->getUser();

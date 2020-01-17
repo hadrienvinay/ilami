@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Résumé{% endblock %}
+{% block title %}Catan{% endblock %}
 
 {% block body %}
     <br>
@@ -9,7 +9,7 @@
         <br>
         <canvas id='Can' class='center'></canvas>
     </div>
-    
+
  <script>
     var cnv,ctx,X,Y,D,N,TIT,CLR0,CLR1,CC=[];
 
@@ -19,9 +19,7 @@
         document.title="Game of life ('"+TIT+"' step: 0)"; return;}
       if (k==83) {/*'S'*/ if (D>1) {--D; Dims();} return;}
       if (k==66) {/*'B'*/ ++D; Dims(); return;}
-      alert("Jeu de la vie: Aide [Help]\n'  ':\tavancer d'une étape [next]"
-        +"\n'S','B':\tdimension des cellules [Smaller or Bigger]"
-        +"\n'0'...'9':\tno. fonction d'initialisation (selon 'FctIni.js')");
+      
     }
     function Click(ev)  {
       r=cnv.getBoundingClientRect();
