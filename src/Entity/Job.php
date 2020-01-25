@@ -56,7 +56,7 @@ class Job
     private $updatedDate; 
     
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="date")
      */
     private $startDate;
 

@@ -17,7 +17,7 @@ class GeocoderService
          // Get latitude and longitude of the event address
         if(!empty($address)){
             $query = sprintf($this->geocoder, urlencode(utf8_encode($address)));
-            $result = json_decode(file_get_contents($query, false, stream_context_create($this->arrContextOptions)));
+            $result = json_decode(@file_get_contents($query, false, stream_context_create($this->arrContextOptions)));
 
             if (empty($result->results)) {
                 return [0,0];

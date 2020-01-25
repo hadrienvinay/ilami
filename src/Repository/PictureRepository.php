@@ -17,6 +17,14 @@ class PictureRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Picture::class);
     }
+    
+    public function findByDate(){
+        return $this->createQueryBuilder('e')
+            ->orderBy('e.createdDate', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
     public function countAll(){
         return $this->createQueryBuilder('e')

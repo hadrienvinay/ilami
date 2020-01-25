@@ -1,0 +1,19 @@
+
+{% extends "base.html.twig" %}
+
+{% block title %}Erreur 404 🕹️{% endblock %}
+
+{% block body %}
+    <br>
+    <div class="container main-container">
+        <h1 class="text-center">Oups, cette page n'existe pas ! 🥵️</h1>
+        <br>
+        <div class="row">
+            <p> La page demandée n'existe pas: Erreur {{ statusCode }} 😬
+                <br>
+                <a href='{{ path('main_app') }}'>Retourner à l'accueil 🔙 </a>
+            </p>
+        </div>
+    </div>
+
+{% endblock %}

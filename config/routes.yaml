@@ -8,14 +8,14 @@ rules:
     
 autocomplete_search:
     path: /autocomplete
-    controller: App\Controller\MainController:autocompleteSearch
-    
+    controller: App\Controller\MainController::autocompleteSearch
+
 #######################
-#    Profil routes    #
+#    Admin routes    #
 #######################
 admin:
     path: /admin
-    controller: App\Controller\AdminController:index
+    controller: App\Controller\AdminController::index
 
 #######################
 #    Profil routes    #
@@ -30,11 +30,16 @@ modify_profile:
 
 add_recommandation:
   path: /add/recommandation
-  controller: App\Controller\ProfilController:addRecommandation
+  controller: App\Controller\ProfilController::addRecommandation
 
 add_job:
   path: /add/job
-  controller: App\Controller\ProfilController:addJob
+  controller: App\Controller\ProfilController::addJob
+  
+    
+fos_user_profile_show:
+    path: /profile
+    controller: App\Controller\ProfilController::redirectToProfil
 
 #######################
 #   Calendar routes   #

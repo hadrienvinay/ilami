@@ -16,6 +16,7 @@ use App\Form\EventType;
 use App\Form\AlbumType;
 use App\Form\PictureType;
 use App\Form\SongType;
+use DateTime;
 
 class MainController extends Controller
 {
@@ -51,6 +52,7 @@ class MainController extends Controller
             $songs = $songsRepo->findAll();
             $nbSongs = $songsRepo->countAll();
             $recommandationRepo = $em->getRepository('App:Recommandation');
+            $recommandations = $recommandationRepo->findAll();
             $nbRecommandations = $recommandationRepo->countAll();
 
             
@@ -58,32 +60,46 @@ class MainController extends Controller
             $infos = array();
             foreach($users as $userInfo){
                 if($userInfo->getUpdatedDate() != null){
-                    $new = array("name" => $userInfo->getUsername(),"date"=>$userInfo->getUpdatedDate(),"description"=>"a mis à jour son profil","link"=>"profile","link_attr"=>$userInfo->getId());
+                    $new = array("name" => $userInfo->getUsername(),"date"=>$userInfo->getUpdatedDate(),"description"=>"a mis à jour son profil","link"=>"profile","link_attr"=>$userInfo->getId(),"type"=>"Profil");
                     array_push($infos,$new);
                 }
             }
             foreach($events as $event){
                 $description = "a crée un évènement: ".$event->getName();
-                $new = array("name" => $event->getCreator()->getUsername(),"date"=>$event->getCreatedDate(),"description"=>$description,"link"=>"event","link_attr"=>$event->getId());
+                $new = array("name" => $event->getCreator()->getUsername(),"date"=>$event->getCreatedDate(),"description"=>$description,"link"=>"event","link_attr"=>$event->getId(),"type"=>"Event");
                 array_push($infos,$new);
                 if($event->getUpdatedDate() != null)
                 {   $description = "a mis à jour un évènement: ".$event->getName();
-                    $new = array("name" => $event->getCreator()->getUsername(),"date"=>$event->getUpdatedDate(),"description"=>$description,"link"=>"event","link_attr"=>$event->getId());
+                    $new = array("name" => $event->getCreator()->getUsername(),"date"=>$event->getUpdatedDate(),"description"=>$description,"link"=>"event","link_attr"=>$event->getId(),"type"=>"Event");
                     array_push($infos,$new);
                 }
             }
              foreach($albums as $album){
-                    $new = array("name" => $album->getCreator()->getUsername(),"date"=>$album->getUpdatedDate(),"description"=>"a crée un album : ".$album->getName(),"link"=>"album","link_attr"=>$album->getId());
+                    $new = array("name" => $album->getCreator()->getUsername(),"date"=>$album->getUpdatedDate(),"description"=>"a crée un album : ".$album->getName(),"link"=>"album","link_attr"=>$album->getId(),"type"=>"Album");
                     array_push($infos,$new);
             }
             foreach($pictures as $picture){
-                    $new = array("name" => $picture->getPublisher()->getUsername(),"date"=>$picture->getCreatedDate(),"description"=>"a ajouté une photo : ".$picture->getDescription(),"link"=>"gallery");
+                    $new = array("name" => $picture->getPublisher()->getUsername(),"date"=>$picture->getCreatedDate(),"description"=>"a ajouté une photo : ".$picture->getDescription(),"link"=>"gallery","type"=>"Picture");
                     array_push($infos,$new);
             }
             foreach($songs as $song){
-                    $new = array("name" => $song->getUploader()->getUsername(),"date"=>$song->getCreatedDate(),"description"=>"a importé une musique : ".$song->getFileName(),"link"=>"radio");
+                    $new = array("name" => $song->getUploader()->getUsername(),"date"=>$song->getCreatedDate(),"description"=>"a importé une musique : ".$song->getFileName(),"link"=>"radio","type"=>"Song");
                     array_push($infos,$new);
             }
+            foreach($recommandations as $recommandation){
+                    $new = array("name" => $recommandation->getUser()->getUsername(),"date"=>$recommandation->getCreatedDate(),"description"=>"a ajouté une recommandation : ".$recommandation->getName(),"link"=>"profile",'link_attr'=>$recommandation->getUser()->getId(),"type"=>"Recommandation");
+                    array_push($infos,$new);
+            }
+            
+            //Sort infos array by Date 
+            usort($infos, function($a, $b) {
+                $ad = ($a['date']);
+                $bd = ($b['date']);
+                if ($ad == $bd) {
+                  return 0;
+                }
+                return $ad > $bd ? -1 : 1;
+              });
             
             $infosPage = $paginator->paginate(
                 $infos, // Requête contenant les données à paginer (ici nos articles)

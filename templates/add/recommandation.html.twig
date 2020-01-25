@@ -15,5 +15,34 @@
         {{ form_rest(form) }}
         {{ form_end(form) }}
     </div>
+        <script>
+       $(document).ready(function(){
+            //Autocomplete
+            initializeAutocomplete('recommandation_address');
+        });
+        //Autocomplete 
+    function initializeAutocomplete(id){
+        var element = document.getElementById(id);  
+        if (element) { 
+            var autocomplete = new google.maps.places.Autocomplete(element, { types: ['geocode'] });
+            google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
+        }
+    }
+    function onPlaceChanged() {
+        var place = this.getPlace();
+        console.log(place);  // Uncomment this line to view the full object returned by Google API.
+        for (var i in place.address_components) {
+          var component = place.address_components[i];    
+          for (var j in component.types) {
+            var type_element = document.getElementById(component.types[j]);      
+            if (type_element) {
+              type_element.value = component.long_name;
+            }    
+          }  
+        }
+    }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyA0wuGfkqLD67jR6NfcC8mm4EuUROGis_I"
+    async defer></script>
 {% endblock %}
 

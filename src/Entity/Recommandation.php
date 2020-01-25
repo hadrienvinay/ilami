@@ -51,6 +51,11 @@ class Recommandation
      */
     private $type;
     
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdDate; 
+    
 
     public function getId(): ?int
     {
@@ -139,5 +144,21 @@ class Recommandation
         $this->type = $type;
 
         return $this;
+    }
+    
+    /**
+     * @return mixed
+     */
+    public function getCreatedDate()
+    {
+        return $this->createdDate;
+    }
+    
+    /**
+     * @param mixed $createdDate
+     */
+    public function setCreatedDate($createdDate): void
+    {
+        $this->createdDate = $createdDate;
     }
 }

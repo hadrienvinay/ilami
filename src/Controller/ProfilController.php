@@ -190,6 +190,7 @@ class ProfilController extends Controller
                 $recommandation->setLatitude($pos[0]);
                 $recommandation->setLongitude($pos[1]);
                 $recommandation->setUser($user);
+                $recommandation->setCreatedDate(new \DateTime);
                 $em->persist($recommandation);
                 $em->flush();
 
@@ -254,6 +255,18 @@ class ProfilController extends Controller
             ));
         }
     }
+    
+    public function redirectToProfil(){
+    
+        $user = $this->getUser();
+        if(!$user) {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
+        else{
+            return $this->redirectToRoute('profile',array('id'=>$user->getId()));
+        }
+    }
+    
 
 
 }

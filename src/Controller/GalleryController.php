@@ -38,7 +38,7 @@ class GalleryController extends Controller
                 $active = 1;
             }
             $em = $this->getDoctrine()->getManager();
-            $pictures = $em->getRepository('App:Picture')->findAll();
+            $pictures = $em->getRepository('App:Picture')->findByDate();
             $albums = $em->getRepository('App:Album')->findAll();
 
             $picturesPage = $paginator->paginate(

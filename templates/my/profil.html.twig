@@ -4,7 +4,7 @@
 
 {% block body %}
 <br>
-    <div class="container" style="padding: 3%;margin-top: 3%;margin-bottom: 3%;border-radius: 0.5rem;background: #fff;">
+    <div class="container main-container">
         <div class="row">
             <div class="col-md-4">
                 <div class="profile-img text-center">
@@ -14,7 +14,7 @@
             <div class="col-md-8">
                 <div class="profile-head">
                     <div class="" style="float:right;">
-                        <a {% if user.username == "alienor" %}href="{{path('profile',{'id' : (user.id-19)}) }}" {% else %} href="{{path('profile',{'id' : (user.id+1)}) }}"{% endif %} class="btn-sm btn-outline-success no-decoration">
+                        <a {% if user.id+1 %}href="{{path('profile',{'id' : (user.id+1)}) }}"{% else %} href="{{path('profile',{'id' : (user.id-19)}) }}" {% endif %} class="btn-sm btn-outline-success no-decoration">
                                 Suivant 👉
                         </a>
                         {% if app.user.id == user.id %}
@@ -66,10 +66,10 @@
         </div>
         <div class="row">
             <div class="col-md-4">
-                <div class="profile-work" style="margin-left:22%;">
-                    <table class="fc-list-table">
+                <div class="profile-work">
+                    <table class="fc-list-table middle">
                         <thead>
-                            <tr class="fc-list-heading" data-date="2019-12-27">
+                            <tr class="fc-list-heading text-center">
                                 <td class="fc-widget-header" colspan="3">
                                     <span class="fc-list-heading-main">
                                     ⭐ Bonnes adresses :
@@ -87,7 +87,7 @@
                                 </td>
                             {% else %}
                                 {% for recommandation in user.recommandations| slice(0,8)%}
-                                    <tr class="fc-list-item">
+                                    <tr class="fc-list-item" >
                                         <td class="fc-list-item-time fc-widget-content">
                                             {{ loop.index }}.
                                         </td>
@@ -100,8 +100,8 @@
                                                 💃
                                             {% endif %}
                                         </td>
-                                        <td class="fc-list-item-title fc-widget-content">
-                                            <a data-toggle="tooltip" data-placement="right" title="{{ recommandation.type }}">
+                                        <td class="fc-list-item-title fc-widget-content help">
+                                            <a data-container="body" data-toggle="popover" data-placement="right" data-content=" Adresse : {{ recommandation.address }}" title="{{ recommandation.type }}">
                                                 {{ recommandation.name }}
                                             </a>
                                         </td>
@@ -508,7 +508,10 @@
             initializeAutocomplete("app_user_registration_address");
             initializeAutocomplete("job_address");
             initializeAutocomplete("recommandation_address");
-
+            
+            //popover
+            $('[data-toggle="popover"]').popover();
+            
             var modal = document.getElementById("updateModal");
             var modal2 = document.getElementById("addPictureModal");
             var modal3 = document.getElementById("addSongModal");
@@ -609,11 +612,12 @@
             
             $('.nav-link').on('click',function(e){
                 setTimeout(function(){
-                    if(document.body.scrollHeight < 601) {
+                    if(document.body.scrollHeight < window.screen.height) {
                         $(".footer").css("position","fixed");
                     }else{
                         $(".footer").css("position","");
                     }
+                    console.log(document.body.scrollHeight);
                 }, 400);
             });
             
