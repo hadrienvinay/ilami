@@ -52,6 +52,12 @@ class User extends BaseUser implements NotifiableInterface
     private $songs;
     
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Media", mappedBy="uploader", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $medias;
+    
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Album", mappedBy="creator", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
      */
@@ -137,6 +143,7 @@ class User extends BaseUser implements NotifiableInterface
         $this->albumCreated = new ArrayCollection();
         $this->recommandations = new ArrayCollection();
         $this->songs = new ArrayCollection();
+        $this->medias = new ArrayCollection();
     }
     
     public function getId(): ?int
@@ -532,7 +539,6 @@ class User extends BaseUser implements NotifiableInterface
             $this->songs[] = $song;
             $song->setUploader($this);
         }
-
         return $this;
     }
 
@@ -545,7 +551,35 @@ class User extends BaseUser implements NotifiableInterface
                 $song->setUploader(null);
             }
         }
+        return $this;
+    }
+    
+        /**
+     * @return Collection|Song[]
+     */
+    public function getMedias(): Collection
+    {
+        return $this->medias;
+    }
 
+    public function addMedia(Media $media): self
+    {
+        if (!$this->medias->contains($media)) {
+            $this->medias[] = $media;
+            $media->setUploader($this);
+        }
+        return $this;
+    }
+
+    public function removeMedia(Media $media): self
+    {
+        if ($this->medias->contains($media)) {
+            $this->medias->removeElement($media);
+            // set the owning side to null (unless already changed)
+            if ($media->getUploader() === $this) {
+                $media->setUploader(null);
+            }
+        }
         return $this;
     }
 }

@@ -259,15 +259,14 @@ class MusicController extends Controller
         else{
             $em = $this->getDoctrine()->getManager();
             $song = $em->getRepository('App:Song')->find($id);
-
+            
+            if (!$song) {
+                throw $this->createNotFoundException('Aucun son trouvé pour id: ' . $id);
+            }
             // Security check
             if ($user != $song->getUploader() || !$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
                 // else error page
                 throw new AccessDeniedException('Tu ne peux pas supprimer un son que tu n\as pas importé narvalo !');
-            }
-            
-            if (!$song) {
-                throw $this->createNotFoundException('Aucun son trouvé pour id: ' . $song);
             }
 
             $em->remove($song);

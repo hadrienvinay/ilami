@@ -280,23 +280,21 @@ class EventController extends Controller
         else{
             $em = $this->getDoctrine()->getManager();
             $event = $em->getRepository('App:Event')->find($id);
-            
+            if (!$event) {
+                throw $this->createNotFoundException('Aucun event trouvé pour id: ' . $event);
+            }
             // Security check
             if ($user != $event->getCreator()) {
                 // else error page
                 throw new AccessDeniedException('Tu ne peux pas supprimer un évènement que tu n\'as pas crée narvalo !');
             }
-            if (!$event) {
-                throw $this->createNotFoundException('Aucun event trouvé pour id: ' . $event);
-            }
-            else{
-                $em->remove($event);
-                $em->flush();
+            
+            $em->remove($event);
+            $em->flush();
 
-                $request->getSession()->getFlashBag()->add('success', 'Evènement supprimé avec succès !');
+            $request->getSession()->getFlashBag()->add('success', 'Evènement supprimé avec succès !');
 
-                return $this->redirectToRoute('resume');
-            }
+            return $this->redirectToRoute('resume');
         }
     }
 

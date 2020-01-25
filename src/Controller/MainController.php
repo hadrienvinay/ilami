@@ -54,7 +54,8 @@ class MainController extends Controller
             $recommandationRepo = $em->getRepository('App:Recommandation');
             $recommandations = $recommandationRepo->findAll();
             $nbRecommandations = $recommandationRepo->countAll();
-
+            $mediaRepo = $em->getRepository('App:Media');
+            $nbMedias = $mediaRepo->countAll();
             
             //retreive all updates
             $infos = array();
@@ -134,6 +135,7 @@ class MainController extends Controller
                 'nbAlbums' => $nbAlbums,
                 'nbPictures' => $nbPictures,
                 'nbSongs' => $nbSongs,
+                'nbMedias' => $nbMedias,
                 'nbRecommandations' => $nbRecommandations,
                 'eventForm' => $eventForm->createView(),
                 'albumForm' => $albumForm->createView(),

@@ -5,12 +5,13 @@ namespace App\Controller;
 use App\Form\UserType;
 use App\Form\RecommandationType;
 use App\Form\JobType;
+use App\Form\MediaType;
 use App\Form\PictureType;
 use App\Form\SongType;
 use App\Form\EventType;
 use App\Service\GeocoderService;
-use App\Entity\ProfilePicture;
 use App\Entity\Recommandation;
+use App\Entity\Media;
 use App\Entity\Job;
 use App\Entity\Song;
 use App\Entity\Picture;
@@ -89,6 +90,9 @@ class ProfilController extends Controller
             //recommandation form
             $recommandation = new Recommandation();
             $recommandationform = $this->get('form.factory')->create(RecommandationType::class, $recommandation);
+            //recommandation form
+            $media = new Media();
+            $mediaForm = $this->get('form.factory')->create(MediaType::class, $media);
             //Event Form
             $event = new Event();
             $event->setAddress($user->getAddress());
@@ -109,6 +113,7 @@ class ProfilController extends Controller
                 'pictureForm' => $pictureForm->createView(),
                 'songForm' => $songForm->createView(),
                 'recommandationForm' => $recommandationform->createView(),
+                'mediaForm' => $mediaForm->createView(),
                 'eventForm' => $eventForm->createView(),
                 'passwordForm' => $passwordForm->createView(),
                 'notificationList' => $notificationList

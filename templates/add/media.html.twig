@@ -1,13 +1,13 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Son - Ajout {% endblock %}
+{% block title %}Recommandation - Ajout {% endblock %}
 
 {% block body %}
 <br>
     <div class="container main-container">
-        <h2 class="text-center">Un p'tit nouveau morceau</h2>
+        <h2 class="text-center">Un p'tit nouveau média</h2>
         <br>
-        {{ form_start(form, {'method': 'post', 'action': path('add_song')}) }}
+        {{ form_start(form, {'method': 'post', 'action': path('add_media')}) }}
         {{ form_widget(form, {'attr': {'class': 'form-group'}}) }}
         <div class="form-group text-center">
             <input class=" btn btn-primary btn-md login-button" type="submit" value="Ajouter" />

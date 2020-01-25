@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Recommandation;
+use App\Entity\Media;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -10,22 +10,22 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 
-class RecommandationType extends AbstractType
+class MediaType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name',TextType::class, array(
-                    'attr'=>array('placeholder'=> 'Cristaaal Bar / Pizza Hut', 'class'=> 'form-control'),
-                    'label' => 'Nom')
+            ->add('title',TextType::class, array(
+                    'attr'=>array('placeholder'=> 'Hymne Ligue des Champions, Documentaire sur les suricates...', 'class'=> 'form-control'),
+                    'label' => 'Titre')
             )
-            ->add('address',TextType::class, array(
-                    'attr'=>array('placeholder'=> 'Paris', 'class'=> 'form-control'),
-                    'label' => 'Lieu')
+            ->add('link',TextType::class, array(
+                    'attr'=>array('placeholder'=> 'https://youtube.com/watch?xyzabc', 'class'=> 'form-control'),
+                    'label' => 'Lien')
             )
             ->add('type',ChoiceType::class, array(
                     'attr'=>array('placeholder'=> 'Nom', 'class'=> 'form-control'),
-                    'choices' => array('Bar 🍻' => 'bar', 'Boite 💃' => 'club', 'Restaurant 🍽️' => 'restaurant'),
+                    'choices' => array('Sciences 👨‍🔬' => 'sciences', 'Fun 😂' => 'fun', 'Sport ⚽' => 'sport', 'Autre 🙄' => 'other'),
                     'label' => 'Type')
             )
         ;
@@ -34,7 +34,7 @@ class RecommandationType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Recommandation::class,
+            'data_class' => Media::class,
         ]);
     }
 }

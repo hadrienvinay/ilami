@@ -165,7 +165,7 @@
                                 <p>{% if user.job != null%}{{ user.job.companyName }}{% else %}Chômage{% endif %}</p>
                             </div>
                         </div>
-                            <div class="row">
+                        <div class="row">
                             <div class="col-md-4">
                                 <label>📝 C'est quoi?</label>
                             </div>
@@ -181,6 +181,48 @@
                                 <p>{% if user.job != null%}{{ user.job.address }}{% else %}{{user.address}}{% endif %}</p>
                             </div>
                         </div>
+                        <hr>
+                         {% if app.user.id == user.id %}
+                            <small class="d-block text-right mt-3">
+                               <a href="{{ path('add_media') }}" class="btn-sm btn-outline-success no-decoration add-media">
+                                    <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                                    Ajouter un média
+                               </a>
+                            </small>
+                        {% endif %}
+                        {% if user.medias is empty %}
+                            <p class="text-center">
+                                Aucun média 😥
+                            </p>
+                        {% else %}
+                            <div class="text-center">
+                                Mes p'tits liens 💡
+                            </div>
+                            {% for media in user.medias|slice(0,10)|sort((a, b) => a.createddate <=> b.createddate)%}
+                                <div class="media text-muted pt-3">
+                                    {% if media.type == "sciences" %}
+                                        <span style="font-size:2em;">👨‍🔬</span>
+                                    {% elseif media.type == "fun"  %}
+                                        <span style="font-size:2em;">😂</span>
+                                    {% elseif media.type == "sport"  %}
+                                        <span style="font-size:2em;">⚽</span>
+                                    {% else %}
+                                        <span style="font-size:2em;">🙄</span>
+                                    {% endif %}
+                                    <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                        <a href="{{ media.link }}">
+                                            <strong class="d-block text-gray-dark">{{ media.title }}</strong>
+                                        </a>
+                                        {{ media.createddate|time_diff() }}
+                                    </p>
+                                    {% if app.user.id == user.id %}
+                                        <a id="delete_media{{ media.id }}" class="btn-sm btn-outline-danger no-decoration delete-media" href="{{ path('delete_media',{'id': media.id}) }}">
+                                           <span class="fa fa-trash"></span> 
+                                        </a>
+                                    {% endif %}
+                               </div>
+                            {% endfor %} 
+                        {% endif %}
                     </div>
                     <div class="tab-pane fade" id="photos" role="tabpanel" aria-labelledby="photos-tab">
                         {% if app.user.id == user.id %}
@@ -410,6 +452,31 @@
             </div>
         </div>
     </div>
+       
+    <!-- Modal add a media -->
+    <div id="addMediaModal" class="modal" role="dialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title">Ajout d'un P'tit Média</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+               <div class="modal-body">
+                   {{ form_start(mediaForm, {'method': 'post', 'action': path('add_media')}) }}
+                   {{ form_widget(mediaForm, {'attr': {'class': 'form-group'}}) }}
+               </div>
+                <div class="modal-footer">
+                   <div class="form-group middle">
+                       <input class=" btn btn-primary" type="submit" value="Ajouter" />
+                   </div>
+                   {{ form_rest(mediaForm) }}
+                   {{ form_end(mediaForm) }}
+               </div>
+            </div>
+        </div>
+    </div>
                
     <!-- Modal add an event -->
     <div id="addEventModal" class="modal" role="dialog" tabindex="-1" aria-hidden="true">
@@ -501,6 +568,27 @@
             </div>
         </div>
     </div>
+    
+    <!-- Modal delete an event-->
+    <div id="deleteMediaModal" class="modal" role="dialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title">Suppression d'un média</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+               <div class="modal-body">
+                   <p>Vous allez supprimer ce média </p>
+                   <p>Etes-vous sur?</p>
+               </div>
+               <div class="modal-footer">
+                   <a href="" id="btnYes4" class="btn btn-danger" data="">Oui</a>
+                   <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Non</a>
+               </div>
+            </div>
+        </div>
                                     
     <script>
          $(document).ready(function() {
@@ -511,16 +599,6 @@
             
             //popover
             $('[data-toggle="popover"]').popover();
-            
-            var modal = document.getElementById("updateModal");
-            var modal2 = document.getElementById("addPictureModal");
-            var modal3 = document.getElementById("addSongModal");
-            var modal4 = document.getElementById("addJobModal");
-            var modal5 = document.getElementById("addRecommandationModal");
-            var modal6 = document.getElementById("addEventModal");
-            var modal7 = document.getElementById("deletePictureModal");
-            var modal8 = document.getElementById("deleteSongModal");
-            var modal9 = document.getElementById("deleteEventModal");
 
             $('.update-profil').on('click', function(e) {
                 e.preventDefault();
@@ -541,6 +619,10 @@
             $('.add-recommandation').on('click', function(e) {
                 e.preventDefault();
                 $('#addRecommandationModal').modal('show');
+            });
+            $('.add-media').on('click', function(e) {
+                e.preventDefault();
+                $('#addMediaModal').modal('show');
             });
             $('.add-event').on('click', function(e) {
                 e.preventDefault();
@@ -570,37 +652,14 @@
                 $('#btnYes3').attr("data",id);
                 $('#deleteEventModal').modal('show');
             });
-                        
-             // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function(event) {
-              if (event.target == modal) {
-                modal.style.display = "none";
-              }
-              if (event.target == modal2) {
-                modal2.style.display = "none";
-              }
-              if (event.target == modal3) {
-                modal3.style.display = "none";
-              }
-              if (event.target == modal4) {
-                modal4.style.display = "none";
-              }
-              if (event.target == modal5) {
-                modal5.style.display = "none";
-              }
-              if (event.target == modal6) {
-                modal6.style.display = "none";
-              }
-              if (event.target == modal7) {
-                modal7.style.display = "none";
-              }
-              if (event.target == modal8) {
-                modal8.style.display = "none";
-              }
-              if (event.target == modal9) {
-                modal9.style.display = "none";
-              }
-            };
+            $('.delete-media').on('click', function(e) {
+                e.preventDefault();
+                var href = $(this).attr("href");
+                var id = $(this).attr("id");
+                $('#btnYes4').attr("href",href);
+                $('#btnYes4').attr("data",id);
+                $('#deleteMediaModal').modal('show');
+            });
 
             var popup_btn = $('.popup-btn');
             popup_btn.magnificPopup({

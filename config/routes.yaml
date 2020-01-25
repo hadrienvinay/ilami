@@ -35,8 +35,7 @@ add_recommandation:
 add_job:
   path: /add/job
   controller: App\Controller\ProfilController::addJob
-  
-    
+
 fos_user_profile_show:
     path: /profile
     controller: App\Controller\ProfilController::redirectToProfil
@@ -54,6 +53,22 @@ calendar:
 resume:
     path: /resume
     controller: App\Controller\ResumeController::resume
+    
+#######################
+#     Media routes    #
+#######################
+media:
+    path: /media
+    controller: App\Controller\MediaController::media
+
+add_media:
+  path: /add/media
+  controller: App\Controller\MediaController::addMedia
+
+delete_media:
+    path: /delete/media/{id}
+    controller: App\Controller\MediaController:deleteMedia
+
 
 #######################
 #      Map routes     #
