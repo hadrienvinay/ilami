@@ -14,7 +14,7 @@
                 </a>
             </small>
             <h6 class="border-bottom border-gray pb-2 mb-0">Les p'tits sons du moment</h6>
-            {% for song in songs|sort((a, b) => a.createddate <=> b.createddate)%}
+            {% for song in songs|sort((a, b) => b.createddate <=> a.createddate)%}
                 <div class="media text-muted pt-3">
                     <img alt="Musique" class="mr-2 rounded" style="width: 32px; height: 32px;" src="{{ asset('build/images/musique/soundcloud.png') }}">
                     <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">

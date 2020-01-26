@@ -204,6 +204,7 @@
                                 {% elseif info.type == "Picture" %}📸️
                                 {% elseif info.type == "Song" %}🎸
                                 {% elseif info.type == "Recommandation" %}⭐
+                                {% elseif info.type == "Media" %}📺
                                 {% endif %}
                             </span>
 
@@ -313,6 +314,13 @@
                             </a>
                         </div>
                     </li>
+                    <li>
+                        <div class="d-block">
+                            <a class="add-media" href="{{ path('add_media') }}">
+                                💡 Add média
+                            </a>
+                        </div>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -419,6 +427,30 @@
             </div>
         </div>
     </div>
+               <!-- Modal add an event -->
+    <div id="addMediaModal" class="modal" role="dialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title">Ajout d'un P'tit Média 💡</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+               <div class="modal-body">
+                   {{ form_start(mediaForm, {'method': 'post', 'action': path('add_media')}) }}
+                   {{ form_widget(mediaForm, {'attr': {'class': 'form-group'}}) }}
+               </div>
+                <div class="modal-footer">
+                   <div class="form-group middle">
+                       <input class=" btn btn-primary" type="submit" value="Ajouter" />
+                   </div>
+                   {{ form_rest(mediaForm) }}
+                   {{ form_end(mediaForm) }}
+               </div>
+            </div>
+        </div>
+    </div>
       
        <script>
            $(document).ready(function(){
@@ -434,12 +466,6 @@
                   alert('Click Click !');
                  });
                 $('.fc-scroller').addClass("home_fc-scroller");
-                
-                //modal actions
-                var modal = document.getElementById("addEventModal");
-                var modal2 = document.getElementById("addAlbumModal");
-                var modal3 = document.getElementById("addPictureModal");
-                var modal4 = document.getElementById("addSongModal");
                 
                 $('.add-event').on('click', function(e) {
                     e.preventDefault();
@@ -459,6 +485,10 @@
                 $('.add-song').on('click', function(e) {
                     e.preventDefault();
                     $('#addSongModal').modal('show');
+                });
+                $('.add-media').on('click', function(e) {
+                    e.preventDefault();
+                    $('#addMediaModal').modal('show');
                 });
            });
           

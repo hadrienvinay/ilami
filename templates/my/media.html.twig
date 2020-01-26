@@ -16,7 +16,7 @@
             <h6 class="border-bottom border-gray pb-2 mb-0">Les p'tits médias uploadés 📰</h6>
             <div class="row">
                 {% for media in medias|sort((a, b) => a.createddate <=> b.createddate)%}
-                    <div class="media text-muted pt-3 col-md-6">
+                    <div class="media text-muted pt-3 col-md-6 col-lg-4">
                         {% if media.type == "sciences" %}
                             <span style="font-size:2em;">👨‍🔬</span>
                         {% elseif media.type == "fun"  %}
@@ -27,7 +27,7 @@
                             <span style="font-size:2em;">🙄</span>
                         {% endif %}                    
                         <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                            <a href="{{ media.link }}">
+                            <a target="_blank" rel="noopener noreferrer" href="{{ media.link }}">
                                 <strong class="d-block text-gray-dark">{{ media.title }} </strong>
                             </a>
                             Mis en ligne par {{ media.uploader}},  {{ media.createddate|time_diff() }}

@@ -12,10 +12,12 @@ use App\Entity\Event;
 use App\Entity\Album;
 use App\Entity\Picture;
 use App\Entity\Song;
+use App\Entity\Media;
 use App\Form\EventType;
 use App\Form\AlbumType;
 use App\Form\PictureType;
 use App\Form\SongType;
+use App\Form\MediaType;
 use DateTime;
 
 class MainController extends Controller
@@ -26,7 +28,6 @@ class MainController extends Controller
     public function index(Request $request, PaginatorInterface $paginator)
     {
         $user=$this->getUser();
-        $date = date('Y-m-d');
         //check if user is connected
         if(!$user) {
             return $this->redirectToRoute('fos_user_security_login');
@@ -39,7 +40,7 @@ class MainController extends Controller
       
             $em = $this->getDoctrine()->getManager();
             $eventsRepo = $em->getRepository('App:Event');
-            $events = $eventsRepo->findByDate($date);
+            $events = $eventsRepo->findAll();
             $usersRepo = $em->getRepository('App:User');
             $users = $usersRepo->findAll();
             $albumsRepo = $em->getRepository('App:Album');
@@ -55,6 +56,7 @@ class MainController extends Controller
             $recommandations = $recommandationRepo->findAll();
             $nbRecommandations = $recommandationRepo->countAll();
             $mediaRepo = $em->getRepository('App:Media');
+            $medias = $mediaRepo->findAll();
             $nbMedias = $mediaRepo->countAll();
             
             //retreive all updates
@@ -89,6 +91,10 @@ class MainController extends Controller
             }
             foreach($recommandations as $recommandation){
                     $new = array("name" => $recommandation->getUser()->getUsername(),"date"=>$recommandation->getCreatedDate(),"description"=>"a ajouté une recommandation : ".$recommandation->getName(),"link"=>"profile",'link_attr'=>$recommandation->getUser()->getId(),"type"=>"Recommandation");
+                    array_push($infos,$new);
+            }
+            foreach($medias as $media){
+                    $new = array("name" => $media->getUploader()->getUsername(),"date"=>$media->getCreatedDate(),"description"=>"a ajouté un média : ".$media->getTitle(),"link"=>"media","type"=>"Media");
                     array_push($infos,$new);
             }
             
@@ -126,6 +132,9 @@ class MainController extends Controller
             //add song form
             $song = new Song();
             $songForm = $this->get('form.factory')->create(SongType::class, $song);
+            //add song form
+            $media = new Media();
+            $mediaForm = $this->get('form.factory')->create(MediaType::class, $media);
             
             return $this->render('main/body.html.twig', array(
                 'user' => $user,
@@ -141,6 +150,7 @@ class MainController extends Controller
                 'albumForm' => $albumForm->createView(),
                 'pictureForm' => $pictureForm->createView(),
                 'songForm' => $songForm->createView(),
+                'mediaForm' => $mediaForm->createView(),
                 'notificationList' => $notificationList,
 
             ));

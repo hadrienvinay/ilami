@@ -13,8 +13,6 @@ require('../css/app.css');
 
 
 $(document).ready(function(){
-    console.log(document.body.scrollHeight );
-    console.log(window.screen.height );
     if(document.body.scrollHeight+45 < window.screen.height) {
             $(".footer").css("position","fixed");
         }

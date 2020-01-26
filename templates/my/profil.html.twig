@@ -198,7 +198,7 @@
                             <div class="text-center">
                                 Mes p'tits liens 💡
                             </div>
-                            {% for media in user.medias|slice(0,10)|sort((a, b) => a.createddate <=> b.createddate)%}
+                            {% for media in user.medias|slice(0,10)|sort((a, b) => b.createddate <=> a.createddate)%}
                                 <div class="media text-muted pt-3">
                                     {% if media.type == "sciences" %}
                                         <span style="font-size:2em;">👨‍🔬</span>
@@ -210,7 +210,7 @@
                                         <span style="font-size:2em;">🙄</span>
                                     {% endif %}
                                     <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                                        <a href="{{ media.link }}">
+                                        <a target="_blank" rel="noopener noreferrer" href="{{ media.link }}">
                                             <strong class="d-block text-gray-dark">{{ media.title }}</strong>
                                         </a>
                                         {{ media.createddate|time_diff() }}
@@ -241,7 +241,7 @@
                             <br>    
                         {% endif %}
                         <div class="portfolio-item row">
-                            {% for picture in user.pictures|slice(0,20) %}
+                            {% for picture in user.pictures|sort((a, b) => b.createddate <=> a.createddate)|slice(0,20) %}
                                 <div class="item selfie col-lg-3 col-md-4 col-6 col-sm">
                                       <a class="fancylight popup-btn" href="{{ asset('build/images/gallery/' ~ picture.fileName )}}">
                                         <img src="{{asset('build/images/gallery/' ~ picture.fileName )}}" alt="{{ picture.description }}" class="img-fluid">
@@ -270,7 +270,7 @@
                                 Aucun sons 😥
                             </p>
                         {% endif %}
-                        {% for song in user.songs|slice(0,10)|sort((a, b) => a.createddate <=> b.createddate)%}
+                        {% for song in user.songs|slice(0,12)|sort((a, b) => b.createddate <=> a.createddate)%}
                             <div class="media text-muted pt-3">
                                 <img alt="Musique" class="mr-2 rounded" style="width: 32px; height: 32px;" src="{{ asset('build/images/musique/soundcloud.png') }}">
                                 <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
@@ -303,7 +303,7 @@
                                 Aucun evènements 😥
                             </p>
                         {% endif %}
-                        {% for event in user.eventCreated|slice(0,10)|sort((a, b) => a.startDate <=> b.startDate)%}
+                        {% for event in user.eventCreated|slice(0,10)|sort((a, b) => b.startDate <=> a.startDate)%}
                             <div class="media text-muted pt-3">
                                 <img alt="{{ event.name }}" class="mr-2 rounded" style="width: 32px; height: 32px;" src="{{ asset('build/images/dashboard/event.jpg') }}">
                                 <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">

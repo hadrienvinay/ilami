@@ -28,7 +28,6 @@ class EventRepository extends ServiceEntityRepository
             ->andWhere('e.startDate >= :val')
             ->setParameter('val', $date)
             ->orderBy('e.startDate', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;

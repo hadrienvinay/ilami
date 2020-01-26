@@ -781,6 +781,7 @@ class AppFixtures extends Fixture
         $recommandation0->setAddress('163 Avenue de Suffren, 75015 Paris');
         $recommandation0->setLatitude("48.845900");
         $recommandation0->setLongitude("2.309620");
+        $recommandation0->setCreatedDate(new \DateTime);
         $manager->persist($recommandation0);
         
         $recommandation1= new Recommandation();
@@ -790,6 +791,7 @@ class AppFixtures extends Fixture
         $recommandation1->setAddress('Montparnasse, Paris, 75015');
         $recommandation1->setLatitude("48.837273");
         $recommandation1->setLongitude("2.335387");
+        $recommandation1->setCreatedDate(new \DateTime);
         $manager->persist($recommandation1);
         
         $recommandation2= new Recommandation();
@@ -799,6 +801,7 @@ class AppFixtures extends Fixture
         $recommandation2->setAddress('90 Rue des Entrepreneurs, 75015 Paris');
         $recommandation2->setLatitude("48.844110");
         $recommandation2->setLongitude("2.291730");
+        $recommandation2->setCreatedDate(new \DateTime);
         $manager->persist($recommandation2);
         
         //Album Fixtures
@@ -824,7 +827,7 @@ class AppFixtures extends Fixture
         $manager->persist($album2);
         
         //Pictures Fixtures
-        for($i=0;$i<31;$i++){
+        for($i=0;$i<32;$i++){
             $picture = new Picture();
             $picture->setAlbum($album1);
             $picture->setCreatedDate(new \DateTime);
@@ -834,7 +837,7 @@ class AppFixtures extends Fixture
             $manager->persist($picture);
         }
         
-        for($i=0;$i<12;$i++){
+        for($i=0;$i<15;$i++){
             $picture = new Picture();
             $picture->setAlbum($album2);
             $picture->setCreatedDate(new \DateTime);

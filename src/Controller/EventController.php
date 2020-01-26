@@ -112,7 +112,6 @@ class EventController extends Controller
             $event->setEndDate(new \DateTime());
             $event->setName("Soirée chez ".$user->getUsername());
 
-
             if (!is_null($start) and !is_null($end))
             {
                 $event->setStartDate(new \DateTime(date('Y-m-d H:i:s', $start/1000)));
