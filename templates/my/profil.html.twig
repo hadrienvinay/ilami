@@ -3,327 +3,329 @@
 {% block title %}Profil - {{ user.prename }} {{ user.name }} 😄{% endblock %}
 
 {% block body %}
-<br>
-    <div class="container main-container">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="profile-img text-center">
-                    <img src="{{asset('build/images/profile/' ~ user.username ~ '.jpg')}}" alt="{{ user.username }}" style="border-radius:5%; width: 45%;height: 100%;">
-                </div>
-            </div>
-            <div class="col-md-8">
-                <div class="profile-head">
-                    <div class="" style="float:right;">
-                        <a {% if user.id+1 %}href="{{path('profile',{'id' : (user.id+1)}) }}"{% else %} href="{{path('profile',{'id' : (user.id-19)}) }}" {% endif %} class="btn-sm btn-outline-success no-decoration">
-                                Suivant 👉
-                        </a>
-                        {% if app.user.id == user.id %}
-                            <br>
-                            <a href="{{path('modify_profile',{'id' : user.id}) }}" class="btn-sm btn-outline-primary no-decoration update-profil">
-                                <i class="fa fa-edit" aria-hidden="true"></i>
-                                Modifier mon profil
-                            </a>
-                                <br>
-                            <a href="{{path('fos_user_change_password') }}" class="btn-sm btn-outline-primary no-decoration update-password" style="font-size:0.6rem;">
-                                <i class="fa fa-edit" aria-hidden="true"></i>
-                                Changer mon mot de passe
-                            </a>
-                        {% endif %}
+    
+    <div class="page-content row">
+        <div class="panel-content">
+            <div class="row">
+                <div class="col-md-4" style="margin: auto;">
+                    <div class="profile-img text-center">
+                        <img class="profile-picture" src="{{asset('build/images/profile/' ~ user.username ~ '.jpg')}}" alt="{{ user.username }}">
                     </div>
-                    <h3 class="text-center col-md-8">
-                        {{ user.prename }} {{ user.name }} {% if user.sexe=="M" %}💁‍♂️{% else %}💁{% endif %}
-                    </h3>
-                    <h6>
-                        👉️ {{ user.status }} 👈
-                    </h6>
-                    <h6>
-                        🎂 Anniversaire le {{ user.birthDate|date('d/m/Y') }} 🎂
-                    </h6>
-                    <ul class="nav nav-tabs" id="myTab" role="tablist" >
-                        <li class="nav-item">
-                            <a class="nav-link active" id="infos-tab" data-toggle="tab" href="#infos" role="tab" aria-controls="infos" aria-selected="true">
-                                Mes Infos 🙉
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="photos-tab" data-toggle="tab" href="#photos" role="tab" aria-controls="photos" aria-selected="false">
-                                Mes Photos 🏖️
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="musics-tab" data-toggle="tab" href="#musics" role="tab" aria-controls="musics" aria-selected="false">
-                                Mes Musiques 🎧
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="events-tab" data-toggle="tab" href="#events" role="tab" aria-controls="events" aria-selected="false">
-                                Mes Events 🧑‍🤝‍🧑
-                            </a>
-                        </li>
-                    </ul>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="profile-work">
-                    <table class="fc-list-table middle">
-                        <thead>
-                            <tr class="fc-list-heading text-center">
-                                <td class="fc-widget-header" colspan="3">
-                                    <span class="fc-list-heading-main">
-                                    ⭐ Bonnes adresses :
-                                    </span>
-                                </td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% if user.recommandations is empty %}
-                                <td class="fc-list-item-title fc-widget-content">
-                                    <i>
-                                        Aucune recommandations
-                                    </i> 
-                                    😥
-                                </td>
-                            {% else %}
-                                {% for recommandation in user.recommandations| slice(0,8)%}
-                                    <tr class="fc-list-item" >
-                                        <td class="fc-list-item-time fc-widget-content">
-                                            {{ loop.index }}.
-                                        </td>
-                                        <td class="fc-list-item-marker fc-widget-content">
-                                            {% if recommandation.type == "bar" %}
-                                                🍻
-                                            {% elseif recommandation.type == "restaurant"  %}
-                                                🍽️
-                                            {% else %}
-                                                💃
-                                            {% endif %}
-                                        </td>
-                                        <td class="fc-list-item-title fc-widget-content help">
-                                            <a data-container="body" data-toggle="popover" data-placement="right" data-content=" Adresse : {{ recommandation.address }}" title="{{ recommandation.type }}">
-                                                {{ recommandation.name }}
-                                            </a>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            {% endif %}
-                        </tbody>
-                    </table>
-                    {% if app.user.id == user.id %}
-                        <small class="d-block text-left mt-3">
-                           <a href="{{ path('add_recommandation') }}" class="btn-sm btn-outline-success no-decoration add-recommandation">
-                                <i class="fa fa-plus-square-o" aria-hidden="true"></i>
-                               Ajouter une bonne adresse
-                           </a>
-                       </small>
-                   {% endif %}
-                </div>
-            </div>
-            <div class="col-md-8">
-                <div class="tab-content profile-tab" id="myTabContent">
-                    <div class="tab-pane fade show active" id="infos" role="tabpanel" aria-labelledby="infos-tab">
-                        <br>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>👓 User Id</label>
-                            </div>
-                            <div class="col-md-8">
-                                <p>{{ user.id }}</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>📧 Mail</label>
-                            </div>
-                            <div class="col-md-8">
-                                <p>{{ user.email }}</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>📞 Téléphone</label>
-                            </div>
-                            <div class="col-md-8">
-                                <p>{{ user.phone }}</p>
-                            </div>
-                        </div>
-                        <hr>
-                        {% if app.user.id == user.id %}
-                            <small class="d-block text-right mt-3">
-                               <a  href="{{ path('add_job') }}" class="btn-sm btn-outline-success no-decoration add-job">
+                <div class="col-md-8">
+                    <div class="profile-head">
+                        <div class="" style="float:right;">
+                            <a {% if user.id+1 %}href="{{path('profile',{'id' : (user.id+1)}) }}"{% else %} href="{{path('profile',{'id' : (user.id-19)}) }}" {% endif %} class="btn-sm btn-outline-success no-decoration">
+                                    Suivant 👉
+                            </a>
+                            {% if app.user.id == user.id %}
+                                <br>
+                                <a href="{{path('modify_profile',{'id' : user.id}) }}" class="btn-sm btn-outline-primary no-decoration update-profil">
                                     <i class="fa fa-edit" aria-hidden="true"></i>
-                                    {% if user.job != null %}Modifier mon job{% else %}Ajouter un job{% endif %}
+                                    Modifier mon profil
+                                </a>
+                                    <br>
+                                <a href="{{path('fos_user_change_password') }}" class="btn-sm btn-outline-primary no-decoration update-password" style="font-size:0.6rem;">
+                                    <i class="fa fa-edit" aria-hidden="true"></i>
+                                    Changer mon mot de passe
+                                </a>
+                            {% endif %}
+                        </div>
+                        <h3 class="text-center col-md-8">
+                            {{ user.prename }} {{ user.name }} {% if user.sexe=="M" %}💁‍♂️{% else %}💁{% endif %}
+                        </h3>
+                        <h6>
+                            👉️ {{ user.status }} 👈
+                        </h6>
+                        <h6>
+                            🎂 Anniversaire le {{ user.birthDate|date('d/m/Y') }} 🎂
+                        </h6>
+                        <ul class="nav nav-tabs" id="myTab" role="tablist" >
+                            <li class="nav-item">
+                                <a class="nav-link active" id="infos-tab" data-toggle="tab" href="#infos" role="tab" aria-controls="infos" aria-selected="true">
+                                    Mes Infos 🙉
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="photos-tab" data-toggle="tab" href="#photos" role="tab" aria-controls="photos" aria-selected="false">
+                                    Mes Photos 🏖️
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="musics-tab" data-toggle="tab" href="#musics" role="tab" aria-controls="musics" aria-selected="false">
+                                    Mes Musiques 🎧
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="events-tab" data-toggle="tab" href="#events" role="tab" aria-controls="events" aria-selected="false">
+                                    Mes Events 🧑‍🤝‍🧑
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="profile-work">
+                        <table class="fc-list-table middle">
+                            <thead>
+                                <tr class="fc-list-heading text-center">
+                                    <td class="fc-widget-header" colspan="3">
+                                        <span class="fc-list-heading-main">
+                                        ⭐ Bonnes adresses :
+                                        </span>
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if user.recommandations is empty %}
+                                    <td class="fc-list-item-title fc-widget-content text-center">
+                                        <i>
+                                            Aucune recommandations
+                                        </i> 
+                                        😥
+                                    </td>
+                                {% else %}
+                                    {% for recommandation in user.recommandations| slice(0,8)%}
+                                        <tr class="fc-list-item" >
+                                            <td class="fc-list-item-time fc-widget-content">
+                                                {{ loop.index }}.
+                                            </td>
+                                            <td class="fc-list-item-marker fc-widget-content">
+                                                {% if recommandation.type == "bar" %}
+                                                    🍻
+                                                {% elseif recommandation.type == "restaurant"  %}
+                                                    🍽️
+                                                {% else %}
+                                                    💃
+                                                {% endif %}
+                                            </td>
+                                            <td class="fc-list-item-title fc-widget-content help">
+                                                <a data-container="body" data-toggle="popover" data-placement="right" data-content=" Adresse : {{ recommandation.address }}" title="{{ recommandation.type }}">
+                                                    {{ recommandation.name }}
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endif %}
+                            </tbody>
+                        </table>
+                        {% if app.user.id == user.id %}
+                            <small class="d-block text-left mt-3">
+                               <a href="{{ path('add_recommandation') }}" class="btn-sm btn-outline-success no-decoration add-recommandation">
+                                    <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                                   Ajouter une bonne adresse
                                </a>
                            </small>
                        {% endif %}
-                         <div class="row">
-                           <div class="col-md-4">
-                                <label>🏢 Travaille chez</label>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="tab-content profile-tab" id="myTabContent">
+                        <div class="tab-pane fade show active" id="infos" role="tabpanel" aria-labelledby="infos-tab">
+                            <br>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>👓 User Id</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>{{ user.id }}</p>
+                                </div>
                             </div>
-                            <div class="col-md-8">
-                                <p>{% if user.job != null%}{{ user.job.companyName }}{% else %}Chômage{% endif %}</p>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>📧 Mail</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>{{ user.email }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>📞 Téléphone</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>{{ user.phone }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            {% if app.user.id == user.id %}
+                                <small class="d-block text-right mt-3">
+                                   <a  href="{{ path('add_job') }}" class="btn-sm btn-outline-success no-decoration add-job">
+                                        <i class="fa fa-edit" aria-hidden="true"></i>
+                                        {% if user.job != null %}Modifier mon job{% else %}Ajouter un job{% endif %}
+                                   </a>
+                               </small>
+                           {% endif %}
+                             <div class="row">
+                               <div class="col-md-4">
+                                    <label>🏢 Travaille chez</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>{% if user.job != null%}{{ user.job.companyName }}{% else %}Chômage{% endif %}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>📝 C'est quoi?</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>{% if user.job != null%}{{ user.job.description }}{% else %}Ca chill en masseee{% endif %}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    🗺️ <label>C'est où?</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>{% if user.job != null%}{{ user.job.address }}{% else %}{{user.address}}{% endif %}</p>
+                                </div>
+                            </div>
+                            <hr>
+                             {% if app.user.id == user.id %}
+                                <small class="d-block text-right mt-3">
+                                   <a href="{{ path('add_media') }}" class="btn-sm btn-outline-success no-decoration add-media">
+                                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                                        Ajouter un média
+                                   </a>
+                                </small>
+                            {% endif %}
+                            {% if user.medias is empty %}
+                                <p class="text-center">
+                                    Aucun média 😥
+                                </p>
+                            {% else %}
+                                <div class="text-center">
+                                    Mes p'tits liens 💡
+                                </div>
+                                {% for media in user.medias|slice(0,10)|sort((a, b) => b.createddate <=> a.createddate)%}
+                                    <div class="media text-muted pt-3">
+                                        {% if media.type == "sciences" %}
+                                            <span style="font-size:2em;">👨‍🔬</span>
+                                        {% elseif media.type == "fun"  %}
+                                            <span style="font-size:2em;">😂</span>
+                                        {% elseif media.type == "sport"  %}
+                                            <span style="font-size:2em;">⚽</span>
+                                        {% else %}
+                                            <span style="font-size:2em;">🙄</span>
+                                        {% endif %}
+                                        <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                            <a target="_blank" rel="noopener noreferrer" href="{{ media.link }}">
+                                                <strong class="d-block text-gray-dark">{{ media.title }}</strong>
+                                            </a>
+                                            {{ media.createddate|time_diff() }}
+                                        </p>
+                                        {% if app.user.id == user.id %}
+                                            <a id="delete_media{{ media.id }}" class="btn-sm btn-outline-danger no-decoration delete-media" href="{{ path('delete_media',{'id': media.id}) }}">
+                                               <span class="fa fa-trash"></span> 
+                                            </a>
+                                        {% endif %}
+                                   </div>
+                                {% endfor %} 
+                            {% endif %}
+                        </div>
+                        <div class="tab-pane fade" id="photos" role="tabpanel" aria-labelledby="photos-tab">
+                            {% if app.user.id == user.id %}
+                                <small class="d-block text-right mt-3">
+                                   <a href="{{ path('add_picture') }}" class="btn-sm btn-outline-success no-decoration add-picture">
+                                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                                        Ajouter une photo
+                                   </a>
+                                </small>
+                            {% endif %}
+                            {% if user.pictures is empty %}
+                                <p class="text-center">
+                                    Aucune photos 😥
+                                </p>
+                            {% else %}
+                                <br>    
+                            {% endif %}
+                            <div class="portfolio-item row">
+                                {% for picture in user.pictures|sort((a, b) => b.createddate <=> a.createddate)|slice(0,20) %}
+                                    <div class="item selfie col-lg-3 col-md-4 col-6 col-sm">
+                                          <a class="fancylight popup-btn" href="{{ asset('build/images/gallery/' ~ picture.fileName )}}">
+                                            <img src="{{asset('build/images/gallery/' ~ picture.fileName )}}" alt="{{ picture.description }}" class="img-fluid">
+                                            {% if app.user.id == user.id %}
+                                                <a id="delete_picture{{ picture.id }}" class="btn-sm btn-danger delete-picture" href="{{ path('delete_picture',{id:picture.id}) }}" style="position: absolute;top: 1%;left: 75%;">
+                                                    <span class="fa fa-trash"></span>
+                                                </a>
+                                            {% endif %}
+                                          </a>
+                                          <!--<div class="desc">{% if picture.description is not null%}{{ picture.description }}{% else %}Photo n°: {{ picture.id }}{% endif %}</div>-->
+                                    </div>
+                                {% endfor %}
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>📝 C'est quoi?</label>
-                            </div>
-                            <div class="col-md-8">
-                                <p>{% if user.job != null%}{{ user.job.description }}{% else %}Ca chill en masseee{% endif %}</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                🗺️ <label>C'est où?</label>
-                            </div>
-                            <div class="col-md-8">
-                                <p>{% if user.job != null%}{{ user.job.address }}{% else %}{{user.address}}{% endif %}</p>
-                            </div>
-                        </div>
-                        <hr>
-                         {% if app.user.id == user.id %}
-                            <small class="d-block text-right mt-3">
-                               <a href="{{ path('add_media') }}" class="btn-sm btn-outline-success no-decoration add-media">
-                                    <i class="fa fa-plus-square-o" aria-hidden="true"></i>
-                                    Ajouter un média
-                               </a>
-                            </small>
-                        {% endif %}
-                        {% if user.medias is empty %}
-                            <p class="text-center">
-                                Aucun média 😥
-                            </p>
-                        {% else %}
-                            <div class="text-center">
-                                Mes p'tits liens 💡
-                            </div>
-                            {% for media in user.medias|slice(0,10)|sort((a, b) => b.createddate <=> a.createddate)%}
+                        <div class="tab-pane fade" id="musics" role="tabpanel" aria-labelledby="musics-tab">
+                           {% if app.user.id == user.id %}
+                                <small class="d-block text-right mt-3">
+                                   <a href="{{ path('add_song') }}" class="btn-sm btn-outline-success no-decoration add-song">
+                                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                                        Ajouter une musique
+                                   </a>
+                               </small>
+                            {% endif %}
+                            {% if user.songs is empty %}
+                                <p class="text-center">
+                                    Aucun sons 😥
+                                </p>
+                            {% endif %}
+                            {% for song in user.songs|slice(0,12)|sort((a, b) => b.createddate <=> a.createddate)%}
                                 <div class="media text-muted pt-3">
-                                    {% if media.type == "sciences" %}
-                                        <span style="font-size:2em;">👨‍🔬</span>
-                                    {% elseif media.type == "fun"  %}
-                                        <span style="font-size:2em;">😂</span>
-                                    {% elseif media.type == "sport"  %}
-                                        <span style="font-size:2em;">⚽</span>
-                                    {% else %}
-                                        <span style="font-size:2em;">🙄</span>
-                                    {% endif %}
+                                    <img alt="Musique" class="mr-2 rounded" style="width: 32px; height: 32px;" src="{{ asset('build/images/musique/soundcloud.png') }}">
                                     <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                                        <a target="_blank" rel="noopener noreferrer" href="{{ media.link }}">
-                                            <strong class="d-block text-gray-dark">{{ media.title }}</strong>
-                                        </a>
-                                        {{ media.createddate|time_diff() }}
+                                        <audio id="audioPlayer{{loop.index}}" class="audio-player" controls="controls">
+                                            {#<source src="{{ song.fileName }}.ogg">#}
+                                            <source src="{{ asset("build/downloads/"~song.fileName )}}">
+                                        </audio> 
+                                            <strong class="d-block text-gray-dark">{{ song.fileName }}</strong>
+                                            {{ song.createddate|time_diff() }}
                                     </p>
                                     {% if app.user.id == user.id %}
-                                        <a id="delete_media{{ media.id }}" class="btn-sm btn-outline-danger no-decoration delete-media" href="{{ path('delete_media',{'id': media.id}) }}">
+                                        <a id="delete_song{{ song.id }}" class="btn-sm btn-outline-danger no-decoration delete-song" href="{{ path('delete_song',{'id': song.id}) }}">
                                            <span class="fa fa-trash"></span> 
                                         </a>
                                     {% endif %}
                                </div>
-                            {% endfor %} 
-                        {% endif %}
-                    </div>
-                    <div class="tab-pane fade" id="photos" role="tabpanel" aria-labelledby="photos-tab">
-                        {% if app.user.id == user.id %}
-                            <small class="d-block text-right mt-3">
-                               <a href="{{ path('add_picture') }}" class="btn-sm btn-outline-success no-decoration add-picture">
-                                    <i class="fa fa-plus-square-o" aria-hidden="true"></i>
-                                    Ajouter une photo
-                               </a>
-                            </small>
-                        {% endif %}
-                        {% if user.pictures is empty %}
-                            <p class="text-center">
-                                Aucune photos 😥
-                            </p>
-                        {% else %}
-                            <br>    
-                        {% endif %}
-                        <div class="portfolio-item row">
-                            {% for picture in user.pictures|sort((a, b) => b.createddate <=> a.createddate)|slice(0,20) %}
-                                <div class="item selfie col-lg-3 col-md-4 col-6 col-sm">
-                                      <a class="fancylight popup-btn" href="{{ asset('build/images/gallery/' ~ picture.fileName )}}">
-                                        <img src="{{asset('build/images/gallery/' ~ picture.fileName )}}" alt="{{ picture.description }}" class="img-fluid">
-                                        {% if app.user.id == user.id %}
-                                            <a id="delete_picture{{ picture.id }}" class="btn-sm btn-danger delete-picture" href="{{ path('delete_picture',{id:picture.id}) }}" style="position: absolute;top: 1%;left: 75%;">
-                                                <span class="fa fa-trash"></span>
-                                            </a>
-                                        {% endif %}
-                                      </a>
-                                      <!--<div class="desc">{% if picture.description is not null%}{{ picture.description }}{% else %}Photo n°: {{ picture.id }}{% endif %}</div>-->
+                            {% endfor %}                      
+                        </div>
+                        <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab">
+                            {% if app.user.id == user.id %}
+                                <small class="d-block text-right mt-3">
+                                   <a href="{{ path('add_event') }}" class="btn-sm btn-outline-success no-decoration add-event">
+                                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                                        Ajouter un event
+                                   </a>
+                               </small>
+                            {% endif %}
+                            {% if user.eventCreated is empty %}
+                                <p class="text-center">
+                                    Aucun evènements 😥
+                                </p>
+                            {% endif %}
+                            {% for event in user.eventCreated|slice(0,10)|sort((a, b) => b.startDate <=> a.startDate)%}
+                                <div class="media text-muted pt-3">
+                                    <img alt="{{ event.name }}" class="mr-2 rounded" style="width: 32px; height: 32px;" src="{{ asset('build/images/dashboard/event.jpg') }}">
+                                    <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                        <a href="{{ path('event',{id:event.id}) }}">
+                                            <strong class="d-block text-gray-dark">
+                                                {{ event.name }}
+                                            </strong>
+                                        </a>
+                                       du {{ event.startdate|date('d/m/Y') }} à {{ event.startdate|date('H:i') }} au  {{ event.enddate|date('d/m/Y') }} à  {{ event.enddate|date('H:i') }}
+                                    </p>
+                                    {% if app.user.id == user.id %}
+                                        <a id="delete_event{{ event.id }}" class="btn-sm btn-outline-danger no-decoration delete-event" href="{{ path('delete_event',{'id': event.id}) }}">
+                                           <span class="fa fa-trash"></span> 
+                                        </a>
+                                    {% endif %}
                                 </div>
-                            {% endfor %}
+                            {% endfor %}                      
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="musics" role="tabpanel" aria-labelledby="musics-tab">
-                       {% if app.user.id == user.id %}
-                            <small class="d-block text-right mt-3">
-                               <a href="{{ path('add_song') }}" class="btn-sm btn-outline-success no-decoration add-song">
-                                    <i class="fa fa-plus-square-o" aria-hidden="true"></i>
-                                    Ajouter une musique
-                               </a>
-                           </small>
-                        {% endif %}
-                        {% if user.songs is empty %}
-                            <p class="text-center">
-                                Aucun sons 😥
-                            </p>
-                        {% endif %}
-                        {% for song in user.songs|slice(0,12)|sort((a, b) => b.createddate <=> a.createddate)%}
-                            <div class="media text-muted pt-3">
-                                <img alt="Musique" class="mr-2 rounded" style="width: 32px; height: 32px;" src="{{ asset('build/images/musique/soundcloud.png') }}">
-                                <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                                    <audio id="audioPlayer{{loop.index}}" class="audio-player" controls="controls">
-                                        {#<source src="{{ song.fileName }}.ogg">#}
-                                        <source src="{{ asset("build/downloads/"~song.fileName )}}">
-                                    </audio> 
-                                        <strong class="d-block text-gray-dark">{{ song.fileName }}</strong>
-                                        {{ song.createddate|time_diff() }}
-                                </p>
-                                {% if app.user.id == user.id %}
-                                    <a id="delete_song{{ song.id }}" class="btn-sm btn-outline-danger no-decoration delete-song" href="{{ path('delete_song',{'id': song.id}) }}">
-                                       <span class="fa fa-trash"></span> 
-                                    </a>
-                                {% endif %}
-                           </div>
-                        {% endfor %}                      
-                    </div>
-                    <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab">
-                        {% if app.user.id == user.id %}
-                            <small class="d-block text-right mt-3">
-                               <a href="{{ path('add_event') }}" class="btn-sm btn-outline-success no-decoration add-event">
-                                    <i class="fa fa-plus-square-o" aria-hidden="true"></i>
-                                    Ajouter un event
-                               </a>
-                           </small>
-                        {% endif %}
-                        {% if user.eventCreated is empty %}
-                            <p class="text-center">
-                                Aucun evènements 😥
-                            </p>
-                        {% endif %}
-                        {% for event in user.eventCreated|slice(0,10)|sort((a, b) => b.startDate <=> a.startDate)%}
-                            <div class="media text-muted pt-3">
-                                <img alt="{{ event.name }}" class="mr-2 rounded" style="width: 32px; height: 32px;" src="{{ asset('build/images/dashboard/event.jpg') }}">
-                                <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                                    <a href="{{ path('event',{id:event.id}) }}">
-                                        <strong class="d-block text-gray-dark">
-                                            {{ event.name }}
-                                        </strong>
-                                    </a>
-                                   du {{ event.startdate|date('d/m/Y') }} à {{ event.startdate|date('H:i') }} au  {{ event.enddate|date('d/m/Y') }} à  {{ event.enddate|date('H:i') }}
-                                </p>
-                                {% if app.user.id == user.id %}
-                                    <a id="delete_event{{ event.id }}" class="btn-sm btn-outline-danger no-decoration delete-event" href="{{ path('delete_event',{'id': event.id}) }}">
-                                       <span class="fa fa-trash"></span> 
-                                    </a>
-                                {% endif %}
-                            </div>
-                        {% endfor %}                      
-                    </div>
-                </div>
 
+                </div>
             </div>
         </div>
     </div>
@@ -333,7 +335,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                <div class="modal-header">
-                   <h5 class="modal-title">Modification du profil</h5>
+                   <h5 class="modal-title">Modification du profil 🚧</h5>
                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                    </button>
@@ -358,7 +360,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                <div class="modal-header">
-                   <h5 class="modal-title">Ajout d'une P'tite Photo</h5>
+                   <h5 class="modal-title">Ajout d'une P'tite Photo 🏖️</h5>
                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                        <span aria-hidden="true">&times;</span>
                    </button>
@@ -383,7 +385,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                <div class="modal-header">
-                   <h5 class="modal-title">Ajout d'une P'tite Musique</h5>
+                   <h5 class="modal-title">Ajout d'une P'tite Musique 🎵</h5>
                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                        <span aria-hidden="true">&times;</span>
                    </button>
@@ -408,7 +410,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                <div class="modal-header">
-                   <h5 class="modal-title">{% if user.job != null %}Modification de mon job{% else %}Ajout d'un job{% endif %}</h5>
+                   <h5 class="modal-title">{% if user.job != null %}Modification de mon job 🚧{% else %}Ajout d'un job 🚧{% endif %}</h5>
                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                        <span aria-hidden="true">&times;</span>
                    </button>
@@ -433,7 +435,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                <div class="modal-header">
-                   <h5 class="modal-title">Ajout d'une bonne adresse :)</h5>
+                   <h5 class="modal-title">Ajout d'une bonne adresse ⭐</h5>
                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                        <span aria-hidden="true">&times;</span>
                    </button>
@@ -458,7 +460,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                <div class="modal-header">
-                   <h5 class="modal-title">Ajout d'un P'tit Média</h5>
+                   <h5 class="modal-title">Ajout d'un P'tit Média 📰</h5>
                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                        <span aria-hidden="true">&times;</span>
                    </button>
@@ -483,7 +485,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                <div class="modal-header">
-                   <h5 class="modal-title">Ajout d'un P'tit Evènement</h5>
+                   <h5 class="modal-title">Ajout d'un P'tit Evènement 🍺</h5>
                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                        <span aria-hidden="true">&times;</span>
                    </button>
@@ -508,7 +510,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                <div class="modal-header">
-                   <h5 class="modal-title">Suppression d'une photo</h5>
+                   <h5 class="modal-title">Suppression d'une photo 🚮</h5>
                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                        <span aria-hidden="true">&times;</span>
                    </button>
@@ -530,7 +532,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                <div class="modal-header">
-                   <h5 class="modal-title">Suppression d'une musique</h5>
+                   <h5 class="modal-title">Suppression d'une musique 🚮</h5>
                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                        <span aria-hidden="true">&times;</span>
                    </button>
@@ -552,7 +554,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                <div class="modal-header">
-                   <h5 class="modal-title">Suppression d'un event</h5>
+                   <h5 class="modal-title">Suppression d'un event 🚮</h5>
                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                        <span aria-hidden="true">&times;</span>
                    </button>
@@ -574,7 +576,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                <div class="modal-header">
-                   <h5 class="modal-title">Suppression d'un média</h5>
+                   <h5 class="modal-title">Suppression d'un média 🚮</h5>
                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                        <span aria-hidden="true">&times;</span>
                    </button>
@@ -589,6 +591,7 @@
                </div>
             </div>
         </div>
+    </div>
                                     
     <script>
          $(document).ready(function() {
@@ -709,4 +712,3 @@
         async defer></script>
         
 {% endblock %}
-

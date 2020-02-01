@@ -3,35 +3,46 @@
 {% block title %}Radio Imali 🎛️{% endblock %}
 
 {% block body %}
-    <br>
-    <div class="container main-container">   
-        <h1 class="text-center">La P'tite Radio 🎵</h1>
-        <div class="my-3 p-3 bg-white rounded box-shadow">
-            <small class="d-block text-right mt-3">
-                <a class="btn-sm btn-outline-success no-decoration add-song" href="{{ path('add_song') }}">
-                <i class="fa fa-plus-square" aria-hidden="true"></i>
-                    Ajouter un son
-                </a>
-            </small>
-            <h6 class="border-bottom border-gray pb-2 mb-0">Les p'tits sons du moment</h6>
-            {% for song in songs|sort((a, b) => b.createddate <=> a.createddate)%}
-                <div class="media text-muted pt-3">
-                    <img alt="Musique" class="mr-2 rounded" style="width: 32px; height: 32px;" src="{{ asset('build/images/musique/soundcloud.png') }}">
-                    <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                        <audio id="audioPlayer{{loop.index}}" controls="controls" style="float: right;margin-right: 25%;">
-                            {#<source src="{{ song.fileName }}.ogg">#}
-                            <source src="{{ asset("build/downloads/"~song.fileName )}}">
-                        </audio> 
-                            <strong class="d-block text-gray-dark">{{ song.fileName }}</strong>
-                            Uploadé par <a href="{{ path('profile',{id:song.uploader.id}) }}">{{ song.uploader.username }}</a> {{ song.createddate|time_diff() }}
-                    </p>
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <a id="delete_song{{ song.id }}" class="btn-sm btn-danger no-decoration delete-song" href="{{ path('delete_song',{'id': song.id}) }}">
-                            <i class="fa fa-trash" aria-hidden="true"></i>
-                        </a>
-                    {% endif %}
-               </div>
-            {% endfor %}
+    <div class="page-content">
+        <div class="panel-content">   
+            <h1 class="text-center">La P'tite Radio 🎵</h1>
+            <div class="my-3 p-3 bg-white rounded box-shadow">
+                <small class="d-block text-right mt-3">
+                    <a class="btn-sm btn-outline-success no-decoration add-song" href="{{ path('add_song') }}">
+                    <i class="fa fa-plus-square" aria-hidden="true"></i>
+                        Ajouter un son
+                    </a>
+                </small>
+                <h6 class="border-bottom border-gray pb-2 mb-0">Les p'tits sons du moment</h6>
+                {% if songs is empty %}
+                    <td class="fc-list-item-title fc-widget-content text-center">
+                        <i>
+                            Aucun son
+                        </i> 
+                        😥
+                    </td>
+                {% else %}
+                    {% for song in songs|sort((a, b) => b.createddate <=> a.createddate)%}
+                        <div class="media text-muted pt-3">
+                            <img alt="Musique" class="mr-2 rounded myImg" src="{{ asset('build/images/musique/soundcloud.png') }}">
+                            <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                <audio id="audioPlayer{{loop.index}}" controls="controls" style="float: right;margin-right: 25%;">
+                                    {#<source src="{{ song.fileName }}.ogg">#}
+                                    <source src="{{ asset("build/downloads/"~song.fileName )}}">
+                                </audio> 
+                                    <strong class="d-block text-gray-dark">{{ song.fileName }}</strong>
+                                    Uploadé par <a href="{{ path('profile',{id:song.uploader.id}) }}">{{ song.uploader.username }}</a> {{ song.createddate|time_diff() }}
+                            </p>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a id="delete_song{{ song.id }}" class="btn-sm btn-danger no-decoration delete-song" href="{{ path('delete_song',{'id': song.id}) }}">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </a>
+                            {% endif %}
+                       </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+    
         </div>
     </div>
         
@@ -40,7 +51,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                <div class="modal-header">
-                   <h5 class="modal-title">Ajout d'une P'tite Musique</h5>
+                   <h5 class="modal-title">Ajout d'une P'tite Musique 🎧</h5>
                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                        <span aria-hidden="true">&times;</span>
                    </button>
@@ -65,7 +76,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                <div class="modal-header">
-                   <h5 class="modal-title">Suppression d'une musique</h5>
+                   <h5 class="modal-title">Suppression d'une musique 🚮</h5>
                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                        <span aria-hidden="true">&times;</span>
                    </button>
@@ -84,11 +95,8 @@
             
         <script>
            
-            $(document).ready(function (){                     
-                //Modal management
-                var modal = document.getElementById("deleteSongModal");
-                var modal2 = document.getElementById("addSongModal");
-
+            $(document).ready(function (){
+                
                 $('.add-song').on('click', function(e) {
                     e.preventDefault();
                     $('#addSongModal').modal('show');
@@ -102,27 +110,6 @@
                     $('#btnYes').attr("data",id);
                     $('#deleteSongModal').modal('show');
                 });
-                //delete an event and the correponding bloc
-                $('#btnYes').on('click', function (e) {
-                    //e.preventDefault();
-                    //var notifUrl = $(this).attr('href');
-                    //var div = $(this).attr('data');
-                    //var divNum = div.replace('delete_event','');
-                    //$.ajax({url: notifUrl,
-                     //   success: function(result){
-                      //      $('#event'+ divNum).remove();
-                       // }});
-                });
-
-            // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function(event) {
-              if (event.target == modal) {
-                modal.style.display = "none";
-              }
-              if (event.target == modal2) {
-                modal2.style.display = "none";
-              }
-            };
 
         });
         </script>

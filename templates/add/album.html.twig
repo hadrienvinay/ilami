@@ -1,20 +1,21 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Album - Ajout {% endblock %}
+{% block title %}Album - Ajout 🗽{% endblock %}
 
 {% block body %}
-    <br>
-    <div class="container main-container">
-        <h2 class="text-center">Un p'tit nouvel album</h2>
-        <br>
-        {{ form_start(form, {'method': 'post', 'action': path('add_album')}) }}
-        {{ form_widget(form, {'attr': {'class': 'form-group'}}) }}
-        <div class="form-group text-center">
-            <input class=" btn btn-primary btn-md login-button" type="submit" value="Importer" />
+    <div class="page-content">
+        <div class="panel-content">
+            <h1 class="text-center">Un p'tit nouvel album 🏜️</h1>
+            <br>
+            {{ form_start(form, {'method': 'post', 'action': path('add_album')}) }}
+            {{ form_widget(form, {'attr': {'class': 'form-group'}}) }}
+            <div class="form-group text-center">
+                <input class=" btn btn-primary btn-md login-button" type="submit" value="Importer" />
+            </div>
+            {{ form_rest(form) }}
+            {{ form_errors(form) }}
+            {{ form_end(form) }}
         </div>
-        {{ form_rest(form) }}
-        {{ form_errors(form) }}
-        {{ form_end(form) }}
     </div>
 {% endblock %}
 

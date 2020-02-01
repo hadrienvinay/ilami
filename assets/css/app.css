@@ -3,15 +3,25 @@ body {
      font-family: 'Montserrat', sans-serif;
      margin: 0;
 }
-
+h1 {
+  }
+ h6 {
+  }
 .main-container{
     padding: 3%;
-    margin-top: 3%;
+    margin-top: 5%;
     margin-bottom: 3%;
     border-radius: 0.5rem;
     background: #fff;
 }
 
+.myAlert{
+    position: absolute;
+    font-size: 24px;
+    opacity: 82%;
+    margin-top:47px;
+    margin-left:63%;
+    }
 .footer{
     bottom: 0;
     width: 100%;
@@ -264,3 +274,152 @@ div#carrousel{
 .pac-container{
     z-index: 100000 !important;
 }
+
+/* Responsive img*/
+.myImg{
+    width: 5%;
+    height: 100%;
+}
+@media only screen and (max-width: 993px) {
+    .btn{
+        border: 2px solid;
+        font-weight: 600;
+        font-size: 125%;
+        border-radius : 6%;
+    }
+    .myImg{
+        width: 10%;
+        height: 100%;
+    }
+    .myAlert{
+        margin-top:70px!important;
+        margin-left:59%;
+    }
+    .media{
+        font-size: 145%;
+    }
+    #calendar{
+        margin-bottom: 2%;
+    }
+    .border-panel-left{
+        display:none;
+    }
+    .border-panel-right{
+        display:none;
+    }
+    .border-panel-center{
+        padding: 3%;
+        flex: 1!important;
+        max-width: 100%!important;
+        margin-right: -1.7%;
+    }
+    .tab-item{
+        padding: 3%;
+    }
+    #navContent{
+        flex-direction: row!important;
+    }
+    .myPic{
+        width: 36px!important;
+        height: 36px!important;
+    }
+    .myNavbar{
+       font-size:24px; 
+    }
+    .profile-picture{
+        width: 75%!important;
+    }
+    .main-container{
+        font-size:24px;
+    }
+    .page-content{
+        padding-top:8%!important;
+        padding: 3%!important;
+   }
+   .panel-content{
+       font-size:20px;
+       margin-top:4%!important;
+       margin-right: -1.7%;
+   }
+   .lead{
+       font-size: 2rem;
+   }
+   h1 {
+        font-size: 3rem!important;
+    }
+   h6 {
+        font-size: 2rem!important;
+    }
+}
+@media only screen and (max-width: 560px) {
+    .tab-item{
+        padding: 2%;
+        font-size: 130%;    
+    }
+}
+
+/* Profile */
+.profile-picture{
+    border-radius:5%;
+    width: 50%;
+    height: 100%;
+}
+
+/* Main Panel*/
+.page-content{
+     padding:10%;
+     padding-top:4%;
+     padding-bottom:0;
+     margin-right:0;
+}
+.panel-content{
+    padding: 3%;
+    margin-top: 3%;
+    margin-bottom: 3%;
+    border-radius: 0.5rem;
+    background: #fff;
+}
+.border-panel-center{
+    flex: 0 0 75%;
+    max-width: 75%;
+}
+.border-panel-left{
+    flex: 0 0 11.5%;
+    max-width: 11.5%;
+}
+.border-panel-right{
+    flex: 0 0 13.5%;
+    max-width: 13.5%;
+    padding:1%;
+}
+
+.form-content{
+    background-color: white;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 1.1rem;
+    padding-top: 15px;
+}
+
+/* Navbar top */
+.myNavbar{
+    flex-basis: 100%;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -ms-flex-align: center;
+    align-items: center;
+    display: flex!important;
+    -ms-flex-preferred-size: auto;
+    flex-basis: auto;
+}
+
+.myPic{
+    border-radius:60%;
+    width: 23px;
+    height: 23px;
+}
+
+.dropdown-menu{
+    position: absolute!important;
+}
+
+

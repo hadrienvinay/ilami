@@ -5,32 +5,30 @@
             Imalipusram Website
             <img src="{{asset('build/images/imali.png')}}" style="width: 50px;" title="logo" alt="Logo Imali">
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto" style="margin-right: 2%;">
+        <div class="myNavbar">
+            <ul id="navContent" class="navbar-nav ml-auto" style="margin-right: 2%;">
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('profile',{'id': app.user.id}) }}" data-toggle="tooltip" data-placement="bottom" title="Mon profil">
-                            <img src="{{asset('build/images/profile/' ~ app.user.username ~ '.jpg')}}" alt="Mon profil" style="border-radius:60%; width: 23px;height: 23px;">
-                            {{ app.user.username }}
+                    <li class="nav-item" style="margin:auto;">
+                        <a class="nav-link" style="display:flex;" href="{{ path('profile',{'id': app.user.id}) }}" data-toggle="tooltip" data-placement="bottom" title="Mon profil">
+                            <img class="myPic" src="{{asset('build/images/profile/' ~ app.user.username ~ '.jpg')}}" alt="Mon profil">
+                            <div class="minimize" style="padding-left: 10%;">
+                                {{ app.user.username }}
+                            </div>
                         </a>
                     </li>
                     {% if is_granted('ROLE_ADMIN') %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('admin') }}" data-toggle="tooltip" data-placement="bottom" title="Admin Dashboard" >
-                                Admin 
-                                <span style="color: #fff;">👻</span>
+                        <li class="nav-item tab-item">
+                            <a class="nav-link" href="{{ path('admin') }}" data-toggle="tooltip" data-placement="bottom" title="Admin Dashboard" style="color:white;">
+                                👻
                             </a>
                         </li>  
                     {% endif %}
-                    <li id="notif" class="nav-item dropdown" title="Notifications">
-                        <a class="nav-link dropdown" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #fff;"> 
+                    <li id="notif" class="nav-item tab-item dropdown" title="Notifications">
+                        <a id="notif_btn" class="nav-link dropdown" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #fff;"> 
                             {% if mgilet_notification_unseen_count(app.user) > 0 %}<span class="notification">{{ mgilet_notification_unseen_count(app.user) }}</span> {% endif %}
                             🔔
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="dropdown01" style="min-width: 333px;">
+                        <div id="notif_content" class="dropdown-menu" aria-labelledby="dropdown01" style="min-width: 333px;">
                             {% if notificationList|length > 0 %}
                                 <small style="margin-left:1.5rem;">
                                     <a id="all-seen" data="{{ mgilet_notification_generate_path('notification_mark_all_as_seen', notificationList|first.notifiableEntity) }}" href="">
@@ -40,7 +38,7 @@
                                 </small>
                                 <div class="dropdown-divider"></div>
                             {% else %}
-                                <div class="text-center"><i>Aucune notification :'(</i></div>
+                                <div class="text-center"><i>Aucune notification</i> 🧐</div>
                             {% endif %}
                             {% for item in notificationList | slice(0,8) %}
                                 <a class="dropdown-item notif-content" {% if not item.seen %}style="background-color:#edf2fa;" data="{{ mgilet_notification_generate_path('notification_mark_as_seen', item.notifiableEntity, item.notification) }}" {% else %} data="" {% endif %} href="{{ path('main_app') }}{{ item.notification.link }}">
@@ -62,7 +60,7 @@
                             {% endfor %}
                         </div>
                     </li>
-                    <li id="menu-dropdown" class="nav-item dropdown" title="Rubriques">
+                    <li id="menu-dropdown" class="nav-item tab-item dropdown" title="Rubriques">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #fff;">
                             🗂️
                         </a>
@@ -103,17 +101,19 @@
                 {% else %}
                     <li class="nav-item">
                         <a class="btn btn-primary" href="{{ path('fos_user_security_login') }}">
-                            {{ 'layout.login'|trans({}, 'FOSUserBundle') }}
+                            {{ 'layout.login'|trans({}, 'FOSUserBundle') }} 🔑
                         </a>
                     </li>
                 {% endif %}
             </ul>
-            <form class="form-inline" style="margin-right:8%;">
-                <input id="search" class="form-control mr-sm-2" placeholder="Rechercher" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit"  data-toggle="tooltip" data-placement="bottom" title="Rechercher">
-                    🔍
-                </button>
-            </form>
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                <form class="form-inline" style="margin-right:8%;">
+                    <input id="search" class="form-control mr-sm-2" placeholder="Rechercher" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit"  data-toggle="tooltip" data-placement="bottom" title="Rechercher">
+                        🔍
+                    </button>
+                </form>
+            {% endif %}
         </div>
        
     </div>
@@ -171,7 +171,10 @@
         });
         $('#all-seen').click(function(e){
             e.preventDefault();
+            e.stopPropagation();
             var url = $(this).attr("data");
+            $('.notification').remove();
+
             $.ajax({
                url: url,
                success: function(data) {

@@ -3,147 +3,149 @@
 {% block title %}Evènement - {{ event.name }} 🥳{% endblock %}
 
 {% block body %}
-<br>
-    <div class="container main-container">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="profile-img" style="text-align: center;">
-                    <img src="{{ asset('build/images/dashboard/event.jpg') }}" alt="{{ event.name }}" style="width: 70%;height: 100%;">
+    <div class="page-content">
+        <div class="panel-content">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="profile-img" style="text-align: center;">
+                        <img src="{{ asset('build/images/dashboard/event.jpg') }}" alt="{{ event.name }}" style="width: 70%;height: 100%;">
+                    </div>
                 </div>
+                <div class="col-md-8">
+                    <div class="profile-head">
+                        <div class="" style="float:right;">
+                            {% if event.creator.id == app.user.id %}
+                                <a href="{{path('modify_event',{'id' : event.id }) }}" class="btn-sm btn-outline-primary no-decoration update-event">
+                                    <i class="fa fa-edit upadte-event" aria-hidden="true"></i>
+                                    Modifier event
+                                </a>
+                                <br>
+                                <a href="{{path('delete_event',{'id' : event.id }) }}" class="btn-sm btn-outline-danger no-decoration delete-event">
+                                    <i class="fa fa-trash delete-event" aria-hidden="true"></i>
+                                    Supprimer event
+                                </a>
+                            {% endif %}
+                        </div>
+                        <h3 class="text-center col-md-8">
+                            🍻 {{ event.name }} 🍻 
+                        </h3>
+                        <h6>
+                            📣 {{ event.description }}
+                        </h6>
+                        <div class="">
+                            {% if event.startDate > date() %}
+                                <a {% if app.user in event.participants %} href="#"  class="btn-sm btn-primary no-decoration" {% else %}href="{{ path('add_participant',{id: event.id}) }}" class="btn-sm btn-outline-primary no-decoration" {% endif %}>
+                                    <span class="fa fa-check-circle-o"></span>
+                                    Participe
+                                </a>
+                                <a {% if app.user in event.participants %} href="{{ path('cancel_participant',{id: event.id}) }}" class="btn-sm btn-outline-secondary no-decoration" {% else %}href="#" class="btn-sm btn-secondary no-decoration" {% endif %}>
+                                    <span class="fa fa-frown-o"></span>
+                                    Ne Participe Pas
+                                </a>
+                            {% else %}
+                                <a href="#" {% if app.user in event.participants %} class="btn-sm btn-success no-decoration" {% else %}class="btn-sm btn-outline-primary no-decoration" {% endif %}>
+                                    <span class="fa fa-check-circle-o"></span>
+                                    Vous avez participé
+                                </a>
+                                <a  href="#" {% if app.user in event.participants %}class="btn-sm btn-outline-secondary no-decoration" {% else %}href="#" class="btn-sm btn-secondary no-decoration" {% endif %}>
+                                    <span class="fa fa-frown-o"></span>
+                                    Vous n'avez pas participé
+                                </a>
+                            {% endif %}
+                        </div>
+                        <br>
+                        <ul class="nav nav-tabs" id="myTab" role="tablist" >
+                            <li class="nav-item">
+                                <a class="nav-link active" id="infos-tab" data-toggle="tab" href="#infos" role="tab" aria-controls="infos" aria-selected="true">
+                                    A propos 📝
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="photos-tab" data-toggle="tab" href="#photos" role="tab" aria-controls="photos" aria-selected="false">
+                                    Les P'tites Photos 🏖️
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
             </div>
-            <div class="col-md-8">
-                <div class="profile-head">
-                    <div class="" style="float:right;">
-                        {% if event.creator.id == app.user.id %}
-                            <a href="{{path('modify_event',{'id' : event.id }) }}" class="btn-sm btn-outline-primary no-decoration update-event">
-                                <i class="fa fa-edit upadte-event" aria-hidden="true"></i>
-                                Modifier event
-                            </a>
-                            <br>
-                            <a href="{{path('delete_event',{'id' : event.id }) }}" class="btn-sm btn-outline-danger no-decoration delete-event">
-                                <i class="fa fa-trash delete-event" aria-hidden="true"></i>
-                                Supprimer event
-                            </a>
-                        {% endif %}
-                    </div>
-                    <h3 class="text-center col-md-8">
-                        🍻 {{ event.name }} 🍻 
-                    </h3>
-                    <h6>
-                        📣 {{ event.description }}
-                    </h6>
-                    <div class="">
-                        {% if event.startDate > date() %}
-                            <a {% if app.user in event.participants %} href="#"  class="btn-sm btn-primary no-decoration" {% else %}href="{{ path('add_participant',{id: event.id}) }}" class="btn-sm btn-outline-primary no-decoration" {% endif %}>
-                                <span class="fa fa-check-circle-o"></span>
-                                Participe
-                            </a>
-                            <a {% if app.user in event.participants %} href="{{ path('cancel_participant',{id: event.id}) }}" class="btn-sm btn-outline-secondary no-decoration" {% else %}href="#" class="btn-sm btn-secondary no-decoration" {% endif %}>
-                                <span class="fa fa-frown-o"></span>
-                                Ne Participe Pas
-                            </a>
-                        {% else %}
-                            <a href="#" {% if app.user in event.participants %} class="btn-sm btn-success no-decoration" {% else %}class="btn-sm btn-outline-primary no-decoration" {% endif %}>
-                                <span class="fa fa-check-circle-o"></span>
-                                Vous avez participé
-                            </a>
-                            <a  href="#" {% if app.user in event.participants %}class="btn-sm btn-outline-secondary no-decoration" {% else %}href="#" class="btn-sm btn-secondary no-decoration" {% endif %}>
-                                <span class="fa fa-frown-o"></span>
-                                Vous n'avez pas participé
-                            </a>
-                        {% endif %}
-                    </div>
+            <div class="row">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-8">
                     <br>
-                    <ul class="nav nav-tabs" id="myTab" role="tablist" >
-                        <li class="nav-item">
-                            <a class="nav-link active" id="infos-tab" data-toggle="tab" href="#infos" role="tab" aria-controls="infos" aria-selected="true">
-                                A propos 📝
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="photos-tab" data-toggle="tab" href="#photos" role="tab" aria-controls="photos" aria-selected="false">
-                                Les P'tites Photos 🏖️
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-            </div>
-            <div class="col-md-8">
-                <br>
-                <div class="tab-content event-tab" id="myTabContent">
-                    <div class="tab-pane fade show active" id="infos" role="tabpanel" aria-labelledby="infos-tab">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label>💁‍♂️ Organisé par  :  </label>
-                            </div>
-                            <div class="col-md-9">
-                                <a href="{{ path('profile',{id: event.creator.id }) }}"> {{ event.creator.username }} </a>
-                            </div>
-                            <div class="col-md-3">
-                                <label>🗺️ Lieu :  </label>
-                            </div>
-                            <div class="col-md-9">
-                                <p> {{ event.address }} </p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label>📅 Date : </label>
-                            </div>
-                            <div class="col-md-9">
-                                {% if event.startdate|date('d/m/Y') == event.enddate|date('d/m/Y') %}
-                                    <p> le {{ event.startdate|date('d/m/Y') }} à partir de {{ event.startdate|date('H:i') }} </p>
-                                {% else %}
-                                    <p> du {{ event.startdate|date('d/m/Y') }} au {{ event.startdate|date('H:i') }} au  {{ event.enddate|date('d/m/Y') }} à  {{ event.enddate|date('H:i') }}</p>
-                                {% endif %}
+                    <div class="tab-content event-tab" id="myTabContent">
+                        <div class="tab-pane fade show active" id="infos" role="tabpanel" aria-labelledby="infos-tab">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>💁‍♂️ Organisé par  :  </label>
                                 </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3" style="margin:auto;">
-                                <label>🧑‍🤝‍🧑 Participants :</label>
+                                <div class="col-md-9">
+                                    <a href="{{ path('profile',{id: event.creator.id }) }}"> {{ event.creator.username }} </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>🗺️ Lieu :  </label>
+                                </div>
+                                <div class="col-md-9">
+                                    <p> {{ event.address }} </p>
+                                </div>
                             </div>
-                            <div class="col-md-9">
-                                {% for user in event.participants  %}
-                                    <img src="{{asset('build/images/profile/mini/' ~ user.username ~ '.png')}}" alt="{{ user.username }}" data-toggle="tooltip" data-placement="top" title="{{ user.username }}">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>📅 Date : </label>
+                                </div>
+                                <div class="col-md-9">
+                                    {% if event.startdate|date('d/m/Y') == event.enddate|date('d/m/Y') %}
+                                        <p> le {{ event.startdate|date('d/m/Y') }} à partir de {{ event.startdate|date('H:i') }} </p>
+                                    {% else %}
+                                        <p> du {{ event.startdate|date('d/m/Y') }} au {{ event.startdate|date('H:i') }} au  {{ event.enddate|date('d/m/Y') }} à  {{ event.enddate|date('H:i') }}</p>
+                                    {% endif %}
+                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3" style="margin:auto;">
+                                    <label>🧑‍🤝‍🧑 Participants :</label>
+                                </div>
+                                <div class="col-md-9">
+                                    {% for user in event.participants  %}
+                                        <img src="{{asset('build/images/profile/mini/' ~ user.username ~ '.png')}}" alt="{{ user.username }}" data-toggle="tooltip" data-placement="top" title="{{ user.username }}">
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="photos" role="tabpanel" aria-labelledby="photos-tab">
+                            {% if app.user.id == event.creator.id %}
+                                <small class="d-block text-right mt-3">
+                                   <a href="{{ path('add_picture') }}" class="btn-sm btn-outline-success no-decoration add-picture">
+                                   <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                                       Ajouter une photo
+                                   </a>
+                               </small>
+                            {% endif %}
+                            {% if event.pictures is empty %}
+                                <p class="text-center">
+                                    Aucune photos pour cet évènement :/
+                                </p>
+                            {% endif %}
+                            <div class="portfolio-item row">
+                                {% for picture in event.pictures %}
+                                    <div class="item selfie col-lg-3 col-md-4 col-6 col-sm">
+                                          <a class="fancylight popup-btn" href="{{ asset('build/images/gallery/' ~ picture.fileName )}}">
+                                            <img src="{{asset('build/images/gallery/' ~ picture.fileName )}}" alt="{{ picture.description }}" class="img-fluid">
+                                          </a>
+                                          <!--<div class="desc">{% if picture.description is not null%}{{ picture.description }}{% else %}Photo n°: {{ picture.id }}{% endif %}</div>-->
+                                    </div>
                                 {% endfor %}
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="photos" role="tabpanel" aria-labelledby="photos-tab">
-                        {% if app.user.id == event.creator.id %}
-                            <small class="d-block text-right mt-3">
-                               <a href="{{ path('add_picture') }}" class="btn-sm btn-outline-success no-decoration add-picture">
-                               <i class="fa fa-plus-square-o" aria-hidden="true"></i>
-                                   Ajouter une photo
-                               </a>
-                           </small>
-                        {% endif %}
-                        {% if event.pictures is empty %}
-                            <p class="text-center">
-                                Aucune photos pour cet évènement :/
-                            </p>
-                        {% endif %}
-                        <div class="portfolio-item row">
-                            {% for picture in event.pictures %}
-                                <div class="item selfie col-lg-3 col-md-4 col-6 col-sm">
-                                      <a class="fancylight popup-btn" href="{{ asset('build/images/gallery/' ~ picture.fileName )}}">
-                                        <img src="{{asset('build/images/gallery/' ~ picture.fileName )}}" alt="{{ picture.description }}" class="img-fluid">
-                                      </a>
-                                      <!--<div class="desc">{% if picture.description is not null%}{{ picture.description }}{% else %}Photo n°: {{ picture.id }}{% endif %}</div>-->
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
                 </div>
             </div>
+            <hr>
+            <div id="map" style="height:300px; width:100%"></div>
+            
         </div>
-        <hr>
-        <div id="map" style="height:300px; width:100%"></div>
     </div>
            
                         
@@ -177,7 +179,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                <div class="modal-header">
-                   <h5 class="modal-title">Ajout d'une P'tite Photo</h5>
+                   <h5 class="modal-title">Ajout d'une P'tite Photo 🌄</h5>
                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                        <span aria-hidden="true">&times;</span>
                    </button>
@@ -202,7 +204,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                <div class="modal-header">
-                   <h5 class="modal-title">Suppression d'un event</h5>
+                   <h5 class="modal-title">Suppression d'un event 🚮</h5>
                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                        <span aria-hidden="true">&times;</span>
                    </button>

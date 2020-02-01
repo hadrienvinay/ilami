@@ -3,43 +3,51 @@
 {% block title %}Médias 💡{% endblock %}
 
 {% block body %}
-    <br>
-    <div class="container main-container">
-        <h1 class="text-center">Les P'tits Médias 📺️</h1>
-        <div class="my-3 p-3 bg-white rounded box-shadow">
-            <small class="d-block text-right mt-3">
-                <a class="btn-sm btn-outline-success no-decoration add-media" href="{{ path('add_media') }}">
-                <i class="fa fa-plus-square-o" aria-hidden="true"></i>
-                    Ajouter un média
-                </a>
-            </small>
-            <h6 class="border-bottom border-gray pb-2 mb-0">Les p'tits médias uploadés 📰</h6>
-            <div class="row">
-                {% for media in medias|sort((a, b) => a.createddate <=> b.createddate)%}
-                    <div class="media text-muted pt-3 col-md-6 col-lg-4">
-                        {% if media.type == "sciences" %}
-                            <span style="font-size:2em;">👨‍🔬</span>
-                        {% elseif media.type == "fun"  %}
-                            <span style="font-size:2em;">😂</span>
-                        {% elseif media.type == "sport"  %}
-                            <span style="font-size:2em;">⚽</span>
-                        {% else %}
-                            <span style="font-size:2em;">🙄</span>
-                        {% endif %}                    
-                        <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                            <a target="_blank" rel="noopener noreferrer" href="{{ media.link }}">
-                                <strong class="d-block text-gray-dark">{{ media.title }} </strong>
-                            </a>
-                            Mis en ligne par {{ media.uploader}},  {{ media.createddate|time_diff() }}
-                        </p>
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <a id="delete_media{{ media.id }}" class="btn-sm btn-danger no-decoration delete-media" href="{{ path('delete_media',{'id': media.id}) }}">
-                             <span class="fa fa-trash"></span> 
-                            </a>
-                        {% endif %}
-                    </div>
-                {% endfor %}
+    <div class="page-content">
+        <div class="panel-content">
+            <h1 class="text-center">Les P'tits Médias 📺️</h1>
+            <div class="my-3 p-3 bg-white rounded box-shadow">
+                <small class="d-block text-right mt-3">
+                    <a class="btn-sm btn-outline-success no-decoration add-media" href="{{ path('add_media') }}">
+                    <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                        Ajouter un média
+                    </a>
+                </small>
+                <h6 class="border-bottom border-gray pb-2 mb-0">Les p'tits médias uploadés 📰</h6>
+                <div class="row">
+                    {% if medias is empty %}
+                        <div class="media text-muted pt-3 middle">
+                                Aucun médias 😥
+                        </div>
+                    {% else %}
+                        {% for media in medias|sort((a, b) => a.createddate <=> b.createddate)%}
+                            <div class="media text-muted pt-3 col-md-6 col-lg-4">
+                                {% if media.type == "sciences" %}
+                                    <span style="font-size:2em;">👨‍🔬</span>
+                                {% elseif media.type == "fun"  %}
+                                    <span style="font-size:2em;">😂</span>
+                                {% elseif media.type == "sport"  %}
+                                    <span style="font-size:2em;">⚽</span>
+                                {% else %}
+                                    <span style="font-size:2em;">🙄</span>
+                                {% endif %}                    
+                                <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                    <a target="_blank" rel="noopener noreferrer" href="{{ media.link }}">
+                                        <strong class="d-block text-gray-dark">{{ media.title }} </strong>
+                                    </a>
+                                        Mis en ligne par <a href="{{ path('profile',{id: media.uploader.id}) }}">{{ media.uploader}}</a>,  {{ media.createddate|time_diff() }}
+                                </p>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <a id="delete_media{{ media.id }}" class="btn-sm btn-danger no-decoration delete-media" href="{{ path('delete_media',{'id': media.id}) }}">
+                                     <span class="fa fa-trash"></span> 
+                                    </a>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
             </div>
+                
         </div>
     </div>
         
@@ -48,7 +56,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                <div class="modal-header">
-                   <h5 class="modal-title">Ajout d'un P'tit Média</h5>
+                   <h5 class="modal-title">Ajout d'un P'tit Média 📰</h5>
                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                        <span aria-hidden="true">&times;</span>
                    </button>
@@ -73,7 +81,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                <div class="modal-header">
-                   <h5 class="modal-title">Suppression d'un média</h5>
+                   <h5 class="modal-title">Suppression d'un média 🚮</h5>
                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                        <span aria-hidden="true">&times;</span>
                    </button>

@@ -3,42 +3,44 @@
 {% block title %} Album {{album.name }} {% endblock %}
 
 {% block body %}
-    <br>
-    <div class="container main-container">
-        <h1 class="text-center">P'tit Album : {{ album.name }}</h1>
-        <br>
-       <small class="d-block text-left mt-3">
-            <a href="{{ path('gallery') }}" class="btn-sm btn-outline-primary no-decoration">
-            <i class="fa fa-angle-double-left" aria-hidden="true"></i>
-                Retour à la Gallerie
-            </a>
-        </small> 
-        <small class="d-block text-right mt-3">
-            <a class="btn-sm btn-outline-success no-decoration add-picture" href="{{ path('add_picture',{'id' : album.id}) }}">
-            <i class="fa fa-download" aria-hidden="true"></i>
-                Ajouter une photo
-            </a>
-        </small>
-        {% if album.pictures is empty %}
-            <i> Aucune photos</i>
-        {% else %}
+    <div class="page-content">
+        <div class="panel-content">
+            <h1 class="text-center">P'tit Album : {{ album.name }}</h1>
             <br>
-        {% endif %}
-        <div class="portfolio-item row">
-        {% for picture in album.pictures %}
-            <div class="item selfie col-lg-3 col-md-4 col-6 col-sm">
-                <a class="fancylight popup-btn" href="{{ asset('build/images/gallery/' ~ picture.fileName )}}">
-                    <img src="{{asset('build/images/gallery/' ~ picture.fileName )}}" alt="{{ picture.description }}" class="img-fluid">
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <a id="delete_picture{{ picture.id }}" class="btn-sm btn-danger delete-picture" href="{{ path('delete_picture',{id:picture.id}) }}" style="position: absolute;top: 1%;left: 80%;">
-                            <span class="fa fa-trash"></span>
-                        </a>
-                    {% endif %}                
+           <small class="d-block text-left mt-3">
+                <a href="{{ path('gallery') }}" class="btn-sm btn-outline-primary no-decoration">
+                <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                    Retour à la Gallerie
                 </a>
-                {#<div class="desc">{% if picture.description is not null%}{{ picture.description }}{% else %}Photo n°: {{ loop.index }}{% endif %}</div>#}
+            </small> 
+            <small class="d-block text-right mt-3">
+                <a class="btn-sm btn-outline-success no-decoration add-picture" href="{{ path('add_picture',{'id' : album.id}) }}">
+                <i class="fa fa-download" aria-hidden="true"></i>
+                    Ajouter une photo
+                </a>
+            </small>
+            {% if album.pictures is empty %}
+                <i> Aucune photos</i>
+            {% else %}
+                <br>
+            {% endif %}
+            <div class="portfolio-item row">
+            {% for picture in album.pictures %}
+                <div class="item selfie col-lg-3 col-md-4 col-6 col-sm">
+                    <a class="fancylight popup-btn" href="{{ asset('build/images/gallery/' ~ picture.fileName )}}">
+                        <img src="{{asset('build/images/gallery/' ~ picture.fileName )}}" alt="{{ picture.description }}" class="img-fluid">
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a id="delete_picture{{ picture.id }}" class="btn-sm btn-danger delete-picture" href="{{ path('delete_picture',{id:picture.id}) }}" style="position: absolute;top: 1%;left: 80%;">
+                                <span class="fa fa-trash"></span>
+                            </a>
+                        {% endif %}                
+                    </a>
+                    {#<div class="desc">{% if picture.description is not null%}{{ picture.description }}{% else %}Photo n°: {{ loop.index }}{% endif %}</div>#}
+                </div>
+            {% endfor %}
+            <div class="clearfix"></div>
             </div>
-        {% endfor %}
-        <div class="clearfix"></div>
+        
         </div>
     </div>
         
@@ -91,9 +93,7 @@
 
     <script>
         $(document).ready(function() {
-            var modal = document.getElementById("addPictureModal");
-            var modal2 = document.getElementById("deletePictureModal");
-
+            
             $('.add-picture').on('click', function(e) {
                 e.preventDefault();
                 $('#addPictureModal').modal('show');
@@ -107,15 +107,7 @@
                 $('#btnYes').attr("data",id);
                 $('#deletePictureModal').modal('show');
             });
-            // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function(event) {
-              if (event.target == modal) {
-                modal.style.display = "none";
-              }
-              if (event.target == modal2) {
-                modal2.style.display = "none";
-              }
-            };
+            
             
             var popup_btn = $('.popup-btn');
             popup_btn.magnificPopup({

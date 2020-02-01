@@ -4,15 +4,16 @@
 {% block title %}Oups Erreur 🥵️{% endblock %}
 
 {% block body %}
-    <br>
-    <div class="container main-container">
-        <h1 class="text-center">Le site Imalipusaram a rencontré un problème 🐥</h1>
-        <br>
-        <div class="row">
-            <p> Oups ! La page demandée n'existe pas ou le serveur a rencontré un problème : Erreur {{ statusCode }} 😬
-                <br>
-                <a href='{{ path('main_app') }}'>Retourner à l'accueil 🔙 </a>
-            </p>
+    <div class="page-content">
+        <div class="panel-content">
+            <h1 class="text-center">Le site Imalipusaram a rencontré un problème 🐥</h1>
+            <br>
+            <div class="row">
+                <p> Oups ! La page demandée n'existe pas ou le serveur a rencontré un problème : Erreur {{ statusCode }} 😬
+                    <br>
+                    <a href='{{ path('main_app') }}' class="btn btn-outline-success no-decoration">Retourner à l'accueil 🔙 </a>
+                </p>
+            </div>
         </div>
     </div>
 

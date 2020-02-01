@@ -8,3 +8,6 @@ fos_user:
     registration:
         form:
             type: App\Form\UserType
+    change_password:
+        form:
+            type: App\Form\ChangePasswordType

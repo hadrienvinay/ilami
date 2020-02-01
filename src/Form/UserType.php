@@ -30,8 +30,6 @@ class UserType extends AbstractType
             )
             ->remove('username')
             ->remove('plainPassword')
-
-
         ;
     }/**
  * {@inheritdoc}

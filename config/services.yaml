@@ -38,6 +38,11 @@ services:
         class: App\Form\UserType
         tags:
             - { name: form.type, alias: app_user_registration }
+
+    app.form.change_password:
+        class: App\Form\ChangePasswordType
+        tags:
+            - { name: form.type, alias: app_user_change_password }
         
     eventController:
         class: App\Controller\EventController

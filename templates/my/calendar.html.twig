@@ -3,19 +3,20 @@
 {% block title %}Calendrier 🗓️{% endblock %}
 
 {% block body %}
-    <br>
-    <div class="container main-container">
-        <h1 class="text-center">Le P'tit Calendrier 📅</h1>
-        <br>
-        <div id='calendar'></div>
+    <div class="page-content">
+        <div class="panel-content">
+            <h1 class="text-center">Le P'tit Calendrier 📅</h1>
+            <br>
+            <div id='calendar'></div>
         
+        </div>
     </div>
     <!-- Modal confirm cancel an order-->
     <div id="myModal"  class="modal" role="dialog" tabindex="-1" aria-hidden="true">
          <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Ajout d'un P'tit Evènement</h5>
+                    <h5 class="modal-title">Ajout d'un P'tit Evènement 🕺</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -33,7 +34,6 @@
     </div>
    
     <script>
-        var modal = document.getElementById("myModal");
 
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
@@ -87,13 +87,6 @@
                     $('#myModal').modal('show');
                 }
             });
-            
-             // When the user clicks anywhere outside of the modal, close it
-                window.onclick = function(event) {
-                  if (event.target == modal) {
-                    modal.style.display = "none";
-                  }
-                };
 
             calendar.render();
         });
