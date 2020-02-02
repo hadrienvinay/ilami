@@ -32,8 +32,7 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/js/app.js')
-    .addEntry('FctIni', './assets/js/FctIni.js')
-
+    //.addEntry('FctIni', './assets/js/FctIni.js')
     //.addEntry('mdb', './assets/css/mdb.min.css')
     //.addEntry('mdb', './assets/js/mdb.min.js')
 

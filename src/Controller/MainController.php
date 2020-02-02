@@ -188,6 +188,63 @@ class MainController extends Controller
         }
     }
     
+    public function search(Request $request){
+        if ($request->isMethod('POST')) {
+            $search = $request->request->get('search');
+            dump($request);
+            $em = $this->getDoctrine()->getManager();
+            
+            $users = $em->getRepository('App:User')->createQueryBuilder('c')
+                ->where('c.username LIKE :username')
+                ->setParameter('username', '%'.$search.'%')
+                ->getQuery()
+                ->getResult();
+
+            foreach ($users as $user)
+            {
+                $names[] = array('value'=>$user->getUsername(),'label'=>$user->getId(),'category'=>'user');
+            }
+
+            $events = $em->getRepository('App:Event')->createQueryBuilder('c')
+               ->where('c.name LIKE :name')
+               ->setParameter('name', '%'.$search.'%')
+               ->getQuery()
+               ->getResult();
+
+            foreach ($events as $event)
+            {
+                $names[] = array('value'=>$event->getName(),'label'=>$event->getId(),'category'=>'event');
+            }
+
+            $albums = $em->getRepository('App:Album')->createQueryBuilder('c')
+               ->where('c.name LIKE :name')
+               ->setParameter('name', '%'.$search.'%')
+               ->getQuery()
+               ->getResult();
+
+            foreach ($albums as $album)
+            {
+                $names[] = array('value'=>$album->getName(),'label'=>$album->getId(),'category'=>'album');
+            }
+        
+            $notifiableRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableNotification');
+            $notifiableEntityRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MgiletNotificationBundle:NotifiableEntity');
+            $notifiable = $notifiableEntityRepo->findOneby(array("identifier" => $user));
+            $notificationList = $notifiableRepo->findAllForNotifiableId($notifiable);
+
+            $usersRepo = $em->getRepository('App:User');
+            $users = $usersRepo->findAll();
+                
+            return $this->render('my/search.html.twig', array(
+                'users' => $users,
+                'names' => $names,
+                'notificationList' => $notificationList,
+            ));
+
+        }
+        return $this->redirectToRoute('main_app');
+    }
+    
     /**
      * @param Request $request
      * @return \App\Controller\JsonResponse

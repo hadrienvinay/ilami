@@ -35,10 +35,7 @@
                             {{ user.prename }} {{ user.name }} {% if user.sexe=="M" %}💁‍♂️{% else %}💁{% endif %}
                         </h3>
                         <h6>
-                            👉️ {{ user.status }} 👈
-                        </h6>
-                        <h6>
-                            🎂 Anniversaire le {{ user.birthDate|date('d/m/Y') }} 🎂
+                            👉️ {{ user.status }}
                         </h6>
                         <ul class="nav nav-tabs" id="myTab" role="tablist" >
                             <li class="nav-item">
@@ -127,10 +124,10 @@
                             <br>
                             <div class="row">
                                 <div class="col-md-4">
-                                    <label>👓 User Id</label>
+                                    <label>🎂 Anniversaire</label>
                                 </div>
                                 <div class="col-md-8">
-                                    <p>{{ user.id }}</p>
+                                    <p>le {{ user.birthDate|date('d/m/Y') }}</p>
                                 </div>
                             </div>
                             <div class="row">

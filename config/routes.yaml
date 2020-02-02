@@ -6,6 +6,10 @@ rules:
     path: /rules
     controller: App\Controller\MainController::rules
     
+search:
+    path: /search
+    controller: App\Controller\MainController:search
+
 autocomplete_search:
     path: /autocomplete
     controller: App\Controller\MainController::autocompleteSearch
@@ -16,6 +20,11 @@ autocomplete_search:
 admin:
     path: /admin
     controller: App\Controller\AdminController::index
+    
+change_password:
+    path: /admin/changePassword
+    controller: App\Controller\AdminController::changePassword
+  
 
 #######################
 #    Profil routes    #

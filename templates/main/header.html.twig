@@ -107,11 +107,9 @@
                 {% endif %}
             </ul>
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                <form class="form-inline" style="margin-right:8%;">
-                    <input id="search" class="form-control mr-sm-2" placeholder="Rechercher" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit"  data-toggle="tooltip" data-placement="bottom" title="Rechercher">
-                        🔍
-                    </button>
+                <form class="form-inline" style="margin-right:8%;" method="post" action="{{ path('search') }}">
+                    <input id="search" class="form-control mr-sm-2" placeholder="Rechercher..." aria-label="Search" />
+                    <input class="btn btn-outline-success my-2 my-sm-0" type="submit"  data-toggle="tooltip" data-placement="bottom" title='Recherche' value="🔍" />
                 </form>
             {% endif %}
         </div>
@@ -157,7 +155,6 @@
             }
         };
         
-      
         $('[data-toggle="tooltip"]').tooltip();  
         //$('[data-toggle="tooltip"]').tooltip({ trigger: "hover" });  
 

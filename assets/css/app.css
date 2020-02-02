@@ -17,7 +17,8 @@ h1 {
 
 .myAlert{
     position: absolute;
-    font-size: 24px;
+    z-index: 1;
+    font-size: 16px;
     opacity: 82%;
     margin-top:47px;
     margin-left:63%;
@@ -294,6 +295,7 @@ div#carrousel{
     .myAlert{
         margin-top:70px!important;
         margin-left:59%;
+        font-size: 22px;
     }
     .media{
         font-size: 145%;

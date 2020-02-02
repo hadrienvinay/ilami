@@ -73,7 +73,6 @@ class MediaController extends Controller
                 $em->flush();
 
                 $request->getSession()->getFlashBag()->add('success', 'Média ajouté avec succès !');
-
                 return $this->redirectToRoute('media');
             }
 
@@ -112,7 +111,6 @@ class MediaController extends Controller
             $em->flush();
 
             $request->getSession()->getFlashBag()->add('success', 'Média supprimé avec succès !');
-
             return $this->redirectToRoute('media');
         }
     }

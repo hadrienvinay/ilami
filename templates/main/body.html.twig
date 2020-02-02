@@ -371,106 +371,82 @@
             </div>
         </div>
     </div>
-      
-       <script>
-           $(document).ready(function(){
-                //Autocomplete
-                initializeAutocomplete('event_address');
-                
-                //Carrousel
-                //$("#myCarousel").carousel();
-                $('.carousel').carousel();
-                 
-                $('#click').click(function(e){
-                  e.preventDefault();
-                  alert('Click Click !');
-                 });
-                $('.fc-scroller').addClass("home_fc-scroller");
-                
-                $('.add-event').on('click', function(e) {
-                    e.preventDefault();
-                    $('#addEventModal').modal('show');
-                });
-                    
-                $('.add-album').on('click', function(e) {
-                    e.preventDefault();
-                    $('#addAlbumModal').modal('show');
-                });
 
-                $('.add-picture').on('click', function(e) {
-                    e.preventDefault();
-                    $('#addPictureModal').modal('show');
-                });
+    <script>
+        $(document).ready(function(){
+             //Autocomplete
+             initializeAutocomplete('event_address');
 
-                $('.add-song').on('click', function(e) {
-                    e.preventDefault();
-                    $('#addSongModal').modal('show');
-                });
-                $('.add-media').on('click', function(e) {
-                    e.preventDefault();
-                    $('#addMediaModal').modal('show');
-                });
-           });
-          
-           //calendar js
-           document.addEventListener('DOMContentLoaded', function() {
-               var calendarEl = document.getElementById('calendar');
+             //Carrousel
+             //$("#myCarousel").carousel();
+             $('.carousel').carousel();
 
-               var calendar = new FullCalendar.Calendar(calendarEl, {
-                   plugins: ['list'],
-                   locale: 'fr',
-                   defaultView: 'listWeek',
-                   events: [
-                       {% for event in events %}
-                       {
-                           title: '{{ event.name }}',
-                           start: '{{ event.startdate|date('Y-m-d') }}',
-                           end: '{{ event.enddate|date('Y-m-d') }}',
-                           url: '{{ path('event', { id: event.id})  }}'
-                       },
-                       {% endfor %}
-                       {% for user in users %}
-                       {
-                           title: 'Anniversaire {{ user.prename }}',
-                           start: '2020-{{ user.birthdate|date('m-d') }}',
-                           allDay : true,
-                           backgroundColor: 'red'
+             $('#click').click(function(e){
+               e.preventDefault();
+               alert('Click Click !');
+              });
+             $('.fc-scroller').addClass("home_fc-scroller");
 
-                       },
-                       {
-                           title: 'Anniversaire {{ user.prename }}',
-                           start: '2021-{{ user.birthdate|date('m-d') }}',
-                           allDay : true,
-                           backgroundColor: 'red'
-                       },
-                       {% endfor %}
-                   ]
-               });
-               calendar.render();
-           });
-           
-            //Autocomplete 
-            function initializeAutocomplete(id){
-                var element = document.getElementById(id);  
-                if (element) { 
-                    var autocomplete = new google.maps.places.Autocomplete(element, { types: ['geocode'] });
-                    google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
-                }
-            }
-           function onPlaceChanged() {
-                var place = this.getPlace();
-                console.log(place);  // Uncomment this line to view the full object returned by Google API.
-                for (var i in place.address_components) {
-                  var component = place.address_components[i];    
-                  for (var j in component.types) {
-                    var type_element = document.getElementById(component.types[j]);      
-                    if (type_element) {
-                      type_element.value = component.long_name;
-                    }    
-                  }  
-                }
-            }
-       </script>
-        <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyA0wuGfkqLD67jR6NfcC8mm4EuUROGis_I"
-    async defer></script>
-  {% endblock %}
+             $('.add-event').on('click', function(e) {
+                 e.preventDefault();
+                 $('#addEventModal').modal('show');
+             });
+
+             $('.add-album').on('click', function(e) {
+                 e.preventDefault();
+                 $('#addAlbumModal').modal('show');
+             });
+
+             $('.add-picture').on('click', function(e) {
+                 e.preventDefault();
+                 $('#addPictureModal').modal('show');
+             });
+
+             $('.add-song').on('click', function(e) {
+                 e.preventDefault();
+                 $('#addSongModal').modal('show');
+             });
+             $('.add-media').on('click', function(e) {
+                 e.preventDefault();
+                 $('#addMediaModal').modal('show');
+             });
+        });
+
+        //calendar js
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                plugins: ['list'],
+                locale: 'fr',
+                defaultView: 'listWeek',
+                events: [
+                    {% for event in events %}
+                    {
+                        title: '{{ event.name }}',
+                        start: '{{ event.startdate|date('Y-m-d') }}',
+                        end: '{{ event.enddate|date('Y-m-d') }}',
+                        url: '{{ path('event', { id: event.id})  }}'
+                    },
+                    {% endfor %}
+                    {% for user in users %}
+                    {
+                        title: 'Anniversaire {{ user.prename }}',
+                        start: '2020-{{ user.birthdate|date('m-d') }}',
+                        allDay : true,
+                        backgroundColor: 'red'
+
+                    },
+                    {
+                        title: 'Anniversaire {{ user.prename }}',
+                        start: '2021-{{ user.birthdate|date('m-d') }}',
+                        allDay : true,
+                        backgroundColor: 'red'
+                    },
+                    {% endfor %}
+                ]
+            });
+            calendar.render();
+        });
+    </script>
+{% endblock %}

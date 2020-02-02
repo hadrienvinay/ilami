@@ -1,0 +1,211 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Résumé 🌌{% endblock %}
+
+{% block body %}
+    <!-- Page Content -->
+    <div class="row" style="padding-top:3%;margin-right:0;">
+        <div class="border-panel-left">
+            
+        </div>
+        <div class="border-panel-center">
+            <div class="panel-content">
+                <h1 class="text-center">La P'tite Recherche 🤓️</h1>
+                <small class="d-block text-left mt-3">
+                    <a class="btn-sm btn-outline-success no-decoration add-event" href="{{ path('main_app') }}">
+                       🔙 Retour à l'accueil
+                    </a>
+                </small>
+                <div class="my-3 p-3 bg-white rounded box-shadow">
+                    {% if names is empty %}
+                        <div class="media text-muted pt-3">
+                            <p class="middle">
+                                Aucune réponse 😥
+                            </p>
+                        </div>
+                    {% endif %}
+                    {% for name in names %}
+                        {% if name.category == "user" %}
+                            <div class="media text-muted pt-3">
+                                <img class="mr-2 rounded myImg" src="{{asset('build/images/profile/')}}{{ name.value }}.jpg" alt="{{ name.value }}">
+                                <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                    <a href="{{ path('profile',{'id': name.label}) }}">
+                                        <strong class="d-block text-gray-dark">{{ name.value }} </strong>
+                                    </a>
+                                    Voir le p'tit profil de {{ name.value }}
+                                </p>
+                            </div>
+                        {% elseif name.category == "event"%}
+                            <div class="media text-muted pt-3">
+                                <img class="mr-2 rounded myImg" src="{{asset('build/images/dashboard/event.jpg')}}" alt="{{ name.value }}">
+                                <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                    <a href="{{ path('event',{'id': name.label}) }}">
+                                        <strong class="d-block text-gray-dark">{{ name.value }} </strong>
+                                    </a>
+                                    Voir le p'tit évent : {{ name.value }}
+                                </p>
+                            </div>
+                        {% else %}
+                            <div class="media text-muted pt-3">
+                                <img class="mr-2 rounded myImg" src="{{asset('build/images/dashboard/album.jpg')}}" alt="{{ name.value }}">
+                                <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                    <a href="{{ path('gallery',{'id': name.label}) }}">
+                                        <strong class="d-block text-gray-dark">{{ name.value }} </strong>
+                                    </a>
+                                    Voir le p'tit album : {{ name.value }}
+                                </p>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+                
+        <div class="border-panel-right">
+            <div class="card my-3">
+              <h5 class="card-header text-center">Routes</h5>
+              <div class="card-body" style='padding:0.5rem;'>               
+                  <ul class="list-unstyled mb-0">
+                    <li>
+                        <div class="d-block">
+                            <a href="{{ path('resume') }}">
+                                🎉 P'tit récap
+                            </a>
+                        </div>                      
+                    </li>
+                    <li>
+                        <div class="d-block">
+                            <a href="{{ path('gallery') }}">
+                                🏝️ P'tite gallerie
+                            </a>
+                        </div>                       
+                    </li>
+                    <li>
+                        <div class="d-block">
+                            <a href="{{ path('map') }}">
+                                🗺️ P'tite map
+                            </a>
+                        </div>                       
+                    </li>
+                    <li>
+                        <div class="d-block">
+                            <a href="{{ path('calendar') }}">
+                                📆 P'tit calendrier
+                            </a>
+                        </div>                       
+                    </li>
+                    <li>
+                        <div class="d-block">
+                            <a href="{{ path('profile',{id: app.user.id}) }}">
+                                👨‍💻 P'tit profil
+                            </a>
+                        </div>                       
+                    </li>
+                    <li>
+                        <div class="d-block">
+                            <a href="{{ path('catan') }}">
+                                🎲 P'tit CATAN
+                            </a>
+                        </div>                       
+                    </li>
+                    <li>
+                        <div class="d-block">
+                            <a href="{{ path('radio') }}">
+                                🕺 P'tite radio
+                            </a>
+                        </div>                       
+                    </li>
+                     <li>
+                        <div class="d-block">
+                            <a href="{{ path('convertor') }}">
+                                📥 P'tit convertor
+                            </a>
+                        </div>                       
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card my-3">
+              <h5 class="card-header text-center">Ajout</h5>
+              <div class="card-body" style='padding:0.5rem;'>               
+                  <ul class="list-unstyled mb-0">
+                    <li>
+                        <div class="d-block">
+                            <a class="add-event" href="{{ path('add_event') }}">
+                                📣 Add event
+                            </a>
+                        </div>                      
+                    </li>
+                    <li>
+                        <div class="d-block">
+                            <a class="add-album" href="{{ path('add_album') }}">
+                                🐕 Add album
+                            </a>
+                        </div>                       
+                    </li>
+                    <li>
+                        <div class="d-block">
+                            <a class="add-picture" href="{{ path('add_picture') }}">
+                                🏖️ Add photo
+                            </a>
+                        </div>                       
+                    </li>
+                    <li>
+                        <div class="d-block">
+                            <a class="add-song" href="{{ path('add_song') }}">
+                                🎶 Add musique
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="d-block">
+                            <a class="add-media" href="{{ path('add_media') }}">
+                                💡 Add média
+                            </a>
+                        </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    
+    </div>
+                
+   
+    <script>
+        $(document).ready(function (){
+            
+
+        });
+        
+        //Autocomplete 
+        function initializeAutocomplete(id){
+            var element = document.getElementById(id);  
+            if (element) { 
+                var autocomplete = new google.maps.places.Autocomplete(element, { types: ['geocode'] });
+                google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
+            }
+        }
+        function onPlaceChanged() {
+            var place = this.getPlace();
+            console.log(place);  // Uncomment this line to view the full object returned by Google API.
+            for (var i in place.address_components) {
+              var component = place.address_components[i];    
+              for (var j in component.types) {
+                var type_element = document.getElementById(component.types[j]);      
+                if (type_element) {
+                  type_element.value = component.long_name;
+                }    
+              }  
+            }
+        }
+        
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyA0wuGfkqLD67jR6NfcC8mm4EuUROGis_I"
+        async defer></script>
+
+
+{% endblock %}
+

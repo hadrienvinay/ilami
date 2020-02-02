@@ -69,7 +69,7 @@ class GalleryController extends Controller
      * @param $id
      * @return Response
      */
-    public function showAlbum($id,Request $request, PaginatorInterface $paginator)
+    public function showAlbum($id)
     {
         //check if user is connected
         $user = $this->getUser();
@@ -212,10 +212,7 @@ class GalleryController extends Controller
 
                     // Move the file to the directory where brochures are stored
                     try {
-                        $fileName->move(
-                            $this->getParameter('pictures_directory'),
-                            $newFilename
-                        );
+                        $fileName->move($this->getParameter('pictures_directory'),$newFilename);
                     } catch (FileException $e) {
                         // ... handle exception if something happens during file upload
                         throw $this->createNotFoundException(
