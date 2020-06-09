@@ -1,0 +1,68 @@
+<div class="card">
+    <div class="card-header">
+        <div class="card-header-title">
+            Ptits transports 🚃
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="">
+            <img src="{{asset('build/images/dashboard/10.png')}}" class="" style="max-width: 7%;max-height: 100%;float: left;margin-top: 2%;margin-right: 2%;" title="métro 10" alt="Métro Ligne 10">
+            {% for time in metro1 %}
+                {% if loop.index == 1 or loop.index == 5 %}
+                    <strong>
+                        {{ time.destination }} :
+                    </strong>
+                    <a style="color:red;">{{ time.message }} </a> -
+                {% else %}
+                    {{ time.message }} 
+                    {% if loop.index != 4 and loop.index != 8%} 
+                        - 
+                    {% endif %}
+                {% endif %}
+                {% if loop.index == 4 %}
+                    <br>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <hr>
+        <div class="">
+            <img src="{{asset('build/images/dashboard/52.png')}}" class="" style="max-width: 7%;max-height: 100%;float: left;margin-top: 5%;margin-right: 2%;" title="métro 10" alt="Métro Ligne 10">
+            {% for time in bus2 %}
+                {% if loop.index == 1 or loop.index == 3 %}
+                    <strong>
+                        {{ time.destination }} : 
+                    </strong>
+                    <a style="color:red;">{{ time.message }} </a> -
+                {% else %}
+                    {{ time.message }} 
+                    {% if loop.index != 2 and loop.index != 4%} 
+                        - 
+                    {% endif %}
+                {% endif %}
+                {% if loop.index == 2 %}
+                    <br>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <hr>
+        <div class="">
+            <img src="{{asset('build/images/dashboard/72.jpg')}}" class="" style="max-width: 7%;max-height: 100%;float: left;margin-top: 5%;margin-right: 2%;" title="métro 10" alt="Métro Ligne 10">
+            {% for time in bus1 %}
+                {% if loop.index == 1 or loop.index == 3 %}
+                    <strong>
+                        {{ time.destination }} : 
+                    </strong>
+                    <a style="color:red;">{{ time.message }} </a> -
+                {% else %}
+                    {{ time.message }} 
+                    {% if loop.index != 2 and loop.index != 4%} 
+                        - 
+                    {% endif %}
+                {% endif %}
+                {% if loop.index == 2 %}
+                    <br>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>            

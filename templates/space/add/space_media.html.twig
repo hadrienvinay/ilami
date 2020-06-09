@@ -1,0 +1,20 @@
+{% extends "space/base.html.twig" %}
+
+{% block title %}Space Photo - Ajout 🛠️{% endblock %}
+
+{% block body %}
+    <div class="page-content">
+        <div class="panel-content">
+            <h1 class="text-center">Un p'tit ajout d'un Space Media 💁‍♂️</h1>
+            <br>
+            {{ form_start(form, {'method': 'post', 'action': path('add_space_media')}) }}
+            {{ form_widget(form, {'attr': {'class': 'form-group'}}) }}
+            <div class="form-group text-center">
+                <input class=" btn btn-primary btn-md login-button" type="submit" value="Ajouter" />
+            </div>
+            {{ form_rest(form) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+        
+{% endblock %}

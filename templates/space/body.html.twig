@@ -1,0 +1,123 @@
+{% extends "space/base.html.twig" %}
+
+{% block body %}
+    <!-- Page Content -->
+    <div class="page-content">
+        <div class="panel-content">
+            <h1 class="text-center">Les P'tits Space Photos 🙆🏼‍♂️</h1>
+            {% if user and (is_granted('ROLE_ADMIN') or is_granted('ROLE_PUBLISHER')) %}
+                <small class="d-block text-right mt-3">
+                    <a class="btn-sm btn-outline-success no-decoration add-space-media" href="{{ path('add_space_media') }}">
+                    <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>
+                        Ajouter une photo
+                    </a>
+                </small>
+            {% endif %}
+            <div class="row mb-2">
+                {% for spaceMedia in spaceMedias|sort((a, b) => a.createddate <=> b.createddate)%}
+
+                    <div class="col-md-6">
+                        {% if user and (is_granted('ROLE_ADMIN') or is_granted('ROLE_PUBLISHER')) %}
+                            <a id="update_space_media{{ spaceMedia.id }}" class="btn-sm btn-warning update-space-media" href="{{ path('update_space_media',{id:spaceMedia.id}) }}" style="position: absolute;left:85%; z-index: 1; top: 1%">
+                                <span class="fa fa-edit"></span>
+                            </a>
+                            <a id="delete_space_media{{ spaceMedia.id }}" class="btn-sm btn-danger delete-space-media" href="{{ path('delete_space_media',{id:spaceMedia.id}) }}" style="position: absolute;left:91%; z-index: 1; top: 1%">
+                                <span class="fa fa-trash"></span>
+                            </a>
+                        {% endif %}
+                        <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                          <div class="col p-4 d-flex flex-column position-static">
+                            <strong class="d-inline-block mb-2 text-primary">Space</strong>
+                            <h3 class="mb-0">{{ spaceMedia.title }}</h3>
+                            <div class="mb-1 text-muted">{{ spaceMedia.createdDate|time_diff }}</div>
+                            <div class="col-auto d-none d-lg-block">
+                                <img class="bd-placeholder-img" height="200"  src="{{asset('build/images/space/' ~ spaceMedia.picture )}}" alt="{{ spaceMedia.title }}">
+                            </div>
+                            <p class="card-text mb-auto">
+                                {% if spaceMedia.description is not null%}
+                                    {{ spaceMedia.description }}
+                                {% else %}
+                                    Photo n°: {{ spaceMedia.id }}
+                                {% endif %}
+                            </p>
+                            <a href="#" class="">Lire la suite</a>
+                          </div>
+
+                        </div>
+                       
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+      
+    <!-- Modal add a spaceMedia -->
+    <div id="addSpaceMediaModal" class="modal" role="dialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title">Ajout d'une P'tit Photo 🍺</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+               <div class="modal-body">
+                   {{ form_start(spaceMediaForm, {'method': 'post', 'action': path('add_space_media')}) }}
+                   {{ form_widget(spaceMediaForm, {'attr': {'class': 'form-group'}}) }}
+               </div>
+                <div class="modal-footer">
+                   <div class="form-group middle">
+                       <input class=" btn btn-primary" type="submit" value="Ajouter" />
+                   </div>
+                   {{ form_rest(spaceMediaForm) }}
+                   {{ form_end(spaceMediaForm) }}
+               </div>
+            </div>
+        </div>
+    </div>
+            
+    <!-- Modal delete an space media-->
+    <div id="deleteModal" class="modal" role="dialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title">Suppression d'un space média 🚮</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+               <div class="modal-body">
+                   <p>Vous allez supprimer cette photo ainsi que son contenu </p>
+                   <p>Etes-vous sur?</p>
+               </div>
+               <div class="modal-footer">
+                   <a href="" id="btnYes" class="btn btn-danger" data="">Oui</a>
+                   <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Non</a>
+               </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+
+             $('.fc-scroller').addClass("home_fc-scroller");
+
+             $('.add-space-media').on('click', function(e) {
+                 e.preventDefault();
+                 $('#addSpaceMediaModal').modal('show');
+             });
+             $('.delete-space-media').on('click', function(e) {
+                e.preventDefault();
+                var href = $(this).attr("href");
+                var id = $(this).attr("id");
+                $('#btnYes').attr("href",href);
+                $('#btnYes').attr("data",id);
+                $('#deleteModal').modal('show');
+            });
+             
+        });
+
+    </script>
+
+{% endblock %}

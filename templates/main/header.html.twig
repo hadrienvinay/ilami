@@ -2,8 +2,8 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="margin-bottom: 20px;">
     <div class="container-fluid">
         <a class="navbar-brand" href="{{ path('main_app') }}">
-            Imalipusram Website
-            <img src="{{asset('build/images/imali.png')}}" style="width: 50px;" title="logo" alt="Logo Imali">
+            <img src="{{asset('build/images/imali.png')}}" class="logo-imali" title="logo" alt="Logo Imali">
+            Imalipusram
         </a>
         <div class="myNavbar">
             <ul id="navContent" class="navbar-nav ml-auto" style="margin-right: 2%;">
@@ -28,7 +28,7 @@
                             {% if mgilet_notification_unseen_count(app.user) > 0 %}<span class="notification">{{ mgilet_notification_unseen_count(app.user) }}</span> {% endif %}
                             🔔
                         </a>
-                        <div id="notif_content" class="dropdown-menu" aria-labelledby="dropdown01" style="min-width: 333px;">
+                        <div id="notif_content" class="dropdown-menu" aria-labelledby="dropdown01">
                             {% if notificationList|length > 0 %}
                                 <small style="margin-left:1.5rem;">
                                     <a id="all-seen" data="{{ mgilet_notification_generate_path('notification_mark_all_as_seen', notificationList|first.notifiableEntity) }}" href="">
@@ -87,7 +87,7 @@
                                 🐑 Catan
                             </a>
                             {% if app.user.username == "suri" %}             
-                                <a class="dropdown-item" href="{{ path('timetable') }}">
+                                <a class="dropdown-item" href="{{ path('dashboard') }}">
                                     🚌 TimeTable
                                 </a>  
                             {% endif %}
@@ -108,10 +108,14 @@
             </ul>
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                 <form class="form-inline" style="margin-right:8%;" method="post" action="{{ path('search') }}">
-                    <input id="search" class="form-control mr-sm-2" placeholder="Rechercher..." aria-label="Search" />
+                    <input id="search" name="search" type="text" class="form-control mr-sm-2" placeholder="Rechercher..." aria-label="Search" />
                     <input class="btn btn-outline-success my-2 my-sm-0" type="submit"  data-toggle="tooltip" data-placement="bottom" title='Recherche' value="🔍" />
                 </form>
+                <a class="nav-link" target="_blank" style="display:flex;" href="https://www.messenger.com/t/1137480119648843" data-toggle="tooltip" data-placement="bottom" title="Messenger">
+                    <img class="myPic" src="{{asset('build/images/dashboard/messenger.png')}}" alt="Messenger">
+                </a>
             {% endif %}
+            
         </div>
        
     </div>

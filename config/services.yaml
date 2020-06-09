@@ -11,6 +11,7 @@ parameters:
     download_directory: '%kernel.project_dir%/public/build/downloads'
     yt-app_directory: '%kernel.project_dir%/public/build/'
     bin_directory: '%kernel.project_dir%/bin/'
+    space_directory: '%kernel.project_dir%/public/build/images/space'
 
 services:
     # default configuration for services in *this* file

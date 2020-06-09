@@ -1,0 +1,14 @@
+<div class="card">
+    <div class="card-header">
+        <div class="card-header-title">
+            Ptite météo ⛅
+        </div>
+    </div>
+    <div class="card-body">
+        <img src="http://openweathermap.org/img/wn/{{ weather['weather'][0]['icon'] }}.png">
+        <strong>{{ weather['main']['temp'] - 273.15 }}°C </strong><br>
+        min : {{ weather['main']['temp_min'] - 273.15 }}°C <br> 
+        max : {{ weather['main']['temp_max'] - 273.15 }}°C
+    </div>
+</div>
+            

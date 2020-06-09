@@ -1,0 +1,131 @@
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="margin-bottom: 20px;">
+    <div class="container-fluid">
+        <img src="{{asset('build/images/space/home.png')}}" class="logo-imali" title="logo" alt="Logo Imali">
+        <a class="navbar-brand" href="{{ path('main_app') }}">
+            Space Imali
+        </a>
+        <div class="myNavbar">
+            <ul id="navContent" class="navbar-nav ml-auto" style="margin-right: 2%;">
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    <li class="nav-item" style="margin:auto;">
+                        <a class="nav-link" style="display:flex;" href="{{ path('profile',{'id': app.user.id}) }}" data-toggle="tooltip" data-placement="bottom" title="Mon profil">
+                            <img class="myPic" src="{{asset('build/images/profile/' ~ app.user.username ~ '.jpg')}}" alt="Mon profil">
+                            <div class="minimize" style="padding-left: 10%;">
+                                {{ app.user.username }}
+                            </div>
+                        </a>
+                    </li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item tab-item">
+                            <a class="nav-link" href="{{ path('admin') }}" data-toggle="tooltip" data-placement="bottom" title="Admin Dashboard" style="color:white;">
+                                👻
+                            </a>
+                        </li>  
+                    {% endif %}
+                   
+                    <li id="menu-dropdown" class="nav-item tab-item dropdown" title="Rubriques">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #fff;">
+                            🗂️
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ path('resume') }}">
+                                🥂 What's up
+                            </a>
+                            <a class="dropdown-item" href="{{ path('gallery') }}">
+                                🏖️ Gallerie Photo
+                            </a>    
+                            <a class="dropdown-item" href="{{ path('calendar') }}">
+                                📆 Calendrier
+                            </a>
+                            <a class="dropdown-item" href="{{ path('media') }}">
+                               💡 Médias
+                            </a>
+                            <a class="dropdown-item" href="{{ path('radio') }}">
+                               💃 Radio
+                            </a>
+                            <a class="dropdown-item" href="{{ path('map') }}">
+                                🗺️ Map
+                            </a>
+                            <a class="dropdown-item" href="{{ path('catan') }}">
+                                🐑 Catan
+                            </a>
+                            {% if app.user.username == "suri" %}             
+                                <a class="dropdown-item" href="{{ path('timetable') }}">
+                                    🚌 TimeTable
+                                </a>  
+                            {% endif %}
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ path('fos_user_security_logout') }}">
+                                <span class="fa fa-sign-out"></span> {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                            </a>
+                        </div>
+                    </li>
+
+                {% else %}
+                    <li class="nav-item">
+                        <a class="btn btn-primary" href="{{ path('fos_user_security_login') }}">
+                            {{ 'layout.login'|trans({}, 'FOSUserBundle') }} 🔑
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                <form class="form-inline" style="margin-right:8%;" method="post" action="{{ path('search') }}">
+                    <input id="search" name="search" type="text" class="form-control mr-sm-2" placeholder="Rechercher..." aria-label="Search" />
+                    <input class="btn btn-outline-success my-2 my-sm-0" type="submit"  data-toggle="tooltip" data-placement="bottom" title='Recherche' value="🔍" />
+                </form>
+                <a class="nav-link" target="_blank" style="display:flex;" href="https://www.messenger.com/t/1137480119648843" data-toggle="tooltip" data-placement="bottom" title="Messenger">
+                    <img class="myPic" src="{{asset('build/images/dashboard/messenger.png')}}" alt="Messenger">
+                </a>
+            {% endif %}
+            
+        </div>
+       
+    </div>
+</nav>
+            
+<script>
+    $(document).ready(function(){
+        //Autocomplete
+        $("#search").autocomplete({
+            source: "{{ path('autocomplete_search') }}",
+            minLength: 1,
+            autoFocus: true,
+            select: function( event, ui ) {
+                var my_route;
+                if(ui.item.category == 'user')
+                    my_route = Routing.generate('profile',{id: ui.item.label});
+                else if(ui.item.category == 'event')
+                    my_route = Routing.generate('event',{id: ui.item.label});
+                else if(ui.item.category == 'album')
+                    my_route = Routing.generate('album',{id: ui.item.label});
+                
+                window.location.replace(my_route);
+            }
+            
+        })
+        .autocomplete("instance")._renderItem = function( ul, item ) {
+            if(item.category == 'user'){
+                return $("<li>")
+                  .append("<div>" + "<img src='{{asset('build/images/profile/')}}"+ item.value + ".jpg' style='width: 10%;height: 100%;border-radius: 10%;'>" + " " + item.value + "</div>")
+                  .appendTo(ul);
+            }
+            if(item.category == 'event'){
+                return $("<li>")
+                  .append("<div>" + "<img src='{{asset('build/images/dashboard/event.jpg')}}' style='width: 10%;height: 100%;border-radius: 10%;'>" + " " + item.value + "</div>")
+                  .appendTo(ul);
+            }
+            if(item.category == 'album'){
+                return $("<li>")
+                  .append("<div>" + "<img src='{{asset('build/images/gallery/default.png')}}' style='width: 10%;height: 100%;border-radius: 10%;'>" + " " + item.value + "</div>")
+                  .appendTo(ul);
+            }
+        };
+        
+        $('[data-toggle="tooltip"]').tooltip();  
+
+        
+    });
+        
+</script>

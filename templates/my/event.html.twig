@@ -29,9 +29,9 @@
                         <h3 class="text-center col-md-8">
                             🍻 {{ event.name }} 🍻 
                         </h3>
-                        <h6>
+                        <h3>
                             📣 {{ event.description }}
-                        </h6>
+                        </h3>
                         <div class="">
                             {% if event.startDate > date() %}
                                 <a {% if app.user in event.participants %} href="#"  class="btn-sm btn-primary no-decoration" {% else %}href="{{ path('add_participant',{id: event.id}) }}" class="btn-sm btn-outline-primary no-decoration" {% endif %}>

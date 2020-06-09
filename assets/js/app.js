@@ -13,7 +13,12 @@ require('../css/app.css');
 
 
 $(document).ready(function(){
+    
+    //Modal
+    //
+    //
+    //Footer fix when the body is smaller than the user's screen
     if(document.body.scrollHeight+20 < window.screen.height) {
-            $(".footer").css("position","fixed");
-        }
+        $(".footer").css("position","fixed");
+    }
 });

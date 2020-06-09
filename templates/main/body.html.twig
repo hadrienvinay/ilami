@@ -18,7 +18,7 @@
                 <br>
                 <div class="row">
                     <div class="col-md-12 col-lg-6">
-                        <h6 class="lead text-center">P'tits évènements qui arrivent 🍻:</h6>
+                        <h3 class="lead text-center">P'tits évènements qui arrivent 🍻:</h3>
                         <div id="calendar"></div>
                     </div>
                     <div class="col-md-12 col-lg-6">
@@ -96,7 +96,7 @@
                                 </li>
                                 <li class="block">
                                     <a class="btn btn-outline-danger block no-decoration"  href="{{ path('map',{map: 'recommandation'}) }}"> 
-                                        Nombre de recommandations 🌍: {{ nbRecommandations }}
+                                        Nombre de favoris 🌍: {{ nbRecommandations }}
                                     </a>
                                 </li>
                             </div>
@@ -107,7 +107,7 @@
             </div>
 
           <div class="panel-content">
-            <h6 class="border-bottom border-gray pb-2 mb-0">Les p'tits mises à jour 🛰️</h6>
+            <h3 class="border-bottom border-gray pb-2 mb-0">Les p'tits mises à jour 🛰️</h3>
                 {% for info in infosPage %}
                     <div class="pt-3 big">
                         <a class="no-decoration media"{% if info.link_attr is defined %}href="{{ path(info.link,{id: info.link_attr}) }}"{% else %}href="{{ path(info.link) }}"{% endif %}>
@@ -374,8 +374,9 @@
 
     <script>
         $(document).ready(function(){
-             //Autocomplete
-             initializeAutocomplete('event_address');
+            //Autocomplete
+            initializeAutocomplete('event_address');
+            initializeAutocomplete('job_address');
 
              //Carrousel
              //$("#myCarousel").carousel();
@@ -385,6 +386,7 @@
                e.preventDefault();
                alert('Click Click !');
               });
+              
              $('.fc-scroller').addClass("home_fc-scroller");
 
              $('.add-event').on('click', function(e) {
@@ -448,5 +450,29 @@
             });
             calendar.render();
         });
+        //Autocomplete 
+        function initializeAutocomplete(id){
+            var element = document.getElementById(id);  
+            if (element) { 
+                var autocomplete = new google.maps.places.Autocomplete(element, { types: ['geocode'] });
+                google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
+            }
+        }
+        function onPlaceChanged() {
+            var place = this.getPlace();
+            console.log(place);  // Uncomment this line to view the full object returned by Google API.
+            for (var i in place.address_components) {
+              var component = place.address_components[i];    
+              for (var j in component.types) {
+                var type_element = document.getElementById(component.types[j]);      
+                if (type_element) {
+                  type_element.value = component.long_name;
+                }    
+              }  
+            }
+        }
+        
     </script>
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyA0wuGfkqLD67jR6NfcC8mm4EuUROGis_I"
+        async defer></script>
 {% endblock %}

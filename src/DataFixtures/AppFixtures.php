@@ -166,6 +166,7 @@ class AppFixtures extends Fixture
         $user7->setName('Sadone');
         $user7->setPrename('Alexandre');
         $user7->setUsername('alexandre');
+        $user7->addRole("ROLE_PUBLISHER");
         $password = $this->encoder->encodePassword($user7, 'pass');
         $user7->setPassword($password);
         $user7->setEmail('alex.sadone@yahoo.fr');

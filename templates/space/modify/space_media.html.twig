@@ -1,0 +1,20 @@
+{% extends "space/base.html.twig" %}
+
+{% block title %}Space Photo - Modif 🛠️{% endblock %}
+
+{% block body %}
+    <div class="page-content">
+        <div class="panel-content">
+            <h1 class="text-center">Une p'tite modification d'un Space Media 💁‍♂️</h1>
+            <br>
+            {{ form_start(form, {'method': 'post', 'action': path('update_space_media',{'id': spaceMedia.id})}) }}
+            {{ form_widget(form, {'attr': {'class': 'form-group'}}) }}
+            <div class="form-group text-center">
+                <input class=" btn btn-primary btn-md login-button" type="submit" value="Modifier" />
+            </div>
+            {{ form_rest(form) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+        
+{% endblock %}

@@ -1,0 +1,128 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Calendrier - News 🗓️{% endblock %}
+
+{% block body %}
+    <div class="page-content">
+        <div class="panel-content">
+            <h1 class="text-center">Le P'tit Calendrier 2 📅</h1>
+            <br>
+            <div id='calendar'></div>
+        
+        </div>
+    </div>
+    <!-- Modal confirm cancel an order-->
+    <div id="myModal"  class="modal" role="dialog" tabindex="-1" aria-hidden="true">
+         <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ajout d'un P'tit Evènement 🕺</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Vous allez créer un evènement </p>
+                    <p>Etes-vous sur?</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="" id="btnYes" class="btn btn-danger" data="">Oui</a>
+                    <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Non</a>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                plugins: ['interaction', 'dayGrid'],
+                firstDay: 1,
+                locale: 'fr',
+                defaultView : 'dayGridMonth',
+                selectable: true,
+                events: [
+                    {% for info in infos %}
+                    {
+                        {% if info.type == "Profil" %} 
+                            title: '{{ info. name }} 👻',
+                        {% elseif info.type == "Event" %}
+                            title: '{{ info. name }} 🙌',
+                            color: 'green',
+                        {% elseif info.type == "Album" %}
+                            title: '{{ info. name }} ✈️',
+                            color: 'red',
+                        {% elseif info.type == "Picture" %}
+                            title: '{{ info. name }} 📸️',
+                            color: 'yellow',
+                        {% elseif info.type == "Song" %}
+                            title: '{{ info. name }} 🎸️',
+                            color: 'purple',        
+                        {% elseif info.type == "Recommandation" %}
+                            title: '{{ info. name }} ⭐️',
+                            color: 'yellow',        
+                        {% elseif info.type == "Media" %}
+                            title: '{{ info. name }} 📺️',
+                            color: 'orange',        
+                        {% endif %}
+                        description: '{{ info. name }} {{ info.description}}',
+                        start: '{{ info.date|date('Y-m-d H:i') }}',
+                        end: '{{ info.date|date('Y-m-d H:i' ) }}',
+                        {% if info.link_attr is defined %}
+                            url: '{{ path(info.link, {id: info.link_attr}) }}',    
+                        {% else %}
+                            url: '{{ path(info.link) }}',
+                        {% endif %}
+                        
+                    },
+                    {% endfor %}
+                    {% for user in users %}
+                    {
+                        title: 'Anniversaire {{ user.prename }}',
+                        start: '2019-{{ user.birthdate|date('m-d') }}',
+                        allDay : true,
+                        color: 'pink',
+                    },
+                    {
+                        title: 'Anniversaire {{ user.prename }}',
+                        start: '2020-{{ user.birthdate|date('m-d') }}',
+                        allDay : true,
+                        color: 'pink',
+                    },
+                    {% endfor %}
+                ],
+                select: function(info) {
+                    if ((info.end - info.start) > 86399999)
+                    {
+                        var my_route = Routing.generate('add_event', {start : info.start.getTime(), end : info.end.getTime() - 1});
+                        //window.location.replace(my_route);
+                        $('#btnYes').attr("href",my_route);
+                        $('#myModal').modal('show');
+                    }
+                },
+                dateClick: function(info) {
+                    var my_route = Routing.generate('add_event', {start : info.date.getTime(), end : info.date.getTime() + 86399999});
+                    //window.location.replace(my_route);
+                    $('#btnYes').attr("href",my_route);
+                    $('#myModal').modal('show');
+                },
+                eventRender: function(info) {
+                    $('.fc-event-controller').tooltip (info.el, {
+                      title: info.event.extendedProps.description,
+                      placement: 'top',
+                      trigger: 'hover',
+                      container: 'body'
+                    });
+                },
+            });
+
+            calendar.render();
+        });
+
+    </script>
+{% endblock %}
+
+
+

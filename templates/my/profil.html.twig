@@ -3,7 +3,6 @@
 {% block title %}Profil - {{ user.prename }} {{ user.name }} 😄{% endblock %}
 
 {% block body %}
-    
     <div class="page-content row">
         <div class="panel-content">
             <div class="row">
@@ -15,7 +14,7 @@
                 <div class="col-md-8">
                     <div class="profile-head">
                         <div class="" style="float:right;">
-                            <a {% if user.id+1 %}href="{{path('profile',{'id' : (user.id+1)}) }}"{% else %} href="{{path('profile',{'id' : (user.id-19)}) }}" {% endif %} class="btn-sm btn-outline-success no-decoration">
+                            <a {% if user.username != "alienor" %}href="{{path('profile',{'id' : (user.id+1)}) }}"{% else %} href="{{path('profile',{'id' : (user.id-19)}) }}" {% endif %} class="btn-sm btn-outline-success no-decoration">
                                     Suivant 👉
                             </a>
                             {% if app.user.id == user.id %}
@@ -34,9 +33,9 @@
                         <h3 class="text-center col-md-8">
                             {{ user.prename }} {{ user.name }} {% if user.sexe=="M" %}💁‍♂️{% else %}💁{% endif %}
                         </h3>
-                        <h6>
+                        <h3>
                             👉️ {{ user.status }}
-                        </h6>
+                        </h3>
                         <ul class="nav nav-tabs" id="myTab" role="tablist" >
                             <li class="nav-item">
                                 <a class="nav-link active" id="infos-tab" data-toggle="tab" href="#infos" role="tab" aria-controls="infos" aria-selected="true">
@@ -682,7 +681,7 @@
             
          });
          
-         //Autocomplete 
+        //Autocomplete 
         function initializeAutocomplete(id){
             var element = document.getElementById(id);  
             if (element) { 

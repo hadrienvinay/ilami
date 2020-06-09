@@ -4,46 +4,36 @@
 
 {% block fos_user_content %}
     <div class="page-content">
-        <div class="panel-content">
-            <div class="row">
-                <div class="col-md-5 mx-auto form-panel">
-                    <div id="first">
-                        <div class="myform form ">
-                            <div class="logo mb-3">
-                                <div class="col-md-12 text-center">
-                                    <h1>Connexion 👻</h1>
-                                </div>
-                            </div>
-                            {% if error %}
-                                <div class="alert alert-danger">{{ error.messageKey|trans({}, 'FOSUserBundle') }}</div>
-                            {% endif %}
-                            <form action="{{ path("fos_user_security_check") }}" method="post" name="login">
-                                {% if csrf_token %}
-                                    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
-                                {% endif %}
-                                <div class="form-group">
-                                    <label for="username">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label>
-                                    <input type="text" class="form-control" id="username" placeholder="Enter email/username" name="_username" value="{{ last_username }}" required="required" autocomplete="username" />
-                                </div>
-                                <div class="form-group">
-                                    <label for="password">{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}</label>
-                                    <input type="password" class="form-control" id="password" name="_password" required="required" autocomplete="current-password" placeholder="Enter Password"/>
-                                </div>
-                                <div class="form-group">
-                                    <p class="text-center">En rejoignant ce site, vous acceptez les <a href="{{ path('rules') }}">Règles d'Imali</a></p>
-                                </div>
-                                <div class=" form-group col-md-12 text-center">
-                                    <input type="submit" id="_submit" class="btn btn-primary" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
-                                </div>
-                                <hr>
-                                <div class="form-group">
-                                    <p class="text-center">Pas encore de compte? <a href="#" id="signup">C'est baloo !</a></p>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+        <div class="panel-content col-md-8 col-lg-6 mx-auto form-panel">
+            <div class="text-center">
+                <h1>Connexion 👻</h1>
             </div>
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans({}, 'FOSUserBundle') }}</div>
+            {% endif %}
+            <form action="{{ path("fos_user_security_check") }}" method="post" name="login">
+                {% if csrf_token %}
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                {% endif %}
+                <div class="form-group">
+                    <label for="username">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }} 🧍🏼</label>
+                    <input type="text" class="form-control" id="username" placeholder="Nom d'utilisateur" name="_username" value="{{ last_username }}" required="required" autocomplete="username" />
+                </div>
+                <div class="form-group">
+                    <label for="password">{{ 'security.login.password'|trans({}, 'FOSUserBundle') }} 🔒</label>
+                    <input type="password" class="form-control" id="password" name="_password" required="required" autocomplete="current-password" placeholder="Mot de passe"/>
+                </div>
+                <div class="form-group">
+                    <p class="italic">En rejoignant ce site, vous acceptez les <a href="{{ path('rules') }}">Règles d'Imali</a></p>
+                </div>
+                <div class=" form-group col-md-12 text-center">
+                    <input type="submit" id="_submit" class="btn btn-primary" name="_submit" value="Gooooo !" />
+                </div>
+                <hr>
+                <div class="form-group">
+                    <p class="italic">Pas encore de compte? <a href="#" id="signup">C'est baloo !</a></p>
+                </div>
+            </form>
         </div>
     </div>
 {% endblock %}

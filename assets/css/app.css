@@ -3,16 +3,31 @@ body {
      font-family: 'Montserrat', sans-serif;
      margin: 0;
 }
+
 h1 {
-  }
- h6 {
-  }
+}
+
+ h3 {
+}
+
+a{
+    font-size: 125%;
+}
+
+.italic{
+    font-style: italic;
+}
+
 .main-container{
     padding: 3%;
     margin-top: 5%;
     margin-bottom: 3%;
     border-radius: 0.5rem;
     background: #fff;
+}
+
+.logo-imali{
+    width: 50px;
 }
 
 .myAlert{
@@ -22,7 +37,8 @@ h1 {
     opacity: 82%;
     margin-top:47px;
     margin-left:63%;
-    }
+}
+
 .footer{
     bottom: 0;
     width: 100%;
@@ -122,18 +138,7 @@ div.desc {
   width: 24.99999%;
 }
 
-@media only screen and (max-width: 700px) {
-  .responsive {
-    width: 49.99999%;
-    margin: 6px 0;
-  }
-}
 
-@media only screen and (max-width: 500px) {
-  .responsive {
-    width: 100%;
-  }
-}
 
 .clearfix:after {
   content: "";
@@ -185,6 +190,10 @@ div.desc {
     display: block;
 }
 
+#notif_content{
+    min-width: 333px; 
+}
+    
 .notif-content{
     white-space: initial;
     font-size: 80%;
@@ -260,28 +269,45 @@ div#carrousel{
     float: right;
 }
 
-@media only screen and (min-width: 993px) {
+
+/* RESPONSIVE MEDIA*/
+@media only screen and (max-width: 500px) {
+    .responsive {
+        width: 100%;
+    }
+    .footer-fos{
+        position: fixed;
+        margin-top: 2%;
+    }
+    .footer{
+        line-height: 95px;
+    }
+}
+@media only screen and (max-width: 560px) {
+    .tab-item{
+        padding: 2%;
+        font-size: 130%;    
+    }
+}
+@media only screen and (max-width: 700px) {
+  .responsive {
+      width: 49.99999%;
+      margin: 6px 0;
+  }
+}
+
+@media only screen and (max-width: 993px) {
     .audio-player{
         margin-right: 25%;
     }
-}
-
-/* Autocomplete*/
-.ui-autocomplete {
-     z-index: 10000 !important;
-}
-
-/* google autocomplete */
-.pac-container{
-    z-index: 100000 !important;
-}
-
-/* Responsive img*/
-.myImg{
-    width: 5%;
-    height: 100%;
-}
-@media only screen and (max-width: 993px) {
+    .footer{
+        font-size: 2em;
+        height: 7%;
+        margin-top: 1%;
+    }
+    .logo-imali{
+        width: 85px;
+    }
     .btn{
         border: 2px solid;
         font-weight: 600;
@@ -322,11 +348,16 @@ div#carrousel{
         flex-direction: row!important;
     }
     .myPic{
-        width: 36px!important;
-        height: 36px!important;
+        width: 38px!important;
+        height: 38px!important;
     }
     .myNavbar{
        font-size:24px; 
+    }
+    .navbar-brand{
+        font-size: 3em;
+        margin-right: 1rem;
+        display: none;
     }
     .profile-picture{
         width: 75%!important;
@@ -337,28 +368,48 @@ div#carrousel{
     .page-content{
         padding-top:8%!important;
         padding: 3%!important;
-   }
+    }
    .panel-content{
-       font-size:20px;
-       margin-top:4%!important;
+       font-size:2em;
+       margin-top:6%!important;
        margin-right: -1.7%;
-   }
+    }
    .lead{
        font-size: 2rem;
-   }
+    }
    h1 {
         font-size: 3rem!important;
     }
-   h6 {
+   h3 {
         font-size: 2rem!important;
     }
-}
-@media only screen and (max-width: 560px) {
-    .tab-item{
-        padding: 2%;
-        font-size: 130%;    
+    .form-control{
+        font-size: unset;
+    }
+    .dropdown-menu{
+        font-size: inherit;
+    }
+    #notif_content{
+       min-width: 560px; 
     }
 }
+
+/* Autocomplete*/
+.ui-autocomplete {
+     z-index: 10000 !important;
+}
+
+/* google autocomplete */
+.pac-container{
+    z-index: 100000 !important;
+}
+
+/* Responsive img*/
+.myImg{
+    width: 5%;
+    height: 100%;
+}
+
 
 /* Profile */
 .profile-picture{
@@ -416,12 +467,17 @@ div#carrousel{
 
 .myPic{
     border-radius:60%;
-    width: 23px;
-    height: 23px;
+    width: 28px;
+    height: 28px;
 }
 
 .dropdown-menu{
     position: absolute!important;
 }
 
+.card-header-title{
+    text-align: center;
+    font-family: cursive;
+    font-size: large;
+}
 

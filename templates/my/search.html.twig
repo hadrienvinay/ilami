@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Résumé 🌌{% endblock %}
+{% block title %}Recherche 🔍{% endblock %}
 
 {% block body %}
     <!-- Page Content -->
@@ -20,7 +20,7 @@
                     {% if names is empty %}
                         <div class="media text-muted pt-3">
                             <p class="middle">
-                                Aucune réponse 😥
+                                Aucune résultat pour ta p'tite recherche: "{{ search }}" 😥
                             </p>
                         </div>
                     {% endif %}
@@ -176,7 +176,9 @@
    
     <script>
         $(document).ready(function (){
-            
+            //Autocomplete
+            initializeAutocomplete('event_address');
+            initializeAutocomplete('job_address');
 
         });
         

@@ -5,7 +5,7 @@ main_app:
 rules:
     path: /rules
     controller: App\Controller\MainController::rules
-    
+
 search:
     path: /search
     controller: App\Controller\MainController:search
@@ -55,6 +55,10 @@ fos_user_profile_show:
 calendar:
     path: /calendar
     controller: App\Controller\CalendarController::calendar
+ 
+news_calendar:
+    path: /calendar/news
+    controller: App\Controller\CalendarController::newsCalendar
  
 #######################
 #    Resume routes    #
@@ -164,11 +168,19 @@ delete_song:
     controller: App\Controller\MusicController::deleteSong
 
 #######################
-#  Timetable routes   #
+#  Dashboard routes   #
 #######################
+dashboard:
+    path: /dashboard
+    controller: App\Controller\DashboardController::home
+
 timetable:
     path: /timetable
-    controller: App\Controller\TimeTableController::timetable
+    controller: App\Controller\DashboardController::timetable
+  
+weather:
+    path: /weather
+    controller: App\Controller\DashboardController::weather
    
 #######################
 # Notifications routes#
@@ -184,5 +196,23 @@ catan:
     path: /catan
     controller: App\Controller\CatanController::catan
 
+#######################
+#        Space        #
+#######################
+space:
+    path: /space
+    controller: App\Controller\SpaceController::space
+    
+add_space_media:
+    path: /add/spaceMedia
+    controller: App\Controller\SpaceController::addSpaceMedia
+  
+update_space_media:
+    path: /update/spaceMedia/{id}
+    controller: App\Controller\SpaceController::updateSpaceMedia
+
+delete_space_media:
+    path: /delete/spaceMedia/{id}
+    controller: App\Controller\SpaceController::deleteSpaceMedia
 
 

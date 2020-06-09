@@ -2,9 +2,15 @@
 
 {% block fos_user_content %}
     <div class="page-content">
-        <div class="panel-content"> 
+        <div class="panel-content col-md-5 mx-auto form-panel">
             <div class="row">
-                <div class="col-md-5 mx-auto form-panel">
+                <div id="first" style="width: 100%;">
+                    <div class="myform form ">
+                        <div class="logo mb-3">
+                        <div class="col-md-12 text-center">
+                            <h1>Inscription 👻</h1>
+                        </div>
+                    </div>
                     <div class="form-horizontal">
                         {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
                         {{ form_widget(form, {'attr': {'class': 'form-group'}}) }}
