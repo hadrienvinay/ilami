@@ -1,4 +1,3 @@
-"# imali" 
 
 To use this project: 
 1. Make sure you have composer install on your machine : https://getcomposer.org/download/ / apt install composer
